@@ -22,7 +22,7 @@ class EkstrakurikulerSeeder extends Seeder
             'id_guru' => $guru?->id_guru,
             'jadwal_latihan' => 'Setiap Rabu & Sabtu 15:30 WIB',
             'deskripsi' => 'Pasukan Pengibar Bendera SMA Negeri 24 Bandung.',
-            'gambar' => null,
+            'gambar' => 'ekstrakurikuler/paskibra.jpeg',
         ]);
     }
 }

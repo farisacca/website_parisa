@@ -19,7 +19,7 @@ class ProfilSekolahSeeder extends Seeder
             'nama_sekolah' => 'SMA Negeri 24 Bandung',
             'kepala_sekolah' => 'Lia Aprilina, S.Pd., M.Pd.',
             'foto' => 'gedung_sekolah.jpg',
-            'logo' => 'logo_sekolah.jpg',
+            'logo' => 'profil/logo_sekolah.png',
             'npsn' => '20219248',
             'alamat' => 'Jl. A.H Nasution No. 27, Kota Bandung, Jawa Barat',
             'kontak' => '(022) 7800195',

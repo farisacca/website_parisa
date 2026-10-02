@@ -22,7 +22,7 @@ class BeritaSeeder extends Seeder
                 berbasis sains, teknologi, teknik, seni, dan matematika.',
                 'tanggal' => '2026-08-03',
                 'status' => 'publis',
-                'gambar' => 'steam.jpg',
+                'gambar' => 'berita/steam.jpg',
                 'id_user' => $user->id_user,
             ]);
     }
