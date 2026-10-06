@@ -8,11 +8,18 @@ use App\Http\Controllers\GaleriController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\ProfilSekolahController;
 use App\Http\Controllers\SiswaController;
+use App\Http\Controllers\PrestasiController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // LANDING PAGE PUBLIK
-// Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.dashboard');
+Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.dashboard');
+Route::get('/profil', [ProfilSekolahController::class, 'publicProfil'])->name('public.profil');
+Route::get('/berita', [BeritaController::class, 'publicBerita'])->name('public.berita');
+Route::get('/ekstrakurikuler', [EkstrakurikulerController::class, 'publicEkstrakurikuler'])->name('public.ekstrakurikuler');
+Route::get('/galeri', [GaleriController::class, 'publicGaleri'])->name('public.galeri');
+Route::get('/guru', [GuruController::class, 'publicGuru'])->name('public.guru');
+// Route::get('/siswa', [SiswaController::class, 'publicSiswa'])->name('public.siswa');
 
 // AUTENTIKASI (HANYA BISA DIAKSES JIKA BELUM LOGIN)
 Route::middleware('guest')->group(function () {
@@ -65,6 +72,14 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/save/{id?}', [GaleriController::class, 'save'])->name('admin.galeri.save');
         Route::get('/{id}', [GaleriController::class, 'show'])->name('admin.galeri.show');
         Route::delete('/{id}', [GaleriController::class, 'destroy'])->name('admin.galeri.delete');
+    });
+
+    Route::prefix('prestasi')->group(function () {
+        Route::get('/', [PrestasiController::class, 'index'])->name('admin.prestasi.index');
+        Route::get('/add-edit/{id?}', [PrestasiController::class, 'addEdit'])->name('admin.prestasi.addEdit');
+        Route::post('/save/{id?}', [PrestasiController::class, 'save'])->name('admin.prestasi.save');
+        Route::get('/{id}', [PrestasiController::class, 'show'])->name('admin.prestasi.show');
+        Route::delete('/{id}', [PrestasiController::class, 'destroy'])->name('admin.prestasi.delete');
     });
 
     Route::middleware('role:admin')->group(function () {

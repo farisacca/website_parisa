@@ -145,7 +145,8 @@
                                             class="btn btn-warning btn-sm"
                                             title="Edit">
 
-                                            <i class="fa fa-pencil"></i>
+                                            {{-- <i class="fa fa-pencil"></i> --}}
+                                            <span style="font-size: 12px; color: #fff;">✎</span>
 
                                         </a>
 

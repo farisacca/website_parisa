@@ -98,7 +98,8 @@
                                         <a href="{{ route('admin.guru.addEdit', Crypt::encrypt($item->id_guru)) }}"
                                             class="btn btn-warning btn-sm"
                                             title="Edit">
-                                            <i class="fa fa-pencil"></i>
+                                            {{-- <i class="bi bi-pencil-fill"></i> --}}
+                                            <span style="font-size: 12px; color: #fff;">✎</span>
                                         </a>
 
                                         <form action="{{ route('admin.guru.delete', Crypt::encrypt($item->id_guru)) }}"

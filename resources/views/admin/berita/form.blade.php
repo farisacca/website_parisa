@@ -1,3 +1,4 @@
+```php
 @extends('layouts.app')
 
 @section('title', isset($berita) ? 'Edit Berita' : 'Tambah Berita')
@@ -9,192 +10,197 @@
 
         <div class="card">
 
-            {{-- Header --}}
             <div class="card-header bg-info text-white">
                 <h4 class="card-title mb-0">
-                    <i class="fa fa-newspaper-o me-1"></i>
-                    {{ isset($berita) ? 'Form Edit Berita' : 'Form Tulis Berita Baru' }}
+                    {{ isset($berita) ? 'Edit Berita' : 'Tambah Berita' }}
                 </h4>
             </div>
 
-            <form action="{{ route('admin.berita.save', isset($berita) ? Crypt::encrypt($berita->id_berita) : null) }}"
-                  method="POST"
-                  enctype="multipart/form-data">
+            <div class="card-body">
 
-                @csrf
+                <form
+                    action="{{ isset($berita)
+                        ? route('admin.berita.save', Crypt::encrypt($berita->id_berita))
+                        : route('admin.berita.save') }}"
+                    method="POST"
+                    enctype="multipart/form-data">
 
-                <div class="card-body">
+                    @csrf
 
                     {{-- Judul --}}
-                    <div class="form-group row mb-3">
-                        <label for="judul" class="col-md-3 col-form-label">
-                            Judul Berita <span class="text-danger">*</span>
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Judul Berita
                         </label>
 
-                        <div class="col-md-9">
-                            <input type="text"
-                                   id="judul"
-                                   name="judul"
-                                   maxlength="50"
-                                   class="form-control @error('judul') is-invalid @enderror"
-                                   value="{{ old('judul', $berita->judul ?? '') }}"
-                                   placeholder="Masukkan judul berita"
-                                   required>
+                        <input
+                            type="text"
+                            name="judul"
+                            class="form-control @error('judul') is-invalid @enderror"
+                            maxlength="50"
+                            value="{{ old('judul', $berita->judul ?? '') }}"
+                            placeholder="Masukkan judul berita"
+                            required>
 
-                            @error('judul')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        @error('judul')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
 
-                            <small class="text-muted">
-                                Maksimal 50 karakter.
-                            </small>
-                        </div>
+                    </div>
+
+                    {{-- Isi --}}
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Isi Berita
+                        </label>
+
+                        <textarea
+                            name="isi"
+                            rows="6"
+                            class="form-control @error('isi') is-invalid @enderror"
+                            placeholder="Masukkan isi berita"
+                            required>{{ old('isi', $berita->isi ?? '') }}</textarea>
+
+                        @error('isi')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
                     </div>
 
                     {{-- Tanggal --}}
-                    <div class="form-group row mb-3">
-                        <label for="tanggal" class="col-md-3 col-form-label">
-                            Tanggal Berita <span class="text-danger">*</span>
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Tanggal Publikasi
                         </label>
 
-                        <div class="col-md-9">
-                            <input type="date"
-                                   id="tanggal"
-                                   name="tanggal"
-                                   class="form-control @error('tanggal') is-invalid @enderror"
-                                   value="{{ old('tanggal', $berita->tanggal ?? date('Y-m-d')) }}"
-                                   required>
+                        <input
+                            type="date"
+                            name="tanggal"
+                            class="form-control @error('tanggal') is-invalid @enderror"
+                            value="{{ old('tanggal', $berita->tanggal ?? '') }}"
+                            required>
 
-                            @error('tanggal')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
+                        @error('tanggal')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
                     </div>
 
                     {{-- Status --}}
-                    <div class="form-group row mb-3">
-                        <label for="status" class="col-md-3 col-form-label">
-                            Status <span class="text-danger">*</span>
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Status
                         </label>
 
-                        <div class="col-md-9">
-                            <select id="status"
-                                    name="status"
-                                    class="form-control @error('status') is-invalid @enderror"
-                                    required>
+                        <select
+                            name="status"
+                            class="form-select @error('status') is-invalid @enderror"
+                            required>
 
-                                <option value="">
-                                    -- Pilih Status --
-                                </option>
+                            <option value="">
+                                -- Pilih Status --
+                            </option>
 
-                                <option value="draf"
-                                    {{ old('status', $berita->status ?? '') == 'draf' ? 'selected' : '' }}>
-                                    Draf
-                                </option>
+                            <option value="draf"
+                                {{ old('status', $berita->status ?? '') == 'draf' ? 'selected' : '' }}>
+                                Draf
+                            </option>
 
-                                <option value="publis"
-                                    {{ old('status', $berita->status ?? '') == 'publis' ? 'selected' : '' }}>
-                                    Publis
-                                </option>
+                            <option value="publis"
+                                {{ old('status', $berita->status ?? '') == 'publis' ? 'selected' : '' }}>
+                                Publis
+                            </option>
 
-                            </select>
+                        </select>
 
-                            @error('status')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
+                        @error('status')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
+
                     </div>
 
                     {{-- Gambar --}}
-                    <div class="form-group row mb-3">
-                        <label for="gambar" class="col-md-3 col-form-label">
-                            {{ isset($berita) ? 'Ganti Gambar' : 'Gambar Berita' }}
+                    <div class="mb-3">
+
+                        <label class="form-label">
+                            Gambar
                         </label>
 
-                        <div class="col-md-9">
-                            <input type="file"
-                                   id="gambar"
-                                   name="gambar"
-                                   accept="image/*"
-                                   class="form-control @error('gambar') is-invalid @enderror">
+                        <input
+                            type="file"
+                            name="gambar"
+                            class="form-control @error('gambar') is-invalid @enderror"
+                            accept=".jpg,.jpeg,.png">
 
-                            <small class="text-muted">
-                                Format JPG, JPEG, PNG. Maksimal 2 MB.
-                                {{ isset($berita) ? 'Kosongkan jika tidak ingin mengganti gambar.' : '' }}
-                            </small>
+                        <small class="text-muted">
+                            Format JPG/PNG, maksimal 2MB.
+                        </small>
 
-                            @error('gambar')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                        @error('gambar')
+                            <div class="invalid-feedback">
+                                {{ $message }}
+                            </div>
+                        @enderror
 
-                            @if (isset($berita) && $berita->gambar && file_exists(public_path('storage/' . $berita->gambar)))
-                                <div class="mt-3">
-                                    <p class="mb-2 text-muted">Gambar Saat Ini:</p>
-
-                                    <img src="{{ asset('storage/' . $berita->gambar) }}"
-                                         alt="{{ $berita->judul }}"
-                                         style="width: 180px; height: 110px; object-fit: cover;"
-                                         class="rounded border">
-                                </div>
-                            @endif
-                        </div>
                     </div>
 
-                    {{-- Isi Berita --}}
-                    <div class="form-group row mb-3">
-                        <label for="isi" class="col-md-3 col-form-label">
-                            Isi Berita <span class="text-danger">*</span>
-                        </label>
+                    {{-- Gambar lama --}}
+                    @if(isset($berita) && $berita->gambar)
 
-                        <div class="col-md-9">
-                            <textarea id="isi"
-                                      name="isi"
-                                      rows="8"
-                                      class="form-control @error('isi') is-invalid @enderror"
-                                      placeholder="Tuliskan isi berita secara lengkap..."
-                                      required>{{ old('isi', $berita->isi ?? '') }}</textarea>
+                        <div class="mb-3">
 
-                            @error('isi')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
+                            <label class="form-label">
+                                Gambar Saat Ini
+                            </label>
+
+                            <br>
+
+                            <img
+                                src="{{ asset('storage/' . $berita->gambar) }}"
+                                width="180"
+                                class="rounded">
+
                         </div>
-                    </div>
 
-                </div>
+                    @endif
 
-                {{-- Form Actions --}}
-                <div class="card-footer">
-                    <div class="form-actions">
+                    {{-- Tombol --}}
+                    <div class="mt-4">
 
-                        <a href="{{ route('admin.berita.index') }}"
-                           class="btn btn-secondary">
-                            <i class="fa fa-arrow-left me-1"></i>
-                            Kembali
-                        </a>
+                        <button
+                            type="submit"
+                            class="btn btn-success">
 
-                        <button type="submit"
-                                class="btn {{ isset($berita) ? 'btn-warning' : 'btn-info' }}">
-                            <i class="fa fa-save me-1"></i>
+                            <i class="bi bi-save"></i>
+                            Simpan
 
-                            {{ isset($berita)
-                                ? 'Simpan Perubahan'
-                                : 'Publikasikan Berita' }}
                         </button>
 
-                    </div>
-                </div>
+                        <a
+                            href="{{ route('admin.berita.index') }}"
+                            class="btn btn-secondary">
 
-            </form>
+                            Kembali
+
+                        </a>
+
+                    </div>
+
+                </form>
+
+            </div>
 
         </div>
 
@@ -202,3 +208,4 @@
 </div>
 
 @endsection
+

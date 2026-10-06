@@ -153,7 +153,7 @@ class GuruController extends Controller
     public function destroy($id)
     {
         //
-         try {
+        try {
             $guru = Guru::findOrFail(Crypt::decrypt($id));
 
         } catch (\Exception $e) {
@@ -171,6 +171,12 @@ class GuruController extends Controller
         return redirect()
             ->route('admin.guru.index')
             ->with('success', 'Data guru berhasil dihapus.');
+    }
+
+    public function publicGuru()
+    {
+        $guru = Guru::all();
+        return view('public.guru', compact('guru'));
     }
     
 }

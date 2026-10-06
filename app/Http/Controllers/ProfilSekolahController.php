@@ -106,6 +106,12 @@ class ProfilSekolahController extends Controller
             ->with('success', 'Profil sekolah berhasil diperbarui.');
     }
 
+    public function publicProfil()
+    {
+        $profilSekolah = ProfilSekolah::first();
+        return view('public.profil', compact('profilSekolah'));
+    }
+
 
     /**
      * Show the form for creating a new resource.

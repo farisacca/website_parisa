@@ -42,6 +42,11 @@
                     {{ $berita->judul }}
                 </h3>
 
+                <div class="mb-3">
+                    <strong>Slug:</strong>
+                    {{ $berita->slug }}
+                </div>
+
                 {{-- Informasi --}}
                 <div class="border-bottom pb-3 mb-4">
 

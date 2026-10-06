@@ -1,36 +1,29 @@
 @extends('layouts.app')
 
-@section('title', 'Kelola Siswa')
-
+@section('title', 'Kelola Prestasi')
 @section('content')
 
 <div class="container-fluid">
-
     <div class="row">
         <div class="col-12">
-
             <div class="card">
-
                 <div class="card-body">
-
-                    {{-- Header --}}
                     <div class="d-flex justify-content-between align-items-center mb-3">
 
                         <h4 class="card-title mb-0">
-                            Daftar Siswa
+                            Daftar Prestasi
                         </h4>
 
-                        <a href="{{ route('admin.siswa.addEdit') }}"
+                        <a href="{{ route('admin.prestasi.addEdit') }}"
                             class="btn btn-info">
 
                             <i class="fa fa-plus"></i>
-                            Tambah Siswa
+                            Tambah Prestasi
 
                         </a>
 
                     </div>
 
-                    {{-- Table --}}
                     <div class="table-responsive">
 
                         <table id="zero_config"
@@ -46,19 +39,27 @@
                                     </th>
 
                                     <th>
-                                        NIS
+                                        Nama Prestasi
                                     </th>
 
                                     <th>
-                                        Nama Siswa
+                                        Pemenang
+                                    </th>
+
+                                    <th>
+                                        Event
                                     </th>
 
                                     <th class="text-center">
-                                        Jenis Kelamin
+                                        Tingkat
                                     </th>
 
                                     <th class="text-center">
-                                        Tahun Masuk
+                                        Kategori
+                                    </th>
+
+                                    <th class="text-center">
+                                        Tahun
                                     </th>
 
                                     <th class="text-center">
@@ -71,62 +72,71 @@
 
                             <tbody>
 
-                                @forelse ($siswa as $item)
+                                @forelse ($prestasi as $item)
 
                                 <tr>
-
-                                    {{-- No --}}
                                     <td class="text-center">
                                         {{ $loop->iteration }}
                                     </td>
 
-                                    {{-- NIS --}}
                                     <td>
-                                        {{ $item->nis }}
-                                    </td>
 
-                                    {{-- Nama --}}
-                                    <td>
                                         <strong>
-                                            {{ $item->nama_siswa }}
+                                            {{ $item->nama_prestasi }}
                                         </strong>
-                                    </td>
 
-                                    {{-- Jenis Kelamin --}}
-                                    <td class="text-center">
+                                        @if ($item->deskripsi)
 
-                                        @if ($item->jenis_kelamin == 'Laki-laki')
+                                            <br>
 
-                                            <span class="badge badge-info">
-                                                Laki-laki
-                                            </span>
-
-                                        @elseif ($item->jenis_kelamin == 'Perempuan')
-
-                                            <span class="badge badge-success">
-                                                Perempuan
-                                            </span>
-
-                                        @else
-
-                                            <span class="badge badge-secondary">
-                                                -
-                                            </span>
+                                            <small class="text-muted">
+                                                {{ Str::limit($item->deskripsi, 60) }}
+                                            </small>
 
                                         @endif
 
                                     </td>
 
-                                    {{-- Tahun Masuk --}}
+                                    <td>
+                                        {{ $item->pemenang }}
+                                    </td>
+
+                    
+                                    <td>
+                                        {{ $item->event }}
+                                    </td>
+
+                            
                                     <td class="text-center">
-                                        {{ $item->tahun_masuk }}
+
+                                        <span class="badge badge-info">
+                                            {{ $item->tingkat }}
+                                        </span>
+
+                                    </td>
+
+                                    {{-- Kategori --}}
+                                    <td class="text-center">
+
+                                        <span class="badge badge-success">
+                                            {{ $item->kategori }}
+                                        </span>
+
+                                    </td>
+
+                                    {{-- Tahun --}}
+                                    <td class="text-center">
+
+                                        <i class="fa fa-calendar"></i>
+                                        {{ $item->tahun }}
+
                                     </td>
 
                                     {{-- Aksi --}}
                                     <td class="text-center">
 
                                         {{-- Detail --}}
-                                        <a href="{{ route('admin.siswa.show', Crypt::encrypt($item->id_siswa)) }}"
+                                        <a href="{{ route('admin.prestasi.show', Crypt::encrypt($item->id_prestasi)) }}"
                                             class="btn btn-info btn-sm"
                                             title="Detail">
 
@@ -135,20 +145,21 @@
                                         </a>
 
                                         {{-- Edit --}}
-                                        <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa)) }}"
+                                        <a href="{{ route('admin.prestasi.addEdit', Crypt::encrypt($item->id_prestasi)) }}"
                                             class="btn btn-warning btn-sm"
                                             title="Edit">
 
-                                            {{-- <i class="bi bi-pencil-fi"></i> --}}
-                                            <span style="font-size: 12px; color: #fff;">✎</span>
+                                            <span style="font-size: 12px; color: #fff;">
+                                                ✎
+                                            </span>
 
                                         </a>
 
                                         {{-- Delete --}}
-                                        <form action="{{ route('admin.siswa.delete', Crypt::encrypt($item->id_siswa)) }}"
+                                        <form action="{{ route('admin.prestasi.delete', Crypt::encrypt($item->id_prestasi)) }}"
                                             method="POST"
                                             class="d-inline"
-                                            onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
+                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus prestasi ini?')">
 
                                             @csrf
                                             @method('DELETE')
@@ -171,9 +182,9 @@
 
                                 <tr>
 
-                                    <td colspan="6" class="text-center">
+                                    <td colspan="8" class="text-center">
 
-                                        Belum ada data siswa.
+                                        Belum ada data prestasi.
 
                                     </td>
 
@@ -193,7 +204,6 @@
 
         </div>
     </div>
-
 </div>
 
 @endsection

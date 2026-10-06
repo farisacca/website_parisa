@@ -180,4 +180,10 @@ class EkstrakurikulerController extends Controller
             ->with('success', 'Data ekstrakurikuler berhasil dihapus.');
     
     }
+
+    public function publicEkstrakurikuler()
+    {
+        $ekstrakurikuler = Ekstrakurikuler::all();
+        return view('public.ekstrakurikuler', compact('ekstrakurikuler'));
+    }
 }

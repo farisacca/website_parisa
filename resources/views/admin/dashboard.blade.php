@@ -5,11 +5,6 @@
 @section('content')
 
 <div class="container-fluid">
-
-    {{-- ============================================================= --}}
-    {{-- WELCOME --}}
-    {{-- ============================================================= --}}
-
     <div class="row mb-4">
     <div class="col-12">
 
@@ -17,7 +12,7 @@
             style="background: linear-gradient(135deg, #eef5ff, #f8fbff);">
 
             <h3 class="font-weight-medium mb-1 text-info">
-                Good Morning, {{ auth()->user()->name ?? 'Admin' }}!
+                Hello, {{ auth()->user()->name ?? 'Admin' }}!
             </h3>
 
             <h6 class="font-weight-normal mb-0 text-muted">
@@ -302,7 +297,7 @@
                                     alt="Logo Sekolah"
                                     width="90"
                                     height="90"
-                                    class="rounded-circle border border-info p-1"
+                                    class="rounded-circle"
                                     style="object-fit: cover;">
 
                             @else

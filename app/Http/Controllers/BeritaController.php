@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
-use App\Http\Requests\StoreBeritaRequest;
-use App\Http\Requests\UpdateBeritaRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class BeritaController extends Controller
 {
@@ -60,15 +59,29 @@ class BeritaController extends Controller
             $berita->id_user = Auth::id() ?? User::value('id');
         }
 
+        //slug
+        $slug = Str::slug($request->judul);
+        $request->merge(['slug' => $slug]);
+
+        $slugRule = 'required|unique:berita,slug';
+
+        // Jika sedang mengubah berita, tambahkan pengecualian untuk slug yang sama.
+        if ($berita->exists) {
+            $slugRule = 'required|unique:berita,slug,' . $berita->id_berita . ',id_berita';
+        }
+
         // Validasi input
         $request->validate([
             'judul'   => 'required|string|max:50',
+            'slug'    => $slugRule,
             'isi'     => 'required|string',
             'tanggal' => 'required|date',
             'gambar'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'judul.required'   => 'Judul berita wajib diisi.',
             'judul.max'        => 'Judul maksimal 50 karakter.',
+            'slug.required'     => 'Slug berita wajib diisi.',
+            'slug.unique'      => 'Slug berita sudah digunakan.',
             'isi.required'     => 'Isi berita wajib diisi.',
             'tanggal.required' => 'Tanggal publikasi wajib diisi.',
             'gambar.image'     => 'Gambar harus berupa file gambar (JPG, PNG).',
@@ -77,6 +90,7 @@ class BeritaController extends Controller
 
         // Masukkan data ke model
         $berita->judul   = $request->judul;
+        $berita->slug    = $request->slug;
         $berita->isi     = $request->isi;
         $berita->tanggal = $request->tanggal;
 
@@ -101,24 +115,6 @@ class BeritaController extends Controller
             );
     }
 
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreBeritaRequest $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      */
@@ -135,22 +131,6 @@ class BeritaController extends Controller
         }
 
         return view('admin.berita.show', compact('berita'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Berita $berita)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateBeritaRequest $request, Berita $berita)
-    {
-        //
     }
 
     /**
@@ -178,5 +158,14 @@ class BeritaController extends Controller
             ->route('admin.berita.index')
             ->with('success', 'Data berita berhasil dihapus.');
     
+    }
+
+    // BeritaController.php
+    public function publicBerita()
+    {
+        // Mengambil 6 berita per halaman, diurutkan dari yang terbaru
+        $beritas = Berita::latest()->paginate(6);
+
+        return view('public.berita', compact('berita'));
     }
 }

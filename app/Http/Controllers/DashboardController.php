@@ -47,7 +47,7 @@ class DashboardController extends Controller
     {
         $profilSekolah = ProfilSekolah::first();
 
-        return view('public.dashboard', [
+        return view('public.home', [
             'title'         => 'Beranda Website Sekolah',
             'profilSekolah' => $profilSekolah,
         ]);

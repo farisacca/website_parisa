@@ -38,7 +38,7 @@ class SiswaController extends Controller
         return view('admin.siswa.form', compact('siswa'));
     }
 
-     public function save(Request $request, $id = null)
+    public function save(Request $request, $id = null)
     {
         
         if ($id) {
@@ -59,7 +59,7 @@ class SiswaController extends Controller
         $request->validate([
             'nisn'          => 'required|digits:10|unique:siswa,nisn,' . ($id ?? 'NULL') . ',id_siswa',
             'nama_siswa'    => 'required|string|max:40',
-            'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
             'tahun_masuk'   => 'required|digits:4|integer',
         ], [
             'nisn.required'          => 'NISN wajib diisi.',
@@ -114,7 +114,7 @@ class SiswaController extends Controller
     public function show($id)
     {
         //
-         try {
+        try {
             $siswa = Siswa::findOrFail(Crypt::decrypt($id));
 
         } catch (\Exception $e) {

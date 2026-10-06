@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             BeritaSeeder::class,
             GaleriSeeder::class,
             ProfilSekolahSeeder::class,
+            PrestasiSeeder::class,
         ]);
     }
 }

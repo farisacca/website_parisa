@@ -1,21 +1,14 @@
 @extends('layouts.app')
 
 @section('title', 'Kelola Berita')
-
 @section('content')
 
 <div class="container-fluid">
-
     <div class="row">
         <div class="col-12">
-
             <div class="card">
-
                 <div class="card-body">
-
-                    {{-- Header --}}
                     <div class="d-flex justify-content-between align-items-center mb-3">
-
                         <h4 class="card-title mb-0">
                             Daftar Berita
                         </h4>
@@ -25,22 +18,16 @@
 
                             <i class="fa fa-plus"></i>
                             Tambah Berita
-
                         </a>
-
                     </div>
 
-                    {{-- Table --}}
                     <div class="table-responsive">
-
                         <table id="zero_config"
                             class="table table-striped table-bordered no-wrap"
                             style="width:100%">
 
                             <thead>
-
                                 <tr>
-
                                     <th class="text-center">
                                         No
                                     </th>
@@ -51,6 +38,10 @@
 
                                     <th>
                                         Judul Berita
+                                    </th>
+
+                                    <th>
+                                        Slug
                                     </th>
 
                                     <th class="text-center">
@@ -124,6 +115,10 @@
 
                                     </td>
 
+                                    <td>
+                                        {{ $item->slug }}
+                                    </td>
+
                                     {{-- Tanggal --}}
                                     <td class="text-center">
 
@@ -173,7 +168,8 @@
                                             class="btn btn-warning btn-sm"
                                             title="Edit">
 
-                                            <i class="fa fa-pencil"></i>
+                                            {{-- <i class="fa fa-pencil"></i> --}}
+                                            <span style="font-size: 12px; color: #fff;">✎</span>
 
                                         </a>
 
