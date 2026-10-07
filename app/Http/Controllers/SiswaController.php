@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
-use App\Http\Requests\StoreSiswaRequest;
-use App\Http\Requests\UpdateSiswaRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 
@@ -16,9 +14,7 @@ class SiswaController extends Controller
     public function index()
     {
         //
-        
         $siswa = Siswa::latest()->get();
-
         return view('admin.siswa.index', compact('siswa'));
     }
 
@@ -90,24 +86,6 @@ class SiswaController extends Controller
             );
     }
 
-
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreSiswaRequest $request)
-    {
-        //
-    }
-
     /**
      * Display the specified resource.
      */
@@ -126,21 +104,6 @@ class SiswaController extends Controller
         return view('admin.siswa.show', compact('siswa'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Siswa $siswa)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateSiswaRequest $request, Siswa $siswa)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

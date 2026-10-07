@@ -160,11 +160,10 @@ class BeritaController extends Controller
     
     }
 
-    // BeritaController.php
+    
     public function publicBerita()
     {
-        // Mengambil 6 berita per halaman, diurutkan dari yang terbaru
-        $beritas = Berita::latest()->paginate(6);
+        $berita = Berita::latest()->paginate(6);
 
         return view('public.berita', compact('berita'));
     }

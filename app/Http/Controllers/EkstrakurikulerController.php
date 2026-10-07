@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ekstrakurikuler;
-use App\Http\Requests\StoreEkstrakurikulerRequest;
-use App\Http\Requests\UpdateEkstrakurikulerRequest;
 use App\Models\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -105,22 +103,6 @@ class EkstrakurikulerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreEkstrakurikulerRequest $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show($id)
@@ -138,21 +120,6 @@ class EkstrakurikulerController extends Controller
         return view('admin.ekstrakurikuler.show', compact('ekstrakurikuler'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Ekstrakurikuler $ekstrakurikuler)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateEkstrakurikulerRequest $request, Ekstrakurikuler $ekstrakurikuler)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -160,7 +127,7 @@ class EkstrakurikulerController extends Controller
     public function destroy($id)
     {
         //
-         try {
+        try {
             $ekstrakurikuler = Ekstrakurikuler::findOrFail(Crypt::decrypt($id));
 
         } catch (\Exception $e) {

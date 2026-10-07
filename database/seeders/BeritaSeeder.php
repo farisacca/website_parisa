@@ -20,8 +20,7 @@ class BeritaSeeder extends Seeder
             Berita::create([
                 'judul' => 'GIAT Steam di SMAN 4 Bandung',
                 'slug' => Str::slug('GIAT Steam di SMAN 4 Bandung'),
-                'isi' => 'SMAN 4 Bandung baru saja menjadi tuan rumah program Internasional STEAM. Kegiatan ini menjadi salah satu bentuk pengembangan pembelajaran
-                berbasis sains, teknologi, teknik, seni, dan matematika.',
+                'isi' => 'SMAN 4 Bandung baru saja menjadi tuan rumah program Internasional STEAM. Kegiatan ini menjadi salah satu bentuk pengembangan pembelajaran berbasis sains, teknologi, teknik, seni, dan matematika.',
                 'tanggal' => '2026-08-03',
                 'status' => 'publis',
                 'gambar' => 'berita/steam.jpg',

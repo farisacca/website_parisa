@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePrestasiRequest;
-use App\Http\Requests\UpdatePrestasiRequest;
 use App\Models\Prestasi;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
@@ -60,7 +58,7 @@ class PrestasiController extends Controller
             'nama_prestasi'  => 'required|string|max:255',
             'pemenang'     => 'required|string|max:255',
             'event'  => 'required|string|max:255',
-            'tingkat'    => 'required|string|max:100',
+            'tingkat'       => 'required|in:Sekolah,Kecamatan,Kabupaten/Kota,Provinsi,Nasional,Internasional',
             'kategori' => 'required|string|max:100',
             'deskripsi' => 'nullable|string',
             'tahun' => 'required|digits:4|integer',
@@ -69,6 +67,7 @@ class PrestasiController extends Controller
             'pemenang.required'      => 'Nama pemenang wajib diisi.',
             'event.required'         => 'Nama event wajib diisi.',
             'tingkat.required'       => 'Tingkat kejuaraan wajib diisi.',
+            'tingkat.in'             => 'Pilihan tingkat kejuaraan tidak valid.',
             'kategori.required'      => 'Kategori wajib diisi.',
             'tahun.required'         => 'Tahun wajib diisi.',
             'tahun.digits'           => 'Tahun harus 4 digit angka.',
@@ -96,21 +95,6 @@ class PrestasiController extends Controller
             );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StorePrestasiRequest $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -130,21 +114,6 @@ class PrestasiController extends Controller
         return view('admin.prestasi.show', compact('prestasi'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Prestasi $prestasi)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePrestasiRequest $request, Prestasi $prestasi)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

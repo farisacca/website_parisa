@@ -3,118 +3,78 @@
 @section('title', 'Detail Ekstrakurikuler')
 
 @section('content')
-
-<div class="card">
-    <div class="card-body">
-
-        {{-- Header --}}
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h5 class="card-title fw-semibold mb-1">
-                    Detail Ekstrakurikuler
-                </h5>
-
-                <p class="card-subtitle text-muted mb-0">
-                    Informasi lengkap ekstrakurikuler
-                </p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            
+            {{-- Header Card --}}
+            <div class="card-header bg-info text-white">
+                <h4 class="card-title text-white mb-0">
+                    <i class="fa fa-users mr-2"></i> Detail Ekstrakurikuler
+                </h4>
             </div>
 
-            <a href="{{ route('admin.ekstrakurikuler.index') }}"
-               class="btn btn-secondary">
-                <i class="fa fa-arrow-left me-1"></i>
-                Kembali
-            </a>
-        </div>
+            {{-- Isi Card --}}
+            <div class="card-body">
 
-        <div class="row">
+                {{-- Nama Ekstrakurikuler (Judul Utama) --}}
+                <h3 class="font-weight-bold mb-3">
+                    {{ $ekstrakurikuler->nama_eskul }}
+                </h3>
 
-            {{-- Gambar --}}
-            <div class="col-md-4 text-center mb-4">
+                {{-- Informasi Meta --}}
+                <div class="border-bottom pb-3 mb-4">
+                    <div class="row">
+                        <div class="col-md-6 mb-2">
+                            <small class="text-muted d-block">Guru Pembina</small>
+                            <span>
+                                <i class="fa fa-user mr-1 text-info"></i>
+                                {{ $ekstrakurikuler->guru->nama_guru ?? '-' }}
+                            </span>
+                        </div>
 
-                @if ($ekstrakurikuler->gambar)
-
-                    <img src="{{ asset('storage/' . $ekstrakurikuler->gambar) }}"
-                         alt="{{ $ekstrakurikuler->nama_eskul }}"
-                         class="img-fluid rounded border"
-                         style="max-height: 300px; object-fit: cover;">
-
-                @else
-
-                    <div class="border rounded p-5 text-muted">
-                        <i class="fa fa-image fa-3x mb-3"></i>
-
-                        <p class="mb-0">
-                            Tidak ada gambar
-                        </p>
+                        <div class="col-md-6 mb-2">
+                            <small class="text-muted d-block">Jadwal Latihan</small>
+                            <span>
+                                <i class="fa fa-calendar mr-1 text-info"></i>
+                                {{ $ekstrakurikuler->jadwal_latihan ?? '-' }}
+                            </span>
+                        </div>
                     </div>
+                </div>
 
+                {{-- Gambar (Posisi di Tengah Seperti Berita) --}}
+                @if ($ekstrakurikuler->gambar)
+                    <div class="text-center mb-4">
+                        <img src="{{ asset('storage/' . $ekstrakurikuler->gambar) }}"
+                             alt="{{ $ekstrakurikuler->nama_eskul }}"
+                             class="img-fluid rounded"
+                             style="max-height: 400px; width: 100%; object-fit: cover;">
+                    </div>
                 @endif
 
-            </div>
-
-            {{-- Data --}}
-            <div class="col-md-8">
-
-                <div class="mb-3">
-                    <label class="fw-semibold text-muted">
-                        Nama Ekstrakurikuler
-                    </label>
-
-                    <h4 class="mb-0">
-                        {{ $ekstrakurikuler->nama_eskul }}
-                    </h4>
-                </div>
-
-                <hr>
-
-                <div class="mb-3">
-                    <label class="fw-semibold text-muted">
-                        Guru Pembina
-                    </label>
-
-                    <p class="mb-0">
-                        {{ $ekstrakurikuler->guru->nama_guru ?? '-' }}
-                    </p>
-                </div>
-
-                <div class="mb-3">
-                    <label class="fw-semibold text-muted">
-                        Jadwal Latihan
-                    </label>
-
-                    <p class="mb-0">
-                        {{ $ekstrakurikuler->jadwal_latihan }}
-                    </p>
-                </div>
-
-                <div class="mb-3">
-                    <label class="fw-semibold text-muted">
-                        Deskripsi
-                    </label>
-
-                    <p class="mb-0">
+                {{-- Deskripsi Ekstrakurikuler --}}
+                <div>
+                    <div class="mb-2 text-muted">Deskripsi Ekstrakurikuler</div>
+                    <div style="white-space: pre-line; line-height: 1.8;">
                         {{ $ekstrakurikuler->deskripsi ?: '-' }}
-                    </p>
+                    </div>
                 </div>
 
             </div>
 
-        </div>
+            {{-- Footer Card (Hanya 1 Tombol Kembali) --}}
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <a href="{{ route('admin.ekstrakurikuler.index') }}" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left mr-1"></i> Kembali
+                </a>
 
-        {{-- Button Edit --}}
-        <div class="mt-3 pt-3 border-top">
-
-            <a href="{{ route('admin.ekstrakurikuler.addEdit', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}"
-               class="btn btn-warning">
-
-                <i class="fa fa-edit me-1"></i>
-                Edit Ekstrakurikuler
-
-            </a>
+                <a href="{{ route('admin.ekstrakurikuler.addEdit', Crypt::encrypt($ekstrakurikuler->id_eskul)) }}" class="btn btn-warning">
+                    <i class="fa fa-pencil mr-1"></i> Edit Ekstrakurikuler
+                </a>
+            </div>
 
         </div>
-
     </div>
 </div>
-
 @endsection

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Galeri;
-use App\Http\Requests\StoreGaleriRequest;
-use App\Http\Requests\UpdateGaleriRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -103,22 +101,6 @@ class GaleriController extends Controller
 
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreGaleriRequest $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      */
     public function show($id)
@@ -136,21 +118,6 @@ class GaleriController extends Controller
         return view('admin.galeri.show', compact('galeri'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Galeri $galeri)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateGaleriRequest $request, Galeri $galeri)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

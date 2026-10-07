@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Guru;
-use App\Http\Requests\StoreGuruRequest;
-use App\Http\Requests\UpdateGuruRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
@@ -97,21 +95,6 @@ class GuruController extends Controller
             );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreGuruRequest $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -131,21 +114,6 @@ class GuruController extends Controller
         return view('admin.guru.show', compact('guru'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Guru $guru)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateGuruRequest $request, Guru $guru)
-    {
-        //
-    }
 
     /**
      * Remove the specified resource from storage.

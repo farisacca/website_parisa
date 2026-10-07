@@ -16,7 +16,14 @@ return new class extends Migration
             $table->string('nama_prestasi');
             $table->string('pemenang');
             $table->string('event');
-            $table->string('tingkat');
+            $table->enum('tingkat', [
+                'Sekolah',
+                'Kecamatan',
+                'Kabupaten/Kota',
+                'Provinsi',
+                'Nasional',
+                'Internasional'
+            ]);
             $table->string('kategori');
             $table->text('deskripsi')->nullable();
             $table->year('tahun');

@@ -3,165 +3,103 @@
 @section('title', 'Detail Berita')
 
 @section('content')
-
 <div class="row">
-
-    <div class="col-12">
-
-        <div class="card">
-
-            {{-- Header --}}
-            <div class="card-header bg-info text-white">
-
-                <div class="d-flex justify-content-between align-items-center">
-
-                    <h4 class="card-title mb-0">
-
-                        <i class="fa fa-newspaper-o me-1"></i>
-                        Detail Berita
-
-                    </h4>
-
-                    <a href="{{ route('admin.berita.index') }}"
-                       class="btn btn-light btn-sm">
-
-                        <i class="fa fa-arrow-left me-1"></i>
-                        Kembali
-
-                    </a>
-
-                </div>
-
+    <div class="col-lg-10 offset-lg-1 col-12">
+        <div class="card shadow-sm border-0">
+            
+            {{-- Header Card --}}
+            <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3">
+                <h5 class="card-title text-white mb-0 font-weight-bold">
+                    <i class="fa fa-newspaper-o mr-2"></i> Detail Berita
+                </h5>
             </div>
 
-            {{-- Isi --}}
-            <div class="card-body">
+            {{-- Isi Card --}}
+            <div class="card-body p-4">
 
-                {{-- Judul --}}
-                <h3 class="font-weight-bold mb-3">
+                {{-- Judul Berita --}}
+                <h2 class="font-weight-bold text-dark mb-2">
                     {{ $berita->judul }}
-                </h3>
+                </h2>
 
-                <div class="mb-3">
-                    <strong>Slug:</strong>
-                    {{ $berita->slug }}
-                </div>
+                {{-- Slug --}}
+                <p class="text-muted small mb-3">
+                    <i class="fa fa-link mr-1"></i> Slug: <code>{{ $berita->slug }}</code>
+                </p>
 
-                {{-- Informasi --}}
-                <div class="border-bottom pb-3 mb-4">
-
-                    <div class="row">
-
-                        <div class="col-md-4 mb-2">
-
-                            <small class="text-muted d-block">
-                                Tanggal
-                            </small>
-
-                            <strong>
-                                <i class="fa fa-calendar me-1"></i>
-                                {{ date('d-m-Y', strtotime($berita->tanggal)) }}
+                {{-- Meta Information Bar --}}
+                <div class="bg-light rounded p-3 mb-4 border">
+                    <div class="row text-center text-md-left align-items-center">
+                        <div class="col-md-4 mb-2 mb-md-0">
+                            <span class="text-muted d-block small">Tanggal Terbit</span>
+                            <strong class="text-dark">
+                                <i class="fa fa-calendar text-info mr-1"></i>
+                                {{ \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y') }}
                             </strong>
-
                         </div>
-
-                        <div class="col-md-4 mb-2">
-
-                            <small class="text-muted d-block">
-                                Penulis
-                            </small>
-
-                            <strong>
-                                <i class="fa fa-user me-1"></i>
+                        <div class="col-md-4 mb-2 mb-md-0">
+                            <span class="text-muted d-block small">Penulis</span>
+                            <strong class="text-dark">
+                                <i class="fa fa-user text-info mr-1"></i>
                                 {{ $berita->user->name ?? 'Admin' }}
                             </strong>
-
                         </div>
-
-                        <div class="col-md-4 mb-2">
-
-                            <small class="text-muted d-block">
-                                Status
-                            </small>
-
-                            @if ($berita->status == 'publis')
-
-                                <span class="badge badge-success">
-                                    Publis
+                        <div class="col-md-4">
+                            <span class="text-muted d-block small mb-1">Status Publis</span>
+                            @if (strtolower($berita->status) == 'publis' || strtolower($berita->status) == 'publish')
+                                <span class="badge badge-success px-3 py-1">
+                                    <i class="fa fa-check-circle mr-1"></i> Publis
                                 </span>
-
                             @else
-
-                                <span class="badge badge-warning">
-                                    Draf
+                                <span class="badge badge-warning px-3 py-1 text-white">
+                                    <i class="fa fa-pencil-square-o mr-1"></i> Draf
                                 </span>
-
                             @endif
-
                         </div>
-
                     </div>
-
                 </div>
 
-                {{-- Gambar --}}
+                {{-- Gambar Utama --}}
                 @if ($berita->gambar && file_exists(public_path('storage/' . $berita->gambar)))
-
                     <div class="text-center mb-4">
-
-                        <img src="{{ asset('storage/' . $berita->gambar) }}"
-                             alt="{{ $berita->judul }}"
-                             class="img-fluid rounded shadow-sm"
-                             style="max-height: 400px; width: 100%; object-fit: cover;">
-
+                        <a href="{{ asset('storage/' . $berita->gambar) }}" target="_blank">
+                            <img src="{{ asset('storage/' . $berita->gambar) }}"
+                                 alt="{{ $berita->judul }}"
+                                 class="img-fluid rounded shadow-sm border"
+                                 style="max-height: 420px; width: 100%; object-fit: cover;">
+                        </a>
+                        <small class="text-muted d-block mt-1">Klik gambar untuk melihat ukuran penuh</small>
                     </div>
-
                 @endif
 
-                {{-- Isi Berita --}}
-                <div>
+                <hr class="my-4">
 
-                    <h5 class="font-weight-bold mb-3">
-                        Isi Berita
+                {{-- Konten Berita --}}
+                <div class="berita-content">
+                    <h5 class="font-weight-bold text-dark mb-3">
+                        <i class="fa fa-align-left text-info mr-2"></i> Isi Berita
                     </h5>
-
-                    <div style="white-space: pre-line; line-height: 1.8;">
+                    <div class="text-justify text-dark" style="line-height: 1.8; font-size: 1.05rem; white-space: pre-line;">
                         {{ $berita->isi }}
                     </div>
-
                 </div>
 
             </div>
 
-            {{-- Footer --}}
-            <div class="card-footer">
+            {{-- Footer Card / Tombol Aksi --}}
+            <div class="card-footer bg-light d-flex justify-content-between align-items-center py-3">
+                <a href="{{ route('admin.berita.index') }}" class="btn btn-secondary">
+                    <i class="fa fa-arrow-left mr-1"></i> Kembali ke Daftar
+                </a>
 
-                <div class="d-flex justify-content-between align-items-center">
-
-                    <a href="{{ route('admin.berita.index') }}"
-                       class="btn btn-secondary">
-
-                        <i class="fa fa-arrow-left me-1"></i>
-                        Kembali
-
+                <div>
+                    <a href="{{ route('admin.berita.addEdit', Crypt::encrypt($berita->id_berita)) }}" class="btn btn-warning">
+                        <i class="fa fa-pencil mr-1"></i> Edit Berita
                     </a>
-
-                    <a href="{{ route('admin.berita.addEdit', Crypt::encrypt($berita->id_berita)) }}"
-                       class="btn btn-warning">
-
-                        <i class="fa fa-pencil me-1"></i>
-                        Edit Berita
-
-                    </a>
-
                 </div>
-
             </div>
 
         </div>
-
     </div>
-
 </div>
-
 @endsection

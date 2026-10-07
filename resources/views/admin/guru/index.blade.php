@@ -27,12 +27,8 @@
                     </div>
 
                     <div class="table-responsive">
-
-                        <table id="zero_config"
-                            class="table table-striped table-bordered no-wrap"
-                            style="width:100%">
-
-                            <thead>
+                        <table id="zero_config" class="table table-striped table-bordered no-wrap align-middle" style="width:100%">
+                            <thead class="bg-primary text-white">
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th class="text-center">Foto</th>

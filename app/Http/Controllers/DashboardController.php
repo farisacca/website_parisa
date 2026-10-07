@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Berita;
 use App\Models\Ekstrakurikuler;
 use App\Models\Galeri;
@@ -21,7 +19,6 @@ class DashboardController extends Controller
     public function index()
     {
         //
-        
         $totalGuru            = Guru::count();
         $totalSiswa           = Siswa::count();
         $totalBerita          = Berita::count();
@@ -53,35 +50,5 @@ class DashboardController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

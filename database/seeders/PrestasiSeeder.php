@@ -18,7 +18,7 @@ class PrestasiSeeder extends Seeder
             'nama_prestasi'     => 'Juara 1 Lomba Karya Tulis Ilmiah Remaja Tingkat Kota Bandung',
             'pemenang'          => 'Tim Kir SMAN 24',
             'event'             => 'Olimpiade Sains & Karya Ilmiah 2026',
-            'tingkat'           => 'TINGKAT KOTA',
+            'tingkat'           => 'Sekolah',
             'kategori'          => 'AKADEMIK',
             'deskripsi'         => 'Meraih peringkat pertama dalam kompetisi karya tulis ilmiah.',
             'tahun'             => 2026,

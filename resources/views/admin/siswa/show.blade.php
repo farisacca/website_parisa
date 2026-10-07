@@ -1,117 +1,107 @@
 @extends('layouts.app')
 
 @section('title', 'Detail Siswa')
-
 @section('content')
 
 <div class="row">
-
-    <div class="col-lg-8 col-md-10 mx-auto">
-
+    <div class="col-12">
         <div class="card">
 
+            {{-- HEADER --}}
             <div class="card-header">
                 <h4 class="card-title mb-0">
-                    <i class="fa fa-user"></i>
-                    Detail Data Siswa
+                    <i class="fa fa-user"></i> Detail Siswa
                 </h4>
             </div>
 
+            {{-- BODY --}}
             <div class="card-body">
 
-                {{-- NIS --}}
-                <div class="row mb-3">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
 
-                    <label class="col-sm-4 col-form-label fw-bold">
-                        NISN
-                    </label>
+                        <thead class="bg-info text-white">
+                            <tr>
+                                <th colspan="2">
+                                    Informasi Siswa
+                                </th>
+                            </tr>
+                        </thead>
 
-                    <div class="col-sm-8">
+                        <tbody>
 
-                        <p class="form-control-plaintext">
-                            {{ $siswa->nisn }}
-                        </p>
+                            <tr>
+                                <th style="width: 30%;">
+                                    NIS
+                                </th>
+                                <td>
+                                    {{ $siswa->nisn ?? '-' }}
+                                </td>
+                            </tr>
 
-                    </div>
+                            <tr>
+                                <th>
+                                    Nama Siswa
+                                </th>
+                                <td>
+                                    {{ $siswa->nama_siswa ?? '-' }}
+                                </td>
+                            </tr>
 
-                </div>
+                            <tr>
+                                <th>
+                                    Jenis Kelamin
+                                </th>
+                                <td>
+                                    @if ($siswa->jenis_kelamin == 'Laki-laki')
 
-                {{-- Nama --}}
-                <div class="row mb-3">
+                                        <span class="badge badge-info">
+                                            Laki-laki
+                                        </span>
 
-                    <label class="col-sm-4 col-form-label fw-bold">
-                        Nama Siswa
-                    </label>
+                                    @elseif ($siswa->jenis_kelamin == 'Perempuan')
 
-                    <div class="col-sm-8">
+                                        <span class="badge badge-danger">
+                                            Perempuan
+                                        </span>
 
-                        <p class="form-control-plaintext">
-                            {{ $siswa->nama_siswa }}
-                        </p>
+                                    @else
+                                        -
+                                    @endif
+                                </td>
+                            </tr>
 
-                    </div>
+                            <tr>
+                                <th>
+                                    Tahun Masuk
+                                </th>
+                                <td>
+                                    {{ $siswa->tahun_masuk ?? '-' }}
+                                </td>
+                            </tr>
 
-                </div>
+                            <tr>
+                                <th>
+                                    Tanggal Ditambahkan
+                                </th>
+                                <td>
+                                    {{ $siswa->created_at
+                                        ? $siswa->created_at->format('d F Y, H:i')
+                                        : '-' }}
+                                </td>
+                            </tr>
 
-                {{-- Jenis Kelamin --}}
-                <div class="row mb-3">
+                        </tbody>
 
-                    <label class="col-sm-4 col-form-label fw-bold">
-                        Jenis Kelamin
-                    </label>
-
-                    <div class="col-sm-8">
-
-                        <p class="form-control-plaintext">
-
-                            @if ($siswa->jenis_kelamin == 'Laki-laki')
-
-                                <span class="badge badge-info">
-                                    Laki-laki
-                                </span>
-
-                            @elseif ($siswa->jenis_kelamin == 'Perempuan')
-
-                                <span class="badge badge-success">
-                                    Perempuan
-                                </span>
-
-                            @else
-
-                                <span class="badge badge-secondary">
-                                    -
-                                </span>
-
-                            @endif
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-                {{-- Tahun Masuk --}}
-                <div class="row mb-3">
-
-                    <label class="col-sm-4 col-form-label fw-bold">
-                        Tahun Masuk
-                    </label>
-
-                    <div class="col-sm-8">
-
-                        <p class="form-control-plaintext">
-                            {{ $siswa->tahun_masuk }}
-                        </p>
-
-                    </div>
-
+                    </table>
                 </div>
 
             </div>
 
+            {{-- FOOTER --}}
             <div class="card-footer">
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between align-items-center">
 
                     <a href="{{ route('admin.siswa.index') }}"
                         class="btn btn-secondary">
@@ -125,7 +115,7 @@
                         class="btn btn-warning">
 
                         <i class="fa fa-pencil"></i>
-                        Edit Siswa
+                        Edit Data Siswa
 
                     </a>
 
@@ -134,9 +124,7 @@
             </div>
 
         </div>
-
     </div>
-
 </div>
 
 @endsection

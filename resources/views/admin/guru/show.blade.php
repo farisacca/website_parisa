@@ -11,11 +11,6 @@
                     <h4 class="card-title mb-0">
                         <i class="fa fa-user"></i>Detail Guru
                     </h4>
-                    <a href="{{ route('admin.guru.index') }}"
-                        class="btn btn-secondary btn-sm">
-                        <i class="fa fa-arrow-left"></i>
-                        Kembali
-                    </a>
                 </div>
             </div>
 

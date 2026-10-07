@@ -9,21 +9,21 @@
     <div class="row">
         <div class="col-12">
 
-            <div class="card">
+            <div class="card shadow-sm">
 
                 <div class="card-body">
 
                     {{-- Header --}}
-                    <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
 
                         <h4 class="card-title mb-0">
                             Daftar Siswa
                         </h4>
 
                         <a href="{{ route('admin.siswa.addEdit') }}"
-                            class="btn btn-info">
+                            class="btn btn-primary">
 
-                            <i class="fa fa-plus"></i>
+                            <i data-feather="plus" class="mr-1"></i>
                             Tambah Siswa
 
                         </a>
@@ -32,21 +32,15 @@
 
                     {{-- Table --}}
                     <div class="table-responsive">
-
-                        <table id="zero_config"
-                            class="table table-striped table-bordered no-wrap"
-                            style="width:100%">
-
-                            <thead>
-
+                        <table id="zero_config" class="table table-striped table-bordered no-wrap align-middle" style="width:100%">
+                            <thead class="bg-primary text-white">
                                 <tr>
-
-                                    <th class="text-center">
+                                    <th class="text-center" style="width: 50px;">
                                         No
                                     </th>
 
                                     <th>
-                                        NIS
+                                        NISN
                                     </th>
 
                                     <th>
@@ -61,7 +55,7 @@
                                         Tahun Masuk
                                     </th>
 
-                                    <th class="text-center">
+                                    <th class="text-center" style="width: 160px;">
                                         Aksi
                                     </th>
 
@@ -80,14 +74,14 @@
                                         {{ $loop->iteration }}
                                     </td>
 
-                                    {{-- NIS --}}
+                                    {{-- NISN --}}
                                     <td>
-                                        {{ $item->nis }}
+                                        {{ $item->nisn }}
                                     </td>
 
                                     {{-- Nama --}}
                                     <td>
-                                        <strong>
+                                        <strong class="text-dark">
                                             {{ $item->nama_siswa }}
                                         </strong>
                                     </td>
@@ -97,19 +91,19 @@
 
                                         @if ($item->jenis_kelamin == 'Laki-laki')
 
-                                            <span class="badge badge-info">
+                                            <span class="badge badge-pill badge-info px-3 py-2">
                                                 Laki-laki
                                             </span>
 
                                         @elseif ($item->jenis_kelamin == 'Perempuan')
 
-                                            <span class="badge badge-success">
+                                            <span class="badge badge-pill badge-success px-3 py-2">
                                                 Perempuan
                                             </span>
 
                                         @else
 
-                                            <span class="badge badge-secondary">
+                                            <span class="badge badge-pill badge-secondary px-3 py-2">
                                                 -
                                             </span>
 
@@ -125,43 +119,46 @@
                                     {{-- Aksi --}}
                                     <td class="text-center">
 
-                                        {{-- Detail --}}
-                                        <a href="{{ route('admin.siswa.show', Crypt::encrypt($item->id_siswa)) }}"
-                                            class="btn btn-info btn-sm"
-                                            title="Detail">
+                                        <div class="btn-group" role="group">
 
-                                            <i class="fa fa-eye"></i>
+                                            {{-- Detail --}}
+                                            <a href="{{ route('admin.siswa.show', Crypt::encrypt($item->id_siswa)) }}"
+                                                class="btn btn-info btn-sm mr-1"
+                                                title="Detail">
 
-                                        </a>
+                                                <i data-feather="eye" style="width:14px; height:14px;"></i>
 
-                                        {{-- Edit --}}
-                                        <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa)) }}"
-                                            class="btn btn-warning btn-sm"
-                                            title="Edit">
+                                            </a>
 
-                                            {{-- <i class="bi bi-pencil-fi"></i> --}}
-                                            <span style="font-size: 12px; color: #fff;">✎</span>
+                                            {{-- Edit --}}
+                                            <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa)) }}"
+                                                class="btn btn-warning btn-sm text-white mr-1"
+                                                title="Edit">
 
-                                        </a>
+                                                <i data-feather="edit" style="width:14px; height:14px;"></i>
 
-                                        {{-- Delete --}}
-                                        <form action="{{ route('admin.siswa.delete', Crypt::encrypt($item->id_siswa)) }}"
-                                            method="POST"
-                                            class="d-inline"
-                                            onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
+                                            </a>
 
-                                            @csrf
-                                            @method('DELETE')
+                                            {{-- Delete --}}
+                                            <form action="{{ route('admin.siswa.delete', Crypt::encrypt($item->id_siswa)) }}"
+                                                method="POST"
+                                                class="d-inline"
+                                                onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
 
-                                            <button type="submit"
-                                                class="btn btn-danger btn-sm"
-                                                title="Hapus">
+                                                @csrf
+                                                @method('DELETE')
 
-                                                <i class="fa fa-trash"></i>
+                                                <button type="submit"
+                                                    class="btn btn-danger btn-sm"
+                                                    title="Hapus">
 
-                                            </button>
+                                                    <i data-feather="trash-2" style="width:14px; height:14px;"></i>
 
-                                        </form>
+                                                </button>
+
+                                            </form>
+
+                                        </div>
 
                                     </td>
 
