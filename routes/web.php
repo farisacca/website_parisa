@@ -14,7 +14,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // LANDING PAGE PUBLIK
-Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.dashboard');
+Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.index');
 Route::get('/profil', [ProfilSekolahController::class, 'publicProfil'])->name('public.profil');
 Route::get('/berita', [BeritaController::class, 'publicBerita'])->name('public.berita');
 Route::get('/ekstrakurikuler', [EkstrakurikulerController::class, 'publicEkstrakurikuler'])->name('public.ekstrakurikuler');

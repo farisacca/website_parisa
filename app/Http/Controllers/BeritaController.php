@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Models\ProfilSekolah;
 
 class BeritaController extends Controller
 {
@@ -121,7 +122,7 @@ class BeritaController extends Controller
     public function show($id)
     {
         //
-         try {
+        try {
             $berita = Berita::with('user')->findOrFail(Crypt::decrypt($id));
 
         } catch (\Exception $e) {
@@ -139,7 +140,7 @@ class BeritaController extends Controller
     public function destroy($id)
     {
         //
-         try {
+        try {
             $berita = Berita::findOrFail(Crypt::decrypt($id));
 
         } catch (\Exception $e) {
@@ -157,14 +158,17 @@ class BeritaController extends Controller
         return redirect()
             ->route('admin.berita.index')
             ->with('success', 'Data berita berhasil dihapus.');
-    
+
     }
 
-    
+
     public function publicBerita()
     {
-        $berita = Berita::latest()->paginate(6);
+        $profilSekolah = ProfilSekolah::first();
 
-        return view('public.berita', compact('berita'));
+        // Ambil data sebagai objek Model (pake ::latest()->get() atau ::latest()->paginate(6))
+        $berita = class_exists(Berita::class) ? Berita::latest()->paginate(6) : collect();
+
+        return view('public.berita', compact('profilSekolah', 'berita'));
     }
 }

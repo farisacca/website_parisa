@@ -7,8 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Login Administrator dan Operator SMA Negeri 24 Bandung">
     <meta name="author" content="SMA Negeri 24 Bandung">
-
-    {{-- Favicon --}}
     @if(isset($profilSekolah) && $profilSekolah->logo)
         <link rel="icon" type="image/png" href="{{ asset('storage/' . $profilSekolah->logo) }}">
     @else
@@ -69,7 +67,6 @@
 
 <body>
     <div class="main-wrapper">
-        {{-- Preloader --}}
         <div class="preloader">
             <div class="lds-ripple">
                 <div class="lds-pos"></div>
@@ -77,24 +74,20 @@
             </div>
         </div>
 
-        {{-- Login Container --}}
+
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
             style="background: url('{{ asset('assets/images/big/auth-bg.jpg') }}') no-repeat center center;">
-
             <div class="auth-box row col-lg-8 col-md-10 bg-white m-3">
 
-                {{-- Banner Samping --}}
                 <div class="col-lg-6 col-md-5 d-none d-md-block side-banner-container">
-                    <img src="{{ asset('assets/images/big/bg-login.jpeg') }}"
-                         alt="SMA Negeri 24 Bandung"
-                         class="side-banner-img">
+                    <img src="{{ asset('assets/images/big/bg-login.jpg') }}"
+                        alt="SMA Negeri 24 Bandung"
+                        class="side-banner-img">
                 </div>
 
-                {{-- Form Login --}}
                 <div class="col-lg-6 col-md-7 bg-white">
                     <div class="p-4 p-md-5">
 
-                        {{-- Logo & Judul --}}
                         <div class="text-center mb-4">
                             @if(isset($profilSekolah) && $profilSekolah->logo)
                                 <img src="{{ asset('storage/' . $profilSekolah->logo) }}" alt="SMA Negeri 24 Bandung" class="brand-logo mb-2">
@@ -106,7 +99,6 @@
                             <p class="text-dark small">Masuk Administrator & Operator</p>
                         </div>
 
-                        {{-- Alert Notifikasi --}}
                         @if(session('success'))
                             <div class="alert alert-success alert-dismissible fade show small" role="alert">
                                 {{ session('success') }}
@@ -168,7 +160,7 @@
                             </button>
 
                             <div class="text-center mt-4">
-                                <a href="{{ route('public.dashboard') }}" class="text-secondary small">
+                                <a href="{{ route('public.index') }}" class="text-secondary small">
                                     &larr; Kembali ke Beranda Utama
                                 </a>
                             </div>
@@ -181,7 +173,7 @@
         </div>
     </div>
 
-    {{-- JS Files --}}
+
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/libs/popper.js/dist/umd/popper.min.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap/dist/js/bootstrap.min.js') }}"></script>

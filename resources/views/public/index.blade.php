@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}</title>
     @if(isset($profilSekolah) && $profilSekolah->logo)
     <link rel="icon" type="image/png" href="{{ asset('storage/' . $profilSekolah->logo) }}">
     @else
@@ -131,11 +132,19 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#">
-                <img src="{{ asset('storage/profil/logo_sekolah.png') }}" alt="Logo SMA Negeri 24 Bandung" width="40" height="40" class="rounded-circle object-fit-cover" onerror="this.onerror=null; this.src='{{ asset('assets/images/logo-icon.png') }}';">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('public.index') }}">
+                @if(isset($profilSekolah) && $profilSekolah->logo)
+                    <img src="{{ asset('storage/' . $profilSekolah->logo) }}" alt="Logo {{ $profilSekolah->nama_sekolah }}" width="40" height="40" class="rounded-circle object-fit-cover">
+                @else
+                    <img src="{{ asset('storage/profil/logo_sekolah.png') }}" alt="Logo Sekolah" width="40" height="40" class="rounded-circle object-fit-cover" onerror="this.onerror=null; this.src='https://via.placeholder.com/40';">
+                @endif
                 <div>
-                    <div class="fw-bold text-dark lh-1" style="font-size: 1.1rem; letter-spacing: -0.3px;">SMA Negeri 24 Bandung</div>
-                    <small class="text-muted d-block" style="font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3px;">WE CREATE OUR FUTURE</small>
+                    <div class="fw-bold text-dark lh-1" style="font-size: 1.1rem; letter-spacing: -0.3px;">
+                        {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+                    </div>
+                    <small class="text-muted d-block" style="font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3px;">
+                        {{ $profilSekolah->motto ?? 'WE CREATE OUR FUTURE' }}
+                    </small>
                 </div>
             </a>
 
@@ -146,22 +155,22 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav gap-lg-2 mt-3 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Beranda</a>
+                        <a class="nav-link active" href="{{ route('public.index') }}">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#profil">Profil Sekolah</a>
+                        <a class="nav-link" href="{{ route('public.profil') }}">Profil Sekolah</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#ekstrakurikuler">Ekstrakurikuler</a>
+                        <a class="nav-link" href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#berita">Berita</a>
+                        <a class="nav-link" href="{{ route('public.berita') }}">Berita</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#prestasi">Prestasi</a>
+                        <a class="nav-link" href="{{ route('public.guru') }}">Guru</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#galeri">Galeri</a>
+                        <a class="nav-link" href="#kontak">Kontak</a>
                     </li>
                 </ul>
             </div>
@@ -169,27 +178,23 @@
     </nav>
 
     <main>
+
         <section class="position-relative overflow-hidden"
-                style="background: url('{{ asset('assets/images/gedung_sekolah.jpg') }}') center/cover no-repeat; padding: 120px 0 100px; min-height: 550px; display: flex; align-items: center;">
-
+                style="background: url('{{ isset($profilSekolah->gambar_bg) ? asset('storage/' . $profilSekolah->gambar_bg) : asset('assets/images/gedung_sekolah.jpg') }}') center/cover no-repeat; padding: 120px 0 100px; min-height: 550px; display: flex; align-items: center;">
             <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(15, 23, 42, 0.65); z-index: 1;"></div>
-
             <div class="container position-relative" style="z-index: 2;">
                 <div class="row align-items-center g-4">
                     <div class="col-lg-9">
                         <span class="badge rounded-pill border border-warning text-warning bg-dark bg-opacity-50 mb-3 px-3 py-2 text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">
                             <i class="fas fa-circle text-warning me-1" style="font-size: 8px;"></i> INFORMASI UNGGULAN
                         </span>
-
                         <h1 class="fw-bold display-4 mb-3 text-white" style="font-weight: 800; letter-spacing: -0.5px;">
-                            Selamat Datang di SMA<br>Negeri 24 Bandung
+                            Selamat Datang di<br>{{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
                         </h1>
-
                         <p class="fs-5 text-white opacity-90 mb-4" style="max-width: 700px; line-height: 1.6;">
-                            Sekolah Berkarakter, Unggul dalam Prestasi Akademik & Non-Akademik, Berwawasan Global.
+                            {{ $profilSekolah->deskripsi ?? 'Sekolah Berkarakter, Unggul dalam Prestasi Akademik & Non-Akademik, Berwawasan Global.' }}
                         </p>
-
-                        <a href="#profil" class="btn btn-warning text-dark px-4 py-2.5 fw-bold rounded-pill shadow-sm">
+                        <a href="{{ route('public.profil') }}" class="btn btn-warning text-dark px-4 py-2.5 fw-bold rounded-pill shadow-sm">
                             Jelajahi Profil Sekolah &rarr;
                         </a>
                     </div>
@@ -201,420 +206,378 @@
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background-color: #1a2332;">
                 <div class="card-body p-4">
                     <div class="row text-center text-white g-3 align-items-center">
-
                         <div class="col-6 col-md-3 border-end border-secondary border-opacity-25">
-                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">1.364</h2>
+                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
+                                {{ number_format($totalSiswa ?? 1364, 0, ',', '.') }}
+                            </h2>
                             <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">PESERTA DIDIK</p>
                         </div>
-
                         <div class="col-6 col-md-3 border-end-md border-secondary border-opacity-25">
-                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">83+</h2>
+                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
+                                {{ $totalGuru ?? 83 }}+
+                            </h2>
                             <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">GURU & TENDIK</p>
                         </div>
-
                         <div class="col-6 col-md-3 border-end border-secondary border-opacity-25">
-                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">A (Unggul)</h2>
+                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
+                                {{ $profilSekolah->akreditasi ?? 'A (Unggul)' }}
+                            </h2>
                             <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">AKREDITASI BAN-S/M</p>
                         </div>
-
                         <div class="col-6 col-md-3">
-                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">1+</h2>
+                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
+                                {{ $totalPrestasi ?? 1 }}+
+                            </h2>
                             <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">PRESTASI TERDAFTAR</p>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
 
-    <div class="text-center py-5">
-        <span class="badge rounded-pill border border-primary-subtle text-primary bg-light px-3 py-2 fw-semibold text-uppercase mb-3" style="letter-spacing: 0.5px; font-size: 0.75rem;">
-            IDENTITAS SEKOLAH
-        </span>
-
-        <h1 class="fw-extrabold text-dark display-5 mb-2" style="font-weight: 800; color: #1e293b; letter-spacing: -0.5px;">
-            SMA NEGERI 24 BANDUNG
-        </h1>
-
-        <p class="text-secondary fw-medium mb-0" style="font-size: 1.05rem;">
-            Jl. A.H. Nasution No. 27 Bandung
-        </p>
-    </div>
-
-    <section id="sambutan" class="py-4">
-        <div class="container">
-            <div class="card border-0 shadow-lg rounded-4 text-white p-4 p-md-5" style="background-color: #1e293b;">
-                <div class="row align-items-center g-4">
-                    <div class="col-md-4 text-center">
-                        <img src="/storage/profil/kepala_sekolah.jpg"
-                            alt="Lia Aprilina, S.Pd, M.Pd"
-                            class="img-fluid rounded-4 border border-2 border-warning shadow"
-                            style="max-height: 380px; width: 100%; object-fit: cover;">
-                    </div>
-
-                    <div class="col-md-8">
-                        <span class="text-warning fw-bold text-uppercase small" style="letter-spacing: 0.5px;">SAMBUTAN PIMPINAN</span>
-                        <h2 class="fw-bold text-white mb-1">Lia Aprilina, S.Pd, M.Pd</h2>
-                        <p class="text-white-50 mb-3">Kepala SMA Negeri 24 Bandung</p>
-
-                        <div class="p-4 rounded-4 mb-4" style="background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.15);">
-                            <p class="mb-0 text-light fst-italic lh-lg" style="font-size: 1rem;">
-                                "Pertama-tama, marilah kita panjatkan puji syukur ke hadirart Allah SWT, Tuhan Yang Maha Esa, karena atas rahmat dan karunia-Nya kita dapat berkumpul pada kesempatan yang baik ini. Saya merasa sangat bahagia dan terhormat untuk..."
-                            </p>
-                        </div>
-
-                        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
-                            <div class="d-flex align-items-center text-warning fw-bold">
-                                <span class="me-2"></span> SMAN 24 Bandung
-                            </div>
-                            <a href="#profil" class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill d-inline-flex align-items-center justify-content-center shadow-sm">
-                                Baca Selengkapnya <span class="ms-2">&rarr;</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="text-center py-5">
+            <span class="badge rounded-pill border border-primary-subtle text-primary bg-light px-3 py-2 fw-semibold text-uppercase mb-3" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                IDENTITAS SEKOLAH
+            </span>
+            <h1 class="fw-extrabold text-dark display-5 mb-2" style="font-weight: 800; color: #1e293b; letter-spacing: -0.5px;">
+                {{ strtoupper($profilSekolah->nama_sekolah ?? 'SMA NEGERI 24 BANDUNG') }}
+            </h1>
+            <p class="text-secondary fw-medium mb-0" style="font-size: 1.05rem;">
+                {{ $profilSekolah->alamat ?? 'Jl. A.H. Nasution No. 27 Bandung' }}
+            </p>
         </div>
-    </section>
 
-    <section id="ekstrakurikuler" class="py-5 bg-light">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                     <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                        KEGIATAN SISWA
-                    </span>
-                    <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">Ekstrakurikuler SMAN 24 Bandung</h3>
-                </div>
-                 <a href="#" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">Lihat Semua Eskul &rarr;</a>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <div class="position-relative w-100 bg-secondary" style="height: 200px;">
-                            <img src="{{ asset('storage/ekstrakurikuler/paskibra.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Paskibra" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x200?text=Paskibra';">
-
-                            <span class="position-absolute bottom-0 start-0 m-3 badge bg-dark bg-opacity-75 text-white rounded-pill px-3 py-2 font-monospace fw-normal" style="font-size: 0.75rem; backdrop-filter: blur(4px);">
-                                 Setiap Rabu & Sabtu 15:30 WIB
-                            </span>
+        <section id="sambutan" class="py-4">
+            <div class="container">
+                <div class="card border-0 shadow-lg rounded-4 text-white p-4 p-md-5" style="background-color: #1e293b;">
+                    <div class="row align-items-center g-4">
+                        <div class="col-md-4 text-center">
+                            @if(isset($profilSekolah->foto_kepala_sekolah))
+                                <img src="{{ asset('storage/' . $profilSekolah->foto_kepala_sekolah) }}" alt="{{ $profilSekolah->nama_kepala_sekolah }}" class="img-fluid rounded-4 border border-2 border-warning shadow" style="max-height: 380px; width: 100%; object-fit: cover;">
+                            @else
+                                <img src="{{ asset('storage/profil/kepala_sekolah.jpg') }}" alt="Kepala Sekolah" class="img-fluid rounded-4 border border-2 border-warning shadow" style="max-height: 380px; width: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x380?text=Kepala+Sekolah';">
+                            @endif
                         </div>
-
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
-                            <div>
-                                <h5 class="fw-bold text-dark fs-5 mb-2" style="color: #1e293b; line-height: 1.4;">
-                                    Paskibra SMAN 24 Bandung
-                                </h5>
-
-                                <p class="text-muted small mb-3" style="line-height: 1.6; font-size: 0.875rem;">
-                                    Pasukan Pengibar Bendera SMA Negeri 24 Bandung.
+                        <div class="col-md-8">
+                            <span class="text-warning fw-bold text-uppercase small" style="letter-spacing: 0.5px;">SAMBUTAN PIMPINAN</span>
+                            <h2 class="fw-bold text-white mb-1">{{ $profilSekolah->nama_kepala_sekolah ?? 'Lia Aprilina, S.Pd, M.Pd' }}</h2>
+                            <p class="text-white-50 mb-3">Kepala {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}</p>
+                            <div class="p-4 rounded-4 mb-4" style="background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.15);">
+                                <p class="mb-0 text-light fst-italic lh-lg" style="font-size: 1rem;">
+                                    "{{ $profilSekolah->sambutan_kepala_sekolah ?? 'Pertama-tama, marilah kita panjatkan puji syukur ke hadirat Allah SWT, Tuhan Yang Maha Esa, karena atas rahmat dan karunia-Nya kita dapat berkumpul pada kesempatan yang baik ini...' }}"
                                 </p>
                             </div>
-
-                            <div class="pt-3 border-top border-light d-flex justify-content-between align-items-center">
-                                <span class="text-muted small" style="font-size: 0.78rem;">
-                                    Pembina: <strong class="text-dark">Dedi Kurniawan, S.Pd.</strong>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <div class="position-relative w-100 bg-secondary" style="height: 200px;">
-                            <img src="{{ asset('storage/ekstrakurikuler/Pramuka.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Pramuka" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x200?text=Pramuka';">
-
-                            <span class="position-absolute bottom-0 start-0 m-3 badge bg-dark bg-opacity-75 text-white rounded-pill px-3 py-2 font-monospace fw-normal" style="font-size: 0.75rem; backdrop-filter: blur(4px);">
-                                Setiap Jumat 15:00 WIB
-                            </span>
-                        </div>
-
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
-                            <div>
-                                <h5 class="fw-bold text-dark fs-5 mb-2" style="color: #1e293b; line-height: 1.4;">
-                                    Pramuka Ambalan
-                                </h5>
-
-                                <p class="text-muted small mb-3" style="line-height: 1.6; font-size: 0.875rem;">
-                                    Wadah pembinaan kepramukaan dan kepemimpinan siswa.
-                                </p>
-                            </div>
-
-                            <div class="pt-3 border-top border-light d-flex justify-content-between align-items-center">
-                                <span class="text-muted small" style="font-size: 0.78rem;">
-                                    Pembina: <strong class="text-dark">-</strong>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <div class="position-relative w-100 bg-secondary" style="height: 200px;">
-                            <img src="{{ asset('storage/ekstrakurikuler/PMR.jpg') }}" class="w-100 h-100 object-fit-cover" alt="PMR" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x200?text=PMR';">
-
-                            <span class="position-absolute bottom-0 start-0 m-3 badge bg-dark bg-opacity-75 text-white rounded-pill px-3 py-2 font-monospace fw-normal" style="font-size: 0.75rem; backdrop-filter: blur(4px);">
-                                 Setiap Kamis 15:30 WIB
-                            </span>
-                        </div>
-
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
-                            <div>
-                                <h5 class="fw-bold text-dark fs-5 mb-2" style="color: #1e293b; line-height: 1.4;">
-                                    Palang Merah Remaja (PMR)
-                                </h5>
-
-                                <p class="text-muted small mb-3" style="line-height: 1.6; font-size: 0.875rem;">
-                                    Mengembangkan jiwa kemanusiaan dan keterampilan pertolongan pertama.
-                                </p>
-                            </div>
-
-                            <div class="pt-3 border-top border-light d-flex justify-content-between align-items-center">
-                                <span class="text-muted small" style="font-size: 0.78rem;">
-                                    Pembina: <strong class="text-dark">-</strong>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="informasi" class="py-5">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-end mb-4">
-                <div>
-                    <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                        KABAR SEKOLAH
-                    </span>
-                    <h2 class="fw-extrabold text-dark mb-0" style="font-weight: 800; color: #1e293b; letter-spacing: -0.5px;">
-                        Berita Terbaru
-                    </h2>
-                </div>
-
-                <a href="#" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
-                    Lihat Semua Berita &rarr;
-                </a>
-            </div>
-
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <img src="{{ asset('storage/berita/steam.jpg') }}" class="card-img-top object-fit-cover" alt="GIAT Steam" style="height: 220px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x230?text=Steam';">
-
-                        <div class="card-body p-4 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: #334155; color: #ffffff; font-size: 0.7rem; letter-spacing: 0.5px;">
-                                    BERITA
-                                </span>
-                                <small class="text-muted fw-medium" style="font-size: 0.8rem;">03 Sep 2026</small>
-                            </div>
-
-                            <h5 class="fw-bold text-dark fs-6 mb-2" style="color: #1e293b; line-height: 1.4;">
-                                GIAT Steam di SMAN 4 Bandung
-                            </h5>
-
-                            <p class="text-muted small mb-4 flex-grow-1" style="line-height: 1.6; font-size: 0.875rem;">
-                                SMAN 4 Bandung baru saja menjadi tuan rumah program internasional International BijakTech yang berfokus pada pendidikan digital, inovasi, dan...
-                            </p>
-
-                            <div class="pt-3 border-top border-light d-flex justify-content-end align-items-center">
-                                <a href="#" class="text-decoration-none fw-semibold text-dark small hover-blue">
-                                    Baca Selengkapnya &rarr;
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <img src="{{ asset('storage/berita/milangkala.jpg') }}" class="card-img-top object-fit-cover" alt="Milangkala" style="height: 220px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x230?text=Milangkala';">
-
-                        <div class="card-body p-4 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: #334155; color: #ffffff; font-size: 0.7rem; letter-spacing: 0.5px;">
-                                    BERITA
-                                </span>
-                                <small class="text-muted fw-medium" style="font-size: 0.8rem;">27 Aug 2026</small>
-                            </div>
-
-                            <h5 class="fw-bold text-dark fs-6 mb-2" style="color: #1e293b; line-height: 1.4;">
-                                Milangkala SMAN 24 Bandung
-                            </h5>
-
-                            <p class="text-muted small mb-4 flex-grow-1" style="line-height: 1.6; font-size: 0.875rem;">
-                                Milangkala SMAN 24 Bandung
-                            </p>
-
-                            <div class="pt-3 border-top border-light d-flex justify-content-end align-items-center">
-                                <a href="#" class="text-decoration-none fw-semibold text-dark small hover-blue">
-                                    Baca Selengkapnya &rarr;
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <img src="{{ asset('storage/berita/kurikulum.jpg') }}" class="card-img-top object-fit-cover" alt="Kurikulum" style="height: 220px;" onerror="this.onerror=null; this.src='https://via.placeholder.com/400x230?text=Kurikulum';">
-
-                        <div class="card-body p-4 d-flex flex-column">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: #334155; color: #ffffff; font-size: 0.7rem; letter-spacing: 0.5px;">
-                                    BERITA
-                                </span>
-                                <small class="text-muted fw-medium" style="font-size: 0.8rem;">15 Aug 2026</small>
-                            </div>
-
-                            <h5 class="fw-bold text-dark fs-6 mb-2" style="color: #1e293b; line-height: 1.4;">
-                                Sosialisasi Kurikulum Pembelajaran
-                            </h5>
-
-                            <p class="text-muted small mb-4 flex-grow-1" style="line-height: 1.6; font-size: 0.875rem;">
-                                SMAN 24 Bandung sudah menerapkan Kurikulum Merdeka sejak tahun 2023
-                            </p>
-
-                            <div class="pt-3 border-top border-light d-flex justify-content-end align-items-center">
-                                <a href="#" class="text-decoration-none fw-semibold text-dark small hover-blue">
-                                    Baca Selengkapnya &rarr;
+                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
+                                <div class="d-flex align-items-center text-warning fw-bold">
+                                    {{ $profilSekolah->nama_sekolah ?? 'SMAN 24 Bandung' }}
+                                </div>
+                                <a href="{{ route('public.profil') }}" class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill d-inline-flex align-items-center justify-content-center shadow-sm">
+                                    Baca Selengkapnya <span class="ms-2">&rarr;</span>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-
-    <section id="guru" class="py-5 bg-light">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                        TENAGA PENDIDIK
-                    </span>
-                    <h3 class="fw-bold text-dark mb-0">Direktori Guru SMA NEGERI 24 BANDUNG</h3>
+        <!-- Section: Ekstrakurikuler -->
+        <section id="ekstrakurikuler" class="py-5" style="background-color: #f8fafc;">
+            <div class="container">
+                <!-- Header Section -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                            KEGIATAN SISWA
+                        </span>
+                        <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
+                            Ekstrakurikuler {{ $profilSekolah->nama_sekolah ?? 'SMAN 24 Bandung' }}
+                        </h3>
+                    </div>
+                    <a href="{{ route('public.ekstrakurikuler')}}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
+                        Lihat Semua Eskul &rarr;
+                    </a>
                 </div>
-                 <a href="#" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">Lihat Semua Guru &rarr;</a>
+
+                <!-- Cards Grid Eskul -->
+                <div class="row g-4">
+                    @forelse($ekstrakurikuler as $eskul)
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden">
+                                <div>
+                                    <!-- Foto Full Atas (Style Berita) -->
+                                    <div class="position-relative w-100 bg-light" style="height: 200px; overflow: hidden;">
+                                        @if($eskul->gambar)
+                                            <img src="{{ asset('storage/' . $eskul->gambar) }}"
+                                                class="w-100 h-100 object-fit-cover"
+                                                alt="{{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler }}">
+                                        @else
+                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 text-muted fs-5 fw-bold text-center p-3">
+                                                {{ Str::limit($eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler ?? 'ESKUL', 20) }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <!-- Detail Content -->
+                                    <div class="p-4 pb-2">
+                                        <!-- Nama Eskul -->
+                                        <h5 class="fw-bold text-dark mb-2" style="color: #1e293b; font-size: 1.15rem; line-height: 1.4;">
+                                            {{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler ?? $eskul->nama }}
+                                        </h5>
+
+                                        <!-- Jadwal Latihan -->
+                                        @php
+                                            $jadwal = $eskul->jadwal_latihan ?? $eskul->jadwal;
+                                        @endphp
+                                        @if($jadwal)
+                                            <div class="d-flex align-items-center text-muted small mb-2" style="font-size: 0.85rem; font-weight: 500;">
+                                                <i class="far fa-clock me-2"></i>
+                                                <span>{{ $jadwal }}</span>
+                                            </div>
+                                        @endif
+
+                                        <!-- Deskripsi Singkat -->
+                                        <p class="text-muted small mb-0" style="line-height: 1.6; font-size: 0.85rem;">
+                                            {{ Str::limit(strip_tags($eskul->deskripsi ?? ''), 110) }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Footer Card (Garis Pemisah, Pembina & Status) -->
+                                <div class="p-4 pt-0">
+                                    <hr class="my-3" style="border-color: #f1f5f9; opacity: 1;">
+                                    <div class="d-flex justify-content-between align-items-center" style="font-size: 0.85rem;">
+                                        <div class="text-muted">
+                                            Pembina: <strong class="text-dark">{{ $eskul->guru->nama_guru ?? $eskul->pembina ?? '-' }}</strong>
+                                        </div>
+                                        <span class="badge bg-light text-secondary border px-2.5 py-1 rounded" style="font-size: 0.72rem; font-weight: 600;">
+                                            {{ $eskul->status ?? 'Aktif' }}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center py-4 text-muted">
+                            <p class="mb-0">Belum ada data ekstrakurikuler.</p>
+                        </div>
+                    @endforelse
+                </div>
             </div>
+        </section>
 
-            <div class="row g-4">
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <div class="position-relative w-100 bg-secondary" style="height: 220px;">
-                            <img src="{{ asset('storage/guru/arin_tentrem.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Arin Tentrem">
-                        </div>
-
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
-                            <div>
-                                <div class="mb-2">
-                                    <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: #334155; color: #ffffff; font-size: 0.7rem;">
-                                        KIMIA
-                                    </span>
-                                </div>
-
-                                <h5 class="fw-bold text-dark fs-6 mb-1" style="color: #1e293b; line-height: 1.4;">
-                                    Arin Tentrem Mawati S.Pd, M.M.Pd
-                                </h5>
-
-                                <small class="text-muted d-block mb-3" style="font-size: 0.8rem;">
-                                    NIP: 197001312008012009
-                                </small>
-                            </div>
-                        </div>
+        <!-- Section: Berita Terbaru -->
+        <section id="berita" class="py-5" style="background-color: #f8fafc;">
+            <div class="container">
+                <!-- Header Section -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                            KABAR SEKOLAH
+                        </span>
+                        <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">Berita Terbaru</h3>
                     </div>
+                    <a href="{{ route('public.berita')}}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
+                        Lihat Semua Berita &rarr;
+                    </a>
                 </div>
 
+                <!-- Cards Grid -->
+                <div class="row g-4">
+                    @forelse($berita as $b)
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden">
+                                <div>
+                                    <!-- Gambar Berita -->
+                                    <div class="position-relative w-100 bg-light" style="height: 200px; overflow: hidden;">
+                                        @if($b->gambar)
+                                            <img src="{{ asset('storage/' . $b->gambar) }}"
+                                                class="w-100 h-100 object-fit-cover"
+                                                alt="{{ $b->judul }}">
+                                        @else
+                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 text-muted fs-5 text-center p-3">
+                                                {{ Str::limit($b->judul, 20) }}
+                                            </div>
+                                        @endif
+                                    </div>
 
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <div class="position-relative w-100 bg-secondary" style="height: 220px;">
-                            <img src="{{ asset('storage/guru/baran.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Baran Bhuana">
-                        </div>
+                                    <!-- Detail Content -->
+                                    <div class="p-4 pb-2">
+                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                            <span class="badge rounded-pill text-white px-3 py-2" style="background-color: #1e293b; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px;">
+                                                BERITA
+                                            </span>
+                                            <span class="text-muted small" style="font-size: 0.8rem;">
+                                                {{ $b->tanggal ? \Carbon\Carbon::parse($b->tanggal)->format('d M Y') : $b->created_at->format('d M Y') }}
+                                            </span>
+                                        </div>
 
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
-                            <div>
-                                <div class="mb-2">
-                                    <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: #334155; color: #ffffff; font-size: 0.7rem;">
-                                        SENI & BUDAYA
-                                    </span>
+                                        <!-- Judul Berita -->
+                                        <h5 class="fw-bold text-dark mb-2" style="font-size: 1.05rem; line-height: 1.4;">
+                                            {{ $b->judul }}
+                                        </h5>
+
+                                        <!-- Isi Berita (Memakai atribut 'isi' dari Model) -->
+                                        <p class="text-muted small mb-0" style="line-height: 1.6; font-size: 0.85rem;">
+                                            {{ Str::limit(strip_tags($b->isi), 110) }}
+                                        </p>
+                                    </div>
                                 </div>
 
-                                <h5 class="fw-bold text-dark fs-6 mb-1" style="color: #1e293b; line-height: 1.4;">
-                                    Baran Bhuana S.Pd
-                                </h5>
-
-                                <small class="text-muted d-block mb-3" style="font-size: 0.8rem;">
-                                    NIP: 198706112024211011
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <div class="position-relative w-100 bg-secondary" style="height: 220px;">
-                            <img src="{{ asset('storage/guru/cucu.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Cucu">
-                        </div>
-
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
-                            <div>
-                                <div class="mb-2">
-                                    <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: #334155; color: #ffffff; font-size: 0.7rem;">
-                                        BAHASA INDONESIA
-                                    </span>
+                                <!-- Link Baca Selengkapnya -->
+                                <div class="p-4 pt-0 text-end">
+                                    <a href="#" class="fw-bold text-dark text-decoration-none small">
+                                        Baca Selengkapnya &rarr;
+                                    </a>
                                 </div>
-
-                                <h5 class="fw-bold text-dark fs-6 mb-1" style="color: #1e293b; line-height: 1.4;">
-                                    Cucu S.Pd
-                                </h5>
-
-                                <small class="text-muted d-block mb-3" style="font-size: 0.8rem;">
-                                    NIP: 197503122005012004
-                                </small>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="card h-100 border-0 shadow-sm rounded-4 overflow-hidden card-hover">
-                        <div class="position-relative w-100 bg-secondary" style="height: 220px;">
-                            <img src="{{ asset('storage/guru/dedy.jpg') }}" class="w-100 h-100 object-fit-cover" alt="Dedy">
+                    @empty
+                        <div class="col-12 text-center py-4 text-muted">
+                            <p class="mb-0">Belum ada berita terbaru.</p>
                         </div>
-
-                        <div class="card-body p-4 d-flex flex-column justify-content-between">
-                            <div>
-                                <div class="mb-2">
-                                    <span class="badge px-3 py-2 rounded-pill fw-semibold" style="background-color: #334155; color: #ffffff; font-size: 0.7rem;">
-                                        MATEMATIKA
-                                    </span>
-                                </div>
-
-                                <h5 class="fw-bold text-dark fs-6 mb-1" style="color: #1e293b; line-height: 1.4;">
-                                    Dedy S.Pd
-                                </h5>
-
-                                <small class="text-muted d-block mb-3" style="font-size: 0.8rem;">
-                                    NIP: 198005152010011008
-                                </small>
-                            </div>
-                        </div>
-                    </div>
+                    @endforelse
                 </div>
-
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Section: Direktori Guru -->
+        <section id="guru" class="py-5" style="background-color: #f8fafc;">
+            <div class="container">
+                <!-- Header Section -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                            TENAGA PENDIDIK
+                        </span>
+                        <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
+                            Direktori Guru {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+                        </h3>
+                    </div>
+                    <a href="{{ route('public.guru')}}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
+                        Lihat Semua Guru &rarr;
+                    </a>
+                </div>
+
+                <!-- Cards Grid Guru (1 Baris Isi 4 Card) -->
+                <div class="row g-4">
+                    @forelse($guru->take(4) as $g)
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden">
+                                <div>
+                                    <!-- Foto Full di Atas -->
+                                    <div class="position-relative w-100 bg-danger" style="height: 240px; overflow: hidden;">
+                                        @if(isset($g->foto) && $g->foto)
+                                            <img src="{{ asset('storage/' . $g->foto) }}"
+                                                class="w-100 h-100 object-fit-cover"
+                                                alt="{{ $g->nama_guru ?? $g->nama }}">
+                                        @elseif(isset($g->gambar) && $g->gambar)
+                                            <img src="{{ asset('storage/' . $g->gambar) }}"
+                                                class="w-100 h-100 object-fit-cover"
+                                                alt="{{ $g->nama_guru ?? $g->nama }}">
+                                        @else
+                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white-50 fs-2 fw-bold">
+                                                {{ Str::limit($g->nama_guru ?? $g->nama ?? 'GURU', 2, '') }}
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    <!-- Detail Content (Nama & NIP) -->
+                                    <div class="p-3 text-center">
+                                        <!-- Nama Guru -->
+                                        <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 0.92rem; line-height: 1.35; color: #1e293b;" title="{{ $g->nama_guru ?? $g->nama }}">
+                                            {{ $g->nama_guru ?? $g->nama }}
+                                        </h6>
+
+                                        <!-- NIP Guru (Kecil) -->
+                                        <p class="text-muted small mb-0" style="font-size: 0.7rem; color: #94a3b8 !important; letter-spacing: 0.3px;">
+                                            NIP: {{ $g->nip ?? '-' }}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Rounded Pill Mapel (Lega, Tidak Dempet, & Menyesuaikan Panjang Teks) -->
+                                <div class="px-3 pb-3 text-center mt-auto">
+                                    <div class="d-inline-block rounded-pill border border-warning px-3 py-2"
+                                        style="background-color: #fffdf5; border-color: #fde047 !important; max-width: 100%;">
+                                        <span class="fw-semibold d-block text-wrap"
+                                            style="color: #854d0e; font-size: 0.73rem; line-height: 1.4;">
+                                            {{ $g->mapel->nama_mapel ?? $g->nama_mapel ?? $g->mapel ?? 'Mata Pelajaran' }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center py-4 text-muted">
+                            <p class="mb-0">Belum ada data guru.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Galeri Kegiatan -->
+        <section id="galeri" class="py-5" style="background-color: #f8fafc;">
+            <div class="container">
+                <!-- Header Section -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                            DOKUMENTASI
+                        </span>
+                        <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
+                            Galeri Kegiatan {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+                        </h3>
+                    </div>
+                    <a href="{{ route('public.galeri')}}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
+                        Lihat Semua Galeri &rarr;
+                    </a>
+                </div>
+
+                <!-- Cards Grid Galeri (1 Baris Isi 4 Card) -->
+                <div class="row g-4">
+                    @forelse(collect($galeri ?? [])->take(4) as $item)
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 overflow-hidden">
+                                <!-- Foto Galeri -->
+                                <div class="position-relative w-100 bg-secondary" style="height: 220px; overflow: hidden;">
+                                    @if(isset($item->file) && $item->file)
+                                        <img src="{{ asset('storage/' . $item->file) }}"
+                                            class="w-100 h-100 object-fit-cover"
+                                            alt="{{ $item->judul ?? 'Galeri' }}">
+                                    @elseif(isset($item->foto) && $item->foto)
+                                        <img src="{{ asset('storage/' . $item->foto) }}"
+                                            class="w-100 h-100 object-fit-cover"
+                                            alt="{{ $item->judul ?? 'Galeri' }}">
+                                    @elseif(isset($item->gambar) && $item->gambar)
+                                        <img src="{{ asset('storage/' . $item->gambar) }}"
+                                            class="w-100 h-100 object-fit-cover"
+                                            alt="{{ $item->judul ?? 'Galeri' }}">
+                                    @else
+                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white-50 fs-4 fw-bold">
+                                            GALERI
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <!-- Judul Galeri Saja -->
+                                <div class="p-3 text-center">
+                                    <h6 class="text-dark mb-0 text-truncate" style="font-size: 0.92rem; line-height: 1.35; color: #1e293b;" title="{{ $item->judul }}">
+                                        {{ $item->judul ?? 'Kegiatan Sekolah' }}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center py-4 text-muted">
+                            <p class="mb-0">Belum ada foto galeri.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
 
 
     <footer id="kontak" class="footer-simple">

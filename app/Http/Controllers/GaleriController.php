@@ -6,6 +6,7 @@ use App\Models\Galeri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ProfilSekolah;
 
 class GaleriController extends Controller
 {
@@ -36,7 +37,7 @@ class GaleriController extends Controller
         return view('admin.galeri.form', compact('galeri'));
     }
 
-     public function save(Request $request, $id = null)
+    public function save(Request $request, $id = null)
     {
         // Jika ada ID, berarti sedang mengubah data.
         if ($id) {
@@ -143,5 +144,13 @@ class GaleriController extends Controller
         return redirect()
             ->route('admin.galeri.index')
             ->with('success', 'Dokumentasi galeri berhasil dihapus.');
+    }
+
+    public function publicGaleri()
+    {
+        $profilSekolah = ProfilSekolah::first();
+        $galeri = Galeri::latest()->paginate(12); // Menampilkan 12 foto per halaman
+
+        return view('public.galeri', compact('profilSekolah', 'galeri'));
     }
 }

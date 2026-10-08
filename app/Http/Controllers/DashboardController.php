@@ -6,10 +6,9 @@ use App\Models\Berita;
 use App\Models\Ekstrakurikuler;
 use App\Models\Galeri;
 use App\Models\Guru;
+use App\Models\Prestasi;
 use App\Models\ProfilSekolah;
 use App\Models\Siswa;
-
-
 
 class DashboardController extends Controller
 {
@@ -18,15 +17,17 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        //
         $totalGuru            = Guru::count();
         $totalSiswa           = Siswa::count();
         $totalBerita          = Berita::count();
         $totalEkstrakurikuler = Ekstrakurikuler::count();
         $totalGaleri          = Galeri::count();
+        $totalPrestasi        = Prestasi::count();
 
-        $profilSekolah = ProfilSekolah::first();
-        $beritaTerbaru = Berita::with('user')->latest('tanggal')->take(5)->get();
+        $profilSekolah   = ProfilSekolah::first();
+        $beritaTerbaru   = Berita::with('user')->latest('tanggal')->take(5)->get();
+        $prestasiTerbaru = Prestasi::orderBy('tahun', 'desc')
+                            ->orderBy('id_prestasi', 'desc')->take(5)->get();
 
         return view('admin.dashboard', [
             'title'                => 'Dashboard',
@@ -35,20 +36,45 @@ class DashboardController extends Controller
             'totalBerita'          => $totalBerita,
             'totalEkstrakurikuler' => $totalEkstrakurikuler,
             'totalGaleri'          => $totalGaleri,
+            'totalPrestasi'        => $totalPrestasi,
             'profilSekolah'        => $profilSekolah,
             'beritaTerbaru'        => $beritaTerbaru,
+            'prestasiTerbaru'      => $prestasiTerbaru,
         ]);
     }
 
     public function publicDashboard()
     {
+        // $profilSekolah = ProfilSekolah::first();
+
+        // return view('public.index', [
+        //     'title'         => 'Beranda Website Sekolah',
+        //     'profilSekolah' => $profilSekolah,
+        // ]);
+
         $profilSekolah = ProfilSekolah::first();
 
-        return view('public.home', [
-            'title'         => 'Beranda Website Sekolah',
-            'profilSekolah' => $profilSekolah,
-        ]);
-    }
+        $totalSiswa = class_exists(Siswa::class) ? Siswa::count() : 1364;
+        $totalGuru = class_exists(Guru::class) ? Guru::count() : 83;
+        $totalPrestasi = class_exists(Prestasi::class) ? Prestasi::count() : 1;
 
+
+        $ekstrakurikuler = Ekstrakurikuler::take(6)->get();
+
+        $guru = Guru::take(8)->get();
+
+        $berita = class_exists(Berita::class) ? Berita::latest()->take(3)->get() : collect();
+        $galeri = class_exists(Galeri::class) ? Galeri::latest()->take(4)->get() : collect();
+        return view('public.index', compact(
+            'profilSekolah',
+            'totalSiswa',
+            'totalGuru',
+            'totalPrestasi',
+            'ekstrakurikuler',
+            'guru',
+            'berita',
+            'galeri'
+        ));
+    }
 
 }

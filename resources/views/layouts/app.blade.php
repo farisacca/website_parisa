@@ -46,13 +46,13 @@
     <!-- Main wrapper -->
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        
+
         <!-- Topbar header -->
         <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
-                    
+
                     <!-- Logo -->
                     <div class="navbar-brand">
                         <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-decoration-none">
@@ -117,8 +117,8 @@
                                 <i data-feather="briefcase" class="feather-icon"></i>
                                 <span class="hide-menu">Profil Sekolah</span>
                             </a>
-                        </li> 
-                        
+                        </li>
+
                         @if(Auth::check() && strcasecmp(Auth::user()->role, 'admin') === 0)
                             <li class="sidebar-item">
                                 <a href="{{ route('admin.guru.index') }}"
@@ -127,7 +127,7 @@
                                     <span class="hide-menu">Kelola Guru</span>
                                 </a>
                             </li>
-                            
+
                             <li class="sidebar-item">
                                 <a href="{{ route('admin.siswa.index') }}"
                                     class="sidebar-link {{ request()->routeIs('admin.siswa.*') ? 'active' : '' }}">
@@ -196,7 +196,7 @@
         <!-- Page wrapper -->
          <div class="page-wrapper">
             <div class="container-fluid">
-                
+
                 @if(session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <i data-feather="check-circle" class="mr-2"></i>
@@ -217,7 +217,7 @@
                         </button>
                     </div>
                 @endif
-                
+
                 {{-- 3. Alert Validasi Form --}}
                 @if($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">

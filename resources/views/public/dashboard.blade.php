@@ -1,334 +1,267 @@
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     @if(isset($profilSekolah) && $profilSekolah->logo)
+    <title>{{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}</title>
+    @if(isset($profilSekolah) && $profilSekolah->logo)
     <link rel="icon" type="image/png" href="{{ asset('storage/' . $profilSekolah->logo) }}">
     @else
-        <link rel="icon" type="image/png" href="{{ asset('assets/images/favicon.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('assets/images/logo_sekolah.png') }}">
     @endif
-    <title>{{ $profilSekolah->nama_sekolah ?? 'Website Sekolah' }} | @yield('title')</title>
-
-    <meta name="description" content="Website resmi SMA Negeri 24 Bandung">
-
-    {{-- Bootstrap --}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    {{-- Bootstrap Icons --}}
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-    
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+
+        .navbar-custom {
             background-color: #ffffff;
-            color: #1f2937;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 14px 0;
         }
-
-        main {
-            min-height: 70vh;
-        }
-
-        .public-navbar {
-            background-color: #ffffff;
-            border-bottom: 1px solid #eeeeee;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
-        }
-
-        .navbar-brand {
-            color: #1f2937 !important;
+        .navbar-custom .nav-link {
             font-weight: 600;
-        }
-
-        .navbar-brand img {
-            width: 42px;
-            height: 42px;
-            object-fit: contain;
-            margin-right: 10px;
-        }
-
-        .school-name {
-            font-size: 16px;
-            font-weight: 600;
-            line-height: 1.2;
-        }
-
-        .navbar-nav .nav-link {
-            color: #4b5563 !important;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 10px 13px !important;
-        }
-
-        .navbar-nav .nav-link:hover,
-        .navbar-nav .nav-link.active {
-            color: #1d4ed8 !important;
-        }
-
-    
-        .btn-login {
-            background-color: #1b2536; 
-            color: #ffffff !important;
-            border-radius: 6px;
-            padding: 9px 18px !important;
-            font-weight: 500 !important;
-            transition: background-color 0.2s ease;
-        }
-
-        .btn-login:hover {
-            background-color: #0f172a;
-            color: #ffffff !important;
-        }
-
-      
-        .section-title {
-            color: #1f2937;
-            font-weight: 600;
-        }
-
-        .section-subtitle {
-            color: #64748b;
-        }
-
-        .text-primary-custom {
-            color: #1d4ed8 !important;
-        }
-
-        .bg-primary-custom {
-            background-color: #1d4ed8 !important;
-        }
-
-        .card {
-            border: none;
-            border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-        }
-
-      
-        .public-footer {
-            background-color: #1b2536; 
-            color: #ffffff;
-            margin-top: 60px;
-        }
-
-        .public-footer h5 {
-            color: #ffffff;
-            font-size: 17px;
-            font-weight: 600;
-            margin-bottom: 18px;
-        }
-
-        .public-footer p {
-            color: #cbd5e1;
-            font-size: 14px;
-            line-height: 1.7;
-            margin-bottom: 8px;
-        }
-
-        .public-footer a {
-            color: #cbd5e1;
-            text-decoration: none;
-            font-size: 14px;
+            font-size: 0.9rem;
+            color: #475569;
+            padding: 8px 12px !important;
             transition: color 0.2s ease;
         }
+        .navbar-custom .nav-link:hover,
+        .navbar-custom .nav-link.active {
+            color: #ffb900 !important;
+        }
 
-        .public-footer a:hover {
+        .hero-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            border-radius: 16px;
+            padding: 48px 36px;
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
+        }
+        .hover-blue:hover {
+            color: #2563eb !important;
+        }
+        .card-teacher {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            background-color: #ffffff;
+        }
+        .card-teacher:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+        }
+        .footer-simple {
+            background-color: #0f172a;
+            color: #94a3b8;
+            padding: 60px 0 30px;
+            font-size: 0.9rem;
+        }
+        .footer-simple h5, .footer-simple h6 {
+            font-weight: 700;
             color: #ffffff;
         }
-
-        .footer-logo {
-            width: 42px;
-            height: 42px;
-            object-fit: contain;
-        }
-
-        /* Box Visi Kami gaya Labschool */
-        .visi-misi-box {
-            background: rgba(255, 255, 255, 0.06);
-            border-radius: 12px;
-            padding: 16px;
-            margin-top: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .visi-misi-box h6 {
-            font-size: 15px;
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: #ffffff;
-        }
-
-        .visi-misi-box p {
-            font-size: 13px;
-            margin-bottom: 0;
+        .footer-simple a {
             color: #cbd5e1;
+            text-decoration: none;
+            transition: color 0.2s ease, padding-left 0.2s ease;
+            display: block;
+            padding: 4px 0;
         }
-
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            padding: 18px 0;
-            margin-top: 25px;
+        .footer-simple a:hover {
+            color: #ffffff;
+            padding-left: 4px;
         }
-
-        /* =========================
-           MOBILE
-        ========================= */
-        @media (max-width: 991px) {
-            .navbar-nav {
-                padding-top: 10px;
-                padding-bottom: 10px;
-            }
-
-            .navbar-nav .nav-link {
-                margin-left: 0;
-            }
-
-            .btn-login {
-                display: inline-block;
-                margin-top: 5px;
-            }
+        .footer-simple-visi-box {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 15px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .footer-simple-social-icon {
+            width: 36px;
+            height: 36px;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #cbd5e1;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+            transition: background-color 0.2s, color 0.2s, transform 0.2s;
+        }
+        .footer-simple-social-icon:hover {
+            background-color: #ffb900;
+            color: #ffffff;
+            transform: translateY(-2px);
+        }
+        .footer-simple-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: #94a3b8;
+        }
+        .footer-simple-contact-item i {
+            margin-top: 3px;
+            font-size: 1rem;
+        }
+        .footer-simple-meta-school {
+            color: #64748b;
+            font-size: 0.8rem;
+            line-height: 1.6;
         }
     </style>
-
-    @stack('styles')
 </head>
 
 <body>
-
-    {{-- NAVBAR --}}
-    <nav class="navbar navbar-expand-lg public-navbar sticky-top">
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="{{ url('/') }}">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('public.index') }}">
                 @if(isset($profilSekolah) && $profilSekolah->logo)
-                    <img src="{{ asset('storage/' . $profilSekolah->logo) }}" alt="Logo {{ $profilSekolah->nama_sekolah }}">
+                    <img src="{{ asset('storage/' . $profilSekolah->logo) }}" alt="Logo {{ $profilSekolah->nama_sekolah }}" width="40" height="40" class="rounded-circle object-fit-cover">
                 @else
-                    <img src="{{ asset('assets/images/logo-icon.png') }}" alt="Logo Sekolah">
+                    <img src="{{ asset('storage/profil/logo_sekolah.png') }}" alt="Logo Sekolah" width="40" height="40" class="rounded-circle object-fit-cover" onerror="this.onerror=null; this.src='https://via.placeholder.com/40';">
                 @endif
-                <span class="school-name">
-                    {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
-                </span>
+                <div>
+                    <div class="fw-bold text-dark lh-1" style="font-size: 1.1rem; letter-spacing: -0.3px;">
+                        {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+                    </div>
+                    <small class="text-muted d-block" style="font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3px;">
+                        {{ $profilSekolah->motto ?? 'WE CREATE OUR FUTURE' }}
+                    </small>
+                </div>
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#publicNavbar"
-                aria-controls="publicNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse" id="publicNavbar">
-                <ul class="navbar-nav ms-auto align-items-lg-center">
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav gap-lg-2 mt-3 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/') }}">Beranda</a>
+                        <a class="nav-link active" href="{{ route('public.index') }}">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/profil') }}">Profil</a>
+                        <a class="nav-link" href="{{ route('public.profil') }}">Profil Sekolah</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/berita') }}">Berita</a>
+                        <a class="nav-link" href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/guru') }}">Guru</a>
+                        <a class="nav-link" href="{{ route('public.berita') }}">Berita</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/siswa') }}">Siswa</a>
+                        <a class="nav-link" href="{{ route('public.guru') }}">Guru</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/ekskul') }}">Ekskul</a>
-                    </li>
-                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                        <a class="nav-link btn-login" href="{{ route('admin.login') }}">
-                            <i class="bi bi-box-arrow-in-right me-1"></i> Login Admin
-                        </a>
+                        <a class="nav-link" href="#kontak">Kontak</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    {{-- CONTENT --}}
     <main>
+
         @yield('content')
     </main>
 
-    {{-- FOOTER --}}
-    <footer class="public-footer">
-        <div class="container py-5">
-            <div class="row">
-
-            
-                <div class="col-lg-5 col-md-6 mb-4">
-                    <div class="d-flex align-items-center mb-3">
-                        @if(isset($profilSekolah) && $profilSekolah->logo)
-                            <img src="{{ asset('storage/' . $profilSekolah->logo) }}" alt="Logo" class="footer-logo me-3">
-                        @else
-                            <img src="{{ asset('assets/images/logo-icon.png') }}" alt="Logo Sekolah" class="footer-logo me-3">
-                        @endif
-                        <h5 class="mb-0">
-                            {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
-                        </h5>
+    <footer id="kontak" class="footer-simple">
+        <div class="container">
+            <div class="row g-4 mb-5">
+                <div class="col-lg-5">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <img src="{{ asset('storage/profil/logo_sekolah.png') }}" alt="Logo SMA Negeri 24 Bandung" width="50" height="50" class="rounded-circle object-fit-cover" onerror="this.onerror=null; this.src='{{ asset('assets/images/logo-icon.png') }}';">
+                        <div>
+                            <h5 class="mb-0 text-white">SMA Negeri 24 Bandung</h5>
+                        </div>
                     </div>
 
-                    <p>
-                        {{ $profilSekolah->deskripsi ?? 'Website resmi sekolah sebagai media informasi dan komunikasi sekolah.' }}
-                    </p>
-
-                    <div class="visi-misi-box">
-                        <h6>Visi Kami</h6>
-                        <p>
-                            {{ $profilSekolah->visi ?? 'Menjadi sekolah unggulan yang menghasilkan lulusan berkarakter, berprestasi, dan siap menghadapi tantangan global.' }}
+                    <div class="footer-simple-visi-box">
+                        <h6 class="fw-bold text-white mb-2" style="font-size: 0.95rem;">Visi Kami</h6>
+                        <p class="small mb-0 text-slate-400">
+                            Menjadi sekolah unggulan yang menghasilkan lulusan berkarakter, berprestasi, berwawasan global, dan berlandaskan ilmu pengetahuan serta ketakwaan.
                         </p>
                     </div>
+
+                    <div>
+                        <span class="d-block small fw-bold mb-2 text-white">Ikuti Kami</span>
+                        <div class="d-flex gap-2">
+                            <a href="#" class="footer-simple-social-icon"><i class="fab fa-facebook-f"></i></a>
+                            <a href="#" class="footer-simple-social-icon"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="footer-simple-social-icon"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="footer-simple-social-icon"><i class="fab fa-youtube"></i></a>
+                        </div>
+                    </div>
+
                 </div>
 
-                {{-- KOLOM 2: MENU UTAMA --}}
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <h5>Menu Utama</h5>
-
-                    <p><a href="{{ url('/') }}">Beranda</a></p>
-                    <p><a href="{{ url('/profil') }}">Profil Sekolah</a></p>
-                    <p><a href="{{ url('/berita') }}">Berita</a></p>
-                    <p><a href="{{ url('/guru') }}">Guru</a></p>
-                    <p><a href="{{ url('/siswa') }}">Siswa</a></p>
-                    <p><a href="{{ url('/ekskul') }}">Ekstrakurikuler</a></p>
+                <div class="col-lg-3 ps-lg-5">
+                    <h6 class="text-white fw-bold mb-3" style="letter-spacing: 0.3px;">Menu Utama</h6>
+                    <div class="d-flex flex-column gap-1">
+                        <a href="#">Beranda</a>
+                        <a href="#profil">Tentang Kami</a>
+                        <a href="#informasi">Kegiatan</a>
+                        <a href="#ekstrakurikuler">Ekstrakurikuler</a>
+                        <a href="#galeri">Galeri</a>
+                        <a href="#kontak">Kontak</a>
+                    </div>
                 </div>
 
-                {{-- KOLOM 3: KONTAKS KAMI --}}
-                <div class="col-lg-4 col-md-12 mb-4">
-                    <h5>Kontak Kami</h5>
+                <div class="col-lg-4">
+                    <h6 class="text-white fw-bold mb-3" style="letter-spacing: 0.3px;">Kontak Kami</h6>
 
-                    <p>
-                        <i class="bi bi-geo-alt me-2"></i>
-                        {{ $profilSekolah->alamat ?? '-' }}
-                    </p>
+                    <div class="footer-simple-contact-item">
+                        <i class="fas fa-map-marker-alt text-warning"></i>
+                        <span class="small text-slate-400">Jl. A.H. Nasution No. 27, Ujung Berung,<br>Kota Bandung, Jawa Barat 40611</span>
+                    </div>
+                    <div class="footer-simple-contact-item">
+                        <i class="fas fa-phone-alt text-warning"></i>
+                        <span class="small text-slate-400">(022) 7800195</span>
+                    </div>
+                    <div class="footer-simple-contact-item">
+                        <i class="fas fa-envelope text-warning"></i>
+                        <span class="small text-slate-400">info@sman24bdg.sch.id</span>
+                    </div>
+                    <div class="footer-simple-contact-item">
+                        <i class="fas fa-clock text-warning"></i>
+                        <span class="small text-slate-400">Senin - Jumat: 07:00 - 16:00<br>Sabtu - Minggu: Libur</span>
+                    </div>
 
-                    <p>
-                        <i class="bi bi-telephone me-2"></i>
-                        {{ $profilSekolah->kontak ?? '-' }}
-                    </p>
+                    <hr class="my-3" style="border-color: rgba(255,255,255,0.08);">
 
-                    <p>
-                        <i class="bi bi-building me-2"></i>
-                        NPSN: {{ $profilSekolah->npsn ?? '-' }}
-                    </p>
+                    <div class="footer-simple-meta-school">
+                        <div>NPSN: 20219660</div>
+                        <div>Akreditasi: A</div>
+                        <div>ISO 9001:2015 Certified</div>
+                    </div>
                 </div>
-
             </div>
 
-            {{-- COPYRIGHT --}}
-            <div class="footer-bottom text-center">
-                <p class="mb-0">
-                    &copy; {{ date('Y') }} {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}. All Rights Reserved.
-                </p>
+            <hr style="border-color: rgba(255,255,255,0.08);">
+            <div class="text-center small text-slate-500 pt-2">
+                &copy; 2026 <strong>SMA Negeri 24 Bandung</strong>. All rights reserved.
             </div>
         </div>
     </footer>
 
-    {{-- Bootstrap JS --}}
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    @stack('scripts')
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

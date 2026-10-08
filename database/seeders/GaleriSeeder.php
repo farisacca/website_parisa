@@ -19,7 +19,15 @@ class GaleriSeeder extends Seeder
             'judul' => 'Kegiatan Belajar',
             'keterangan' => 'Dokumentasi kegiatan pembelajaran yang dilaksanakan dilab',
             'file' => 'galeri/kegiatan-pembelajaran.jpg',
-            'kategori' => 'foto',
+            'kategori' => 'Foto',
+            'tanggal' => '2026-08-08',
+        ]);
+
+        Galeri::create([
+            'judul' => 'Kegiatan Belajar',
+            'keterangan' => 'Dokumentasi kegiatan rapat tka',
+            'file' => 'galeri/rapat-tka.jpg',
+            'kategori' => 'Foto',
             'tanggal' => '2026-08-08',
         ]);
     }

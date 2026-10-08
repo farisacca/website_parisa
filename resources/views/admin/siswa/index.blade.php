@@ -5,15 +5,10 @@
 @section('content')
 
 <div class="container-fluid">
-
     <div class="row">
         <div class="col-12">
-
             <div class="card shadow-sm">
-
                 <div class="card-body">
-
-                    {{-- Header --}}
                     <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
 
                         <h4 class="card-title mb-0">
@@ -25,12 +20,10 @@
 
                             <i data-feather="plus" class="mr-1"></i>
                             Tambah Siswa
-
                         </a>
 
                     </div>
 
-                    {{-- Table --}}
                     <div class="table-responsive">
                         <table id="zero_config" class="table table-striped table-bordered no-wrap align-middle" style="width:100%">
                             <thead class="bg-primary text-white">
@@ -118,10 +111,7 @@
 
                                     {{-- Aksi --}}
                                     <td class="text-center">
-
                                         <div class="btn-group" role="group">
-
-                                            {{-- Detail --}}
                                             <a href="{{ route('admin.siswa.show', Crypt::encrypt($item->id_siswa)) }}"
                                                 class="btn btn-info btn-sm mr-1"
                                                 title="Detail">
