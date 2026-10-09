@@ -14,12 +14,16 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 // LANDING PAGE PUBLIK
-Route::get('/', [DashboardController::class, 'publicDashboard'])->name('public.index');
-Route::get('/profil', [ProfilSekolahController::class, 'publicProfil'])->name('public.profil');
-Route::get('/berita', [BeritaController::class, 'publicBerita'])->name('public.berita');
-Route::get('/ekstrakurikuler', [EkstrakurikulerController::class, 'publicEkstrakurikuler'])->name('public.ekstrakurikuler');
-Route::get('/galeri', [GaleriController::class, 'publicGaleri'])->name('public.galeri');
-Route::get('/guru', [GuruController::class, 'publicGuru'])->name('public.guru');
+Route::name('public.')->group(function () {
+    Route::get('/', [DashboardController::class, 'publicDashboard'])->name('index');
+    Route::get('/profil', [ProfilSekolahController::class, 'publicProfil'])->name('profil');
+    Route::get('/berita', [BeritaController::class, 'publicBerita'])->name('berita');
+    Route::get('/berita/{slug}', [BeritaController::class, 'publicShow'])->name('berita.show');
+    Route::get('/ekstrakurikuler', [EkstrakurikulerController::class, 'publicEkstrakurikuler'])->name('ekstrakurikuler');
+    Route::get('/galeri', [GaleriController::class, 'publicGaleri'])->name('galeri');
+    Route::get('/guru', [GuruController::class, 'publicGuru'])->name('guru');
+    Route::get('/prestasi', [PrestasiController::class, 'publicPrestasi'])->name('prestasi');
+});
 
 // AUTENTIKASI (GUEST ONLY)
 Route::middleware('guest')->group(function () {

@@ -3,27 +3,29 @@
 namespace App\Http\Controllers;
 
 use App\Models\Berita;
+use App\Models\ProfilSekolah;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
-use App\Models\ProfilSekolah;
 
 class BeritaController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilan daftar berita di Admin
      */
     public function index()
     {
-        //
         $berita = Berita::with('user')->latest('tanggal')->get();
 
         return view('admin.berita.index', compact('berita'));
     }
 
+    /**
+     * Form Tambah / Edit Berita Admin
+     */
     public function addEdit($id = null)
     {
         try {
@@ -40,62 +42,60 @@ class BeritaController extends Controller
         return view('admin.berita.form', compact('berita'));
     }
 
-     public function save(Request $request, $id = null)
+    /**
+     * Process Simpan & Update Data Berita Admin
+     */
+    public function save(Request $request, $id = null)
     {
-        // Jika ada ID, berarti sedang mengubah data.
         if ($id) {
             try {
                 $id = Crypt::decrypt($id);
                 $berita = Berita::findOrFail($id);
-
             } catch (\Exception $e) {
                 return redirect()
                     ->route('admin.berita.index')
                     ->with('error', 'Data berita tidak ditemukan.');
             }
-
         } else {
-            // Jika tidak ada ID, berarti menambah berita baru.
             $berita = new Berita();
             $berita->id_user = Auth::id() ?? User::value('id');
         }
 
-        //slug
+        // Generate Slug
         $slug = Str::slug($request->judul);
         $request->merge(['slug' => $slug]);
 
         $slugRule = 'required|unique:berita,slug';
-
-        // Jika sedang mengubah berita, tambahkan pengecualian untuk slug yang sama.
         if ($berita->exists) {
             $slugRule = 'required|unique:berita,slug,' . $berita->id_berita . ',id_berita';
         }
 
         // Validasi input
         $request->validate([
-            'judul'   => 'required|string|max:50',
+            'judul'   => 'required|string|max:255',
             'slug'    => $slugRule,
             'isi'     => 'required|string',
+            'status'  => 'required|string|in:draf,draft,publis,publish',
             'tanggal' => 'required|date',
             'gambar'  => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ], [
             'judul.required'   => 'Judul berita wajib diisi.',
-            'judul.max'        => 'Judul maksimal 50 karakter.',
-            'slug.required'     => 'Slug berita wajib diisi.',
+            'slug.required'    => 'Slug berita wajib diisi.',
             'slug.unique'      => 'Slug berita sudah digunakan.',
             'isi.required'     => 'Isi berita wajib diisi.',
+            'status.required'  => 'Status berita wajib dipilih.',
             'tanggal.required' => 'Tanggal publikasi wajib diisi.',
             'gambar.image'     => 'Gambar harus berupa file gambar (JPG, PNG).',
             'gambar.max'       => 'Ukuran gambar maksimal 2MB.',
         ]);
 
-        // Masukkan data ke model
+        // Simpan Data
         $berita->judul   = $request->judul;
         $berita->slug    = $request->slug;
         $berita->isi     = $request->isi;
+        $berita->status  = $request->status;
         $berita->tanggal = $request->tanggal;
 
-        // Upload gambar jika disertakan
         if ($request->hasFile('gambar')) {
             if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
                 Storage::disk('public')->delete($berita->gambar);
@@ -103,28 +103,20 @@ class BeritaController extends Controller
             $berita->gambar = $request->file('gambar')->store('berita', 'public');
         }
 
-        // Simpan ke database
         $berita->save();
 
         return redirect()
             ->route('admin.berita.index')
-            ->with(
-                'success',
-                $id
-                    ? 'Data berita berhasil diperbarui.'
-                    : 'Data berita berhasil disimpan.'
-            );
+            ->with('success', $id ? 'Data berita berhasil diperbarui.' : 'Data berita berhasil disimpan.');
     }
 
     /**
-     * Display the specified resource.
+     * Detail Berita Admin (Menggunakan ID Terenkripsi)
      */
     public function show($id)
     {
-        //
         try {
             $berita = Berita::with('user')->findOrFail(Crypt::decrypt($id));
-
         } catch (\Exception $e) {
             return redirect()
                 ->route('admin.berita.index')
@@ -135,14 +127,12 @@ class BeritaController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Hapus Berita Admin
      */
     public function destroy($id)
     {
-        //
         try {
             $berita = Berita::findOrFail(Crypt::decrypt($id));
-
         } catch (\Exception $e) {
             return redirect()
                 ->route('admin.berita.index')
@@ -158,17 +148,38 @@ class BeritaController extends Controller
         return redirect()
             ->route('admin.berita.index')
             ->with('success', 'Data berita berhasil dihapus.');
-
     }
 
-
+    /**
+     * Tampilan Halaman Daftar Berita Publik
+     */
     public function publicBerita()
     {
         $profilSekolah = ProfilSekolah::first();
 
-        // Ambil data sebagai objek Model (pake ::latest()->get() atau ::latest()->paginate(6))
-        $berita = class_exists(Berita::class) ? Berita::latest()->paginate(6) : collect();
+        // MENAMPILKAN HANYA YANG BERSTATUS PUBLIS / PUBLISH
+        $berita = class_exists(Berita::class)
+            ? Berita::whereIn('status', ['publis', 'publish', 'published'])
+                ->latest('tanggal')
+                ->paginate(6)
+            : collect();
 
-        return view('public.berita', compact('profilSekolah', 'berita'));
+        return view('public.berita.berita', compact('profilSekolah', 'berita'));
+    }
+
+    /**
+     * Tampilan Halaman Detail Berita Publik (Menggunakan Slug di URL)
+     */
+    public function publicShow($slug)
+    {
+        $profilSekolah = ProfilSekolah::first();
+
+        // Cari berita berdasarkan slug yang hanya berstatus publis
+        $berita = Berita::with('user')
+            ->whereIn('status', ['publis', 'publish', 'published'])
+            ->where('slug', $slug)
+            ->firstOrFail();
+
+        return view('public.berita.show', compact('profilSekolah', 'berita'));
     }
 }

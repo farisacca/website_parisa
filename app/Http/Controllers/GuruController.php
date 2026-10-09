@@ -144,7 +144,7 @@ class GuruController extends Controller
     public function publicGuru()
     {
         $guru = Guru::all();
-        return view('public.guru', compact('guru'));
+        return view('public.guru.guru', compact('guru'));
     }
-    
+
 }

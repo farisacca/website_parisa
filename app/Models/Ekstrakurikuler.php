@@ -16,6 +16,7 @@ class Ekstrakurikuler extends Model
 
     protected $fillable = [
         'nama_eskul',
+        'slug',
         'id_guru',
         'jadwal_latihan',
         'deskripsi',
@@ -24,6 +25,6 @@ class Ekstrakurikuler extends Model
 
     public function guru() : BelongsTo
     {
-        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');        
+        return $this->belongsTo(Guru::class, 'id_guru', 'id_guru');
     }
 }

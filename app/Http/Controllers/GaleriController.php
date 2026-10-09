@@ -39,65 +39,47 @@ class GaleriController extends Controller
 
     public function save(Request $request, $id = null)
     {
-        // Jika ada ID, berarti sedang mengubah data.
         if ($id) {
             try {
-                $id = Crypt::decrypt($id);
-                $galeri = Galeri::findOrFail($id);
-
+                $galeri = Galeri::findOrFail(Crypt::decrypt($id));
             } catch (\Exception $e) {
-                return redirect()
-                    ->route('admin.galeri.index')
-                    ->with('error', 'Data galeri tidak ditemukan.');
+                return redirect()->route('admin.galeri.index')->with('error', 'Data tidak ditemukan.');
             }
-
         } else {
-            // Jika tidak ada ID, berarti menambah data baru.
             $galeri = new Galeri();
         }
 
-        // Validasi input
         $request->validate([
             'judul'      => 'required|string|max:50',
             'kategori'   => 'required|in:Foto,Video',
             'tanggal'    => 'required|date',
             'keterangan' => 'nullable|string',
-            'file'       => $id ? 'nullable|file|mimes:jpeg,png,jpg,mp4|max:10240' : 'required|file|mimes:jpeg,png,jpg,mp4|max:10240',
-        ], [
-            'judul.required'    => 'Judul dokumentasi wajib diisi.',
-            'judul.max'         => 'Judul maksimal 50 karakter.',
-            'kategori.required' => 'Pilih kategori media (Foto atau Video).',
-            'tanggal.required'  => 'Tanggal dokumentasi wajib diisi.',
-            'file.required'     => 'File foto atau video wajib diunggah.',
-            'file.mimes'        => 'Format file yang didukung: JPG, PNG, atau MP4.',
-            'file.max'          => 'Ukuran file maksimal 10MB.',
         ]);
 
-        // Masukkan data ke model
         $galeri->judul      = $request->judul;
         $galeri->kategori   = $request->kategori;
         $galeri->tanggal    = $request->tanggal;
         $galeri->keterangan = $request->keterangan;
 
-        // Upload file jika disertakan
-        if ($request->hasFile('file')) {
-            if ($galeri->file && Storage::disk('public')->exists($galeri->file)) {
-                Storage::disk('public')->delete($galeri->file);
+        // JIKA KATEGORI FOTO: Upload Gambar ke Storage
+        if ($request->kategori == 'Foto') {
+            if ($request->hasFile('file_upload')) {
+                if ($galeri->file && Storage::disk('public')->exists($galeri->file)) {
+                    Storage::disk('public')->delete($galeri->file);
+                }
+                $galeri->file = $request->file('file_upload')->store('galeri', 'public');
             }
-            $galeri->file = $request->file('file')->store('galeri', 'public');
+        }
+        // JIKA KATEGORI VIDEO: Simpan Link YouTube langsung ke kolom 'file'
+        else if ($request->kategori == 'Video') {
+            if ($request->filled('link_youtube')) {
+                $galeri->file = $request->link_youtube;
+            }
         }
 
-        // Simpan ke database
         $galeri->save();
 
-        return redirect()
-            ->route('admin.galeri.index')
-            ->with(
-                'success',
-                $id
-                    ? 'Dokumentasi galeri berhasil diperbarui.'
-                    : 'Dokumentasi galeri berhasil ditambahkan.'
-            );
+        return redirect()->route('admin.galeri.index')->with('success', 'Data galeri berhasil disimpan.');
     }
 
 
@@ -149,8 +131,16 @@ class GaleriController extends Controller
     public function publicGaleri()
     {
         $profilSekolah = ProfilSekolah::first();
-        $galeri = Galeri::latest()->paginate(12); // Menampilkan 12 foto per halaman
 
-        return view('public.galeri', compact('profilSekolah', 'galeri'));
+        // Ambil data Foto dan Video terpisah
+        $galeriFoto = class_exists(Galeri::class)
+            ? Galeri::where('kategori', 'Foto')->latest('tanggal')->get()
+            : collect();
+
+        $galeriVideo = class_exists(Galeri::class)
+            ? Galeri::where('kategori', 'Video')->latest('tanggal')->get()
+            : collect();
+
+        return view('public.galeri.galeri', compact('profilSekolah', 'galeriFoto', 'galeriVideo'));
     }
 }

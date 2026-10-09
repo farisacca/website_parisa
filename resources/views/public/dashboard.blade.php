@@ -155,19 +155,25 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav gap-lg-2 mt-3 mt-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('public.index') }}">Beranda</a>
+                        <a class="nav-link {{ request()->routeIs('public.index') ? 'active' : '' }}" href="{{ route('public.index') }}">Beranda</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.profil') }}">Profil Sekolah</a>
+                        <a class="nav-link {{ request()->routeIs('public.profil') ? 'active' : '' }}" href="{{ route('public.profil') }}">Profil Sekolah</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a>
+                        <a class="nav-link {{ request()->routeIs('public.ekstrakurikuler') ? 'active' : '' }}" href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.berita') }}">Berita</a>
+                        <a class="nav-link {{ request()->routeIs('public.berita*') ? 'active' : '' }}" href="{{ route('public.berita') }}">Berita</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.guru') }}">Guru</a>
+                        <a class="nav-link {{ request()->routeIs('public.guru*') ? 'active' : '' }}" href="{{ route('public.guru') }}">Guru</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.galeri') ? 'active' : '' }}" href="{{ route('public.galeri') }}">Galeri</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->routeIs('public.prestasi') ? 'active' : '' }}" href="{{ route('public.prestasi') }}">Prestasi</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#kontak">Kontak</a>
@@ -178,7 +184,6 @@
     </nav>
 
     <main>
-
         @yield('content')
     </main>
 

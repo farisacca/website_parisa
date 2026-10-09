@@ -1,183 +1,8 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}</title>
-    @if(isset($profilSekolah) && $profilSekolah->logo)
-    <link rel="icon" type="image/png" href="{{ asset('storage/' . $profilSekolah->logo) }}">
-    @else
-        <link rel="icon" type="image/png" href="{{ asset('assets/images/logo_sekolah.png') }}">
-    @endif
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+@extends('public.dashboard')
 
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #f8fafc;
-            color: #334155;
-        }
+@section('title', 'Direktori Guru & Tendik - SMA Negeri 24 Bandung')
 
-        .navbar-custom {
-            background-color: #ffffff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 14px 0;
-        }
-        .navbar-custom .nav-link {
-            font-weight: 600;
-            font-size: 0.9rem;
-            color: #475569;
-            padding: 8px 12px !important;
-            transition: color 0.2s ease;
-        }
-        .navbar-custom .nav-link:hover,
-        .navbar-custom .nav-link.active {
-            color: #ffb900 !important;
-        }
-
-        .hero-banner {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #ffffff;
-            border-radius: 16px;
-            padding: 48px 36px;
-        }
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08) !important;
-        }
-        .hover-blue:hover {
-            color: #2563eb !important;
-        }
-        .card-teacher {
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
-            background-color: #ffffff;
-        }
-        .card-teacher:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
-        }
-        .footer-simple {
-            background-color: #0f172a;
-            color: #94a3b8;
-            padding: 60px 0 30px;
-            font-size: 0.9rem;
-        }
-        .footer-simple h5, .footer-simple h6 {
-            font-weight: 700;
-            color: #ffffff;
-        }
-        .footer-simple a {
-            color: #cbd5e1;
-            text-decoration: none;
-            transition: color 0.2s ease, padding-left 0.2s ease;
-            display: block;
-            padding: 4px 0;
-        }
-        .footer-simple a:hover {
-            color: #ffffff;
-            padding-left: 4px;
-        }
-        .footer-simple-visi-box {
-            background-color: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 15px;
-            margin-bottom: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .footer-simple-social-icon {
-            width: 36px;
-            height: 36px;
-            background-color: rgba(255, 255, 255, 0.08);
-            color: #cbd5e1;
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.95rem;
-            transition: background-color 0.2s, color 0.2s, transform 0.2s;
-        }
-        .footer-simple-social-icon:hover {
-            background-color: #ffb900;
-            color: #ffffff;
-            transform: translateY(-2px);
-        }
-        .footer-simple-contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 12px;
-            color: #94a3b8;
-        }
-        .footer-simple-contact-item i {
-            margin-top: 3px;
-            font-size: 1rem;
-        }
-        .footer-simple-meta-school {
-            color: #64748b;
-            font-size: 0.8rem;
-            line-height: 1.6;
-        }
-    </style>
-</head>
-
-<body>
-    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="{{ route('public.index') }}">
-                @if(isset($profilSekolah) && $profilSekolah->logo)
-                    <img src="{{ asset('storage/' . $profilSekolah->logo) }}" alt="Logo {{ $profilSekolah->nama_sekolah }}" width="40" height="40" class="rounded-circle object-fit-cover">
-                @else
-                    <img src="{{ asset('storage/profil/logo_sekolah.png') }}" alt="Logo Sekolah" width="40" height="40" class="rounded-circle object-fit-cover" onerror="this.onerror=null; this.src='https://via.placeholder.com/40';">
-                @endif
-                <div>
-                    <div class="fw-bold text-dark lh-1" style="font-size: 1.1rem; letter-spacing: -0.3px;">
-                        {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
-                    </div>
-                    <small class="text-muted d-block" style="font-size: 0.65rem; font-weight: 600; letter-spacing: 0.3px;">
-                        {{ $profilSekolah->motto ?? 'WE CREATE OUR FUTURE' }}
-                    </small>
-                </div>
-            </a>
-
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                <ul class="navbar-nav gap-lg-2 mt-3 mt-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('public.index') }}">Beranda</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.profil') }}">Profil Sekolah</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.ekstrakurikuler') }}">Ekstrakurikuler</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.berita') }}">Berita</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('public.guru') }}">Guru</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#kontak">Kontak</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <main>
+@section('content')
 
         <section class="position-relative overflow-hidden"
                 style="background: url('{{ isset($profilSekolah->gambar_bg) ? asset('storage/' . $profilSekolah->gambar_bg) : asset('assets/images/gedung_sekolah.jpg') }}') center/cover no-repeat; padding: 120px 0 100px; min-height: 550px; display: flex; align-items: center;">
@@ -426,15 +251,105 @@
 
                                 <!-- Link Baca Selengkapnya -->
                                 <div class="p-4 pt-0 text-end">
-                                    <a href="#" class="fw-bold text-dark text-decoration-none small">
-                                        Baca Selengkapnya &rarr;
-                                    </a>
+                                    <a href="{{ route('public.berita.show', $b->slug) }}"
+                                        class="btn btn-link p-0 text-dark fw-bold text-decoration-none small">
+                                            Baca Selengkapnya &rarr;
+                                        </a>
                                 </div>
                             </div>
                         </div>
                     @empty
                         <div class="col-12 text-center py-4 text-muted">
                             <p class="mb-0">Belum ada berita terbaru.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+        </section>
+
+        <!-- Section: Prestasi Siswa & Sekolah -->
+        <section id="prestasi" class="py-5" style="background-color: #ffffff;">
+            <div class="container">
+                <!-- Header Section -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                            KEBANGGAAN SEKOLAH
+                        </span>
+                        <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
+                            Prestasi {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+                        </h3>
+                    </div>
+                    <a href="{{ route('public.prestasi') }}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
+                        Lihat Semua Prestasi &rarr;
+                    </a>
+                </div>
+
+                <!-- Cards Grid Prestasi (1 Baris Isi 4 Card) -->
+                <div class="row g-4">
+                    @forelse(collect($prestasi ?? [])->take(4) as $p)
+                        @php
+                            $imgFile = $p->foto ?? $p->gambar ?? $p->file ?? null;
+                            $imgUrl = $imgFile ? asset('storage/' . $imgFile) : null;
+                        @endphp
+                        <div class="col-12 col-sm-6 col-lg-3">
+                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden">
+                                <div>
+                                    <!-- Foto / Piala / Default Icon -->
+                                    <div class="position-relative w-100 bg-light" style="height: 200px; overflow: hidden;">
+                                        @if($imgUrl)
+                                            <img src="{{ $imgUrl }}"
+                                                class="w-100 h-100 object-fit-cover"
+                                                alt="{{ $p->nama_prestasi }}">
+                                        @else
+                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning fs-1 fw-bold">
+                                                🏆
+                                            </div>
+                                        @endif
+
+                                        <!-- Badge Kategori (AKADEMIK / NON-AKADEMIK) -->
+                                        @if(isset($p->kategori))
+                                            <span class="position-absolute top-0 start-0 m-3 badge rounded-pill text-white px-3 py-2 shadow-sm"
+                                                style="background-color: #1e293b; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px;">
+                                                {{ strtoupper($p->kategori) }}
+                                            </span>
+                                        @endif
+                                    </div>
+
+                                    <!-- Detail Content -->
+                                    <div class="p-3 text-center">
+                                        <!-- Nama Prestasi -->
+                                        <h6 class="fw-bold text-dark mb-1 line-clamp-2" style="font-size: 0.95rem; line-height: 1.35; color: #1e293b;" title="{{ $p->nama_prestasi }}">
+                                            {{ $p->nama_prestasi }}
+                                        </h6>
+
+                                        <!-- Pemenang & Event -->
+                                        <p class="text-muted small mb-1" style="font-size: 0.8rem; color: #64748b !important;">
+                                            👤 <strong>{{ $p->pemenang ?? '-' }}</strong>
+                                        </p>
+                                        @if(isset($p->event))
+                                            <p class="text-muted small mb-0" style="font-size: 0.73rem; color: #94a3b8 !important;">
+                                                📍 {{ $p->event }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <!-- Footer Pill Tingkat & Tahun -->
+                                <div class="px-3 pb-3 text-center mt-auto">
+                                    <div class="d-inline-block rounded-pill border border-warning px-3 py-1.5"
+                                        style="background-color: #fffdf5; border-color: #fde047 !important; max-width: 100%;">
+                                        <span class="fw-semibold d-block text-wrap" style="color: #854d0e; font-size: 0.72rem;">
+                                            Tingkat {{ $p->tingkat ?? 'Sekolah' }} • {{ $p->tahun ?? '2026' }}
+                                        </span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    @empty
+                        <div class="col-12 text-center py-4 text-muted">
+                            <p class="mb-0">Belum ada data prestasi yang ditampilkan.</p>
                         </div>
                     @endforelse
                 </div>
@@ -519,147 +434,116 @@
         </section>
 
         <!-- Section: Galeri Kegiatan -->
-        <section id="galeri" class="py-5" style="background-color: #f8fafc;">
-            <div class="container">
-                <!-- Header Section -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                            DOKUMENTASI
-                        </span>
-                        <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
-                            Galeri Kegiatan {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
-                        </h3>
+<section id="galeri" class="py-5" style="background-color: #f8fafc;">
+    <div class="container">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    DOKUMENTASI
+                </span>
+                <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
+                    Galeri Kegiatan {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+                </h3>
+            </div>
+            <a href="{{ route('public.galeri')}}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
+                Lihat Semua Galeri &rarr;
+            </a>
+        </div>
+
+        <!-- Cards Grid Galeri (1 Baris Isi 4 Card) -->
+        <div class="row g-4">
+            @forelse(collect($galeri ?? [])->take(4) as $index => $item)
+                @php
+                    $kategori = strtolower($item->kategori ?? 'foto');
+                    $rawFile = $item->file ?? $item->foto ?? $item->gambar ?? '';
+                    $judulGaleri = $item->judul ?? $item->nama_kegiatan ?? 'Kegiatan Sekolah';
+                    $itemId = $item->id_galeri ?? $item->id ?? $index;
+
+                    // Regex untuk ekstrak YouTube Video ID jika kandungan bertipe video/berisi pautan youtube
+                    $ytId = null;
+                    if ($kategori === 'video' || str_contains($rawFile, 'youtu')) {
+                        preg_match('/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/', $rawFile, $matches);
+                        $ytId = $matches[1] ?? $rawFile;
+                    }
+
+                    // Tentukan URL thumbnail
+                    $imgUrl = $ytId
+                        ? "https://img.youtube.com/vi/{$ytId}/hqdefault.jpg"
+                        : ($rawFile ? asset('storage/' . $rawFile) : null);
+                @endphp
+
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="card border-0 shadow-sm rounded-4 bg-white h-100 overflow-hidden d-flex flex-column justify-content-between"
+                         style="cursor: pointer; transition: transform 0.2s;"
+                         data-bs-toggle="modal"
+                         data-bs-target="#modalLandingGaleri{{ $itemId }}">
+
+                        <!-- Container Image / Thumbnail -->
+                        <div class="position-relative w-100 bg-secondary" style="height: 220px; overflow: hidden;">
+                            @if($imgUrl)
+                                <img src="{{ $imgUrl }}"
+                                     class="w-100 h-100 object-fit-cover {{ $ytId ? 'opacity-90' : '' }}"
+                                     alt="{{ $judulGaleri }}">
+                            @else
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white-50 fs-5 fw-bold">
+                                    GALERI
+                                </div>
+                            @endif
+
+                            <!-- Overlay ikon Play jika kategori Video -->
+                            @if($ytId)
+                                <div class="position-absolute top-50 start-50 translate-middle">
+                                    <div class="rounded-circle bg-danger text-white d-flex align-items-center justify-content-center shadow" style="width: 45px; height: 45px;">
+                                        <span class="fs-6 ms-1">▶</span>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+
+                        <!-- Judul Galeri -->
+                        <div class="p-3 text-center">
+                            <h6 class="text-dark mb-0 text-truncate" style="font-size: 0.92rem; line-height: 1.35; color: #1e293b;" title="{{ $judulGaleri }}">
+                                {{ $judulGaleri }}
+                            </h6>
+                        </div>
                     </div>
-                    <a href="{{ route('public.galeri')}}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
-                        Lihat Semua Galeri &rarr;
-                    </a>
                 </div>
 
-                <!-- Cards Grid Galeri (1 Baris Isi 4 Card) -->
-                <div class="row g-4">
-                    @forelse(collect($galeri ?? [])->take(4) as $item)
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 overflow-hidden">
-                                <!-- Foto Galeri -->
-                                <div class="position-relative w-100 bg-secondary" style="height: 220px; overflow: hidden;">
-                                    @if(isset($item->file) && $item->file)
-                                        <img src="{{ asset('storage/' . $item->file) }}"
-                                            class="w-100 h-100 object-fit-cover"
-                                            alt="{{ $item->judul ?? 'Galeri' }}">
-                                    @elseif(isset($item->foto) && $item->foto)
-                                        <img src="{{ asset('storage/' . $item->foto) }}"
-                                            class="w-100 h-100 object-fit-cover"
-                                            alt="{{ $item->judul ?? 'Galeri' }}">
-                                    @elseif(isset($item->gambar) && $item->gambar)
-                                        <img src="{{ asset('storage/' . $item->gambar) }}"
-                                            class="w-100 h-100 object-fit-cover"
-                                            alt="{{ $item->judul ?? 'Galeri' }}">
-                                    @else
-                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white-50 fs-4 fw-bold">
-                                            GALERI
-                                        </div>
-                                    @endif
-                                </div>
+                <!-- Modal Preview / Player Video -->
+                <div class="modal fade" id="modalLandingGaleri{{ $itemId }}" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-lg">
+                        <div class="modal-content rounded-4 border-0">
+                            <div class="modal-header border-0 pb-0">
+                                <h6 class="fw-bold mb-0 text-dark">{{ $judulGaleri }}</h6>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-3 text-center">
+                                @if($ytId)
+                                    <!-- Embedded Player YouTube -->
+                                    <div class="ratio ratio-16x9 rounded-3 overflow-hidden shadow-sm">
+                                        <iframe src="https://www.youtube.com/embed/{{ $ytId }}" allowfullscreen></iframe>
+                                    </div>
+                                @elseif($imgUrl)
+                                    <!-- Paparan Foto Penuh -->
+                                    <img src="{{ $imgUrl }}" class="img-fluid rounded-3 mb-2" style="max-height: 75vh;" alt="{{ $judulGaleri }}">
+                                @endif
 
-                                <!-- Judul Galeri Saja -->
-                                <div class="p-3 text-center">
-                                    <h6 class="text-dark mb-0 text-truncate" style="font-size: 0.92rem; line-height: 1.35; color: #1e293b;" title="{{ $item->judul }}">
-                                        {{ $item->judul ?? 'Kegiatan Sekolah' }}
-                                    </h6>
-                                </div>
+                                @if(!empty($item->keterangan) || !empty($item->deskripsi))
+                                    <p class="text-muted small mb-0 mt-3 text-start px-2">
+                                        {{ $item->keterangan ?? $item->deskripsi }}
+                                    </p>
+                                @endif
                             </div>
                         </div>
-                    @empty
-                        <div class="col-12 text-center py-4 text-muted">
-                            <p class="mb-0">Belum ada foto galeri.</p>
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-        </section>
-
-
-    <footer id="kontak" class="footer-simple">
-        <div class="container">
-            <div class="row g-4 mb-5">
-                <div class="col-lg-5">
-                    <div class="d-flex align-items-center gap-3 mb-3">
-                        <img src="{{ asset('storage/profil/logo_sekolah.png') }}" alt="Logo SMA Negeri 24 Bandung" width="50" height="50" class="rounded-circle object-fit-cover" onerror="this.onerror=null; this.src='{{ asset('assets/images/logo-icon.png') }}';">
-                        <div>
-                            <h5 class="mb-0 text-white">SMA Negeri 24 Bandung</h5>
-                        </div>
-                    </div>
-
-                    <div class="footer-simple-visi-box">
-                        <h6 class="fw-bold text-white mb-2" style="font-size: 0.95rem;">Visi Kami</h6>
-                        <p class="small mb-0 text-slate-400">
-                            Menjadi sekolah unggulan yang menghasilkan lulusan berkarakter, berprestasi, berwawasan global, dan berlandaskan ilmu pengetahuan serta ketakwaan.
-                        </p>
-                    </div>
-
-                    <div>
-                        <span class="d-block small fw-bold mb-2 text-white">Ikuti Kami</span>
-                        <div class="d-flex gap-2">
-                            <a href="#" class="footer-simple-social-icon"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="footer-simple-social-icon"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="footer-simple-social-icon"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="footer-simple-social-icon"><i class="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="col-lg-3 ps-lg-5">
-                    <h6 class="text-white fw-bold mb-3" style="letter-spacing: 0.3px;">Menu Utama</h6>
-                    <div class="d-flex flex-column gap-1">
-                        <a href="#">Beranda</a>
-                        <a href="#profil">Tentang Kami</a>
-                        <a href="#informasi">Kegiatan</a>
-                        <a href="#ekstrakurikuler">Ekstrakurikuler</a>
-                        <a href="#galeri">Galeri</a>
-                        <a href="#kontak">Kontak</a>
                     </div>
                 </div>
-
-                <div class="col-lg-4">
-                    <h6 class="text-white fw-bold mb-3" style="letter-spacing: 0.3px;">Kontak Kami</h6>
-
-                    <div class="footer-simple-contact-item">
-                        <i class="fas fa-map-marker-alt text-warning"></i>
-                        <span class="small text-slate-400">Jl. A.H. Nasution No. 27, Ujung Berung,<br>Kota Bandung, Jawa Barat 40611</span>
-                    </div>
-                    <div class="footer-simple-contact-item">
-                        <i class="fas fa-phone-alt text-warning"></i>
-                        <span class="small text-slate-400">(022) 7800195</span>
-                    </div>
-                    <div class="footer-simple-contact-item">
-                        <i class="fas fa-envelope text-warning"></i>
-                        <span class="small text-slate-400">info@sman24bdg.sch.id</span>
-                    </div>
-                    <div class="footer-simple-contact-item">
-                        <i class="fas fa-clock text-warning"></i>
-                        <span class="small text-slate-400">Senin - Jumat: 07:00 - 16:00<br>Sabtu - Minggu: Libur</span>
-                    </div>
-
-                    <hr class="my-3" style="border-color: rgba(255,255,255,0.08);">
-
-                    <div class="footer-simple-meta-school">
-                        <div>NPSN: 20219660</div>
-                        <div>Akreditasi: A</div>
-                        <div>ISO 9001:2015 Certified</div>
-                    </div>
+            @empty
+                <div class="col-12 text-center py-4 text-muted">
+                    <p class="mb-0">Belum ada galeri kegiatan.</p>
                 </div>
-            </div>
-
-            <hr style="border-color: rgba(255,255,255,0.08);">
-            <div class="text-center small text-slate-500 pt-2">
-                &copy; 2026 <strong>SMA Negeri 24 Bandung</strong>. All rights reserved.
-            </div>
+            @endforelse
         </div>
-    </footer>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    </div>
+</section>
+@endsection

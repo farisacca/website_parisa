@@ -7,9 +7,9 @@
 <div class="py-5 text-white" style="background-color: #334155;">
     <div class="container py-3">
         <!-- Judul & Subjudul -->
-        <h1 class="fw-bold mb-2" style="font-size: 2.2rem;">Direktori Guru & Tenaga Kependidikan</h1>
+        <h1 class="fw-bold mb-2" style="font-size: 2.2rem;">Direktori Guru</h1>
         <p class="text-white-50 mb-0" style="max-width: 650px; font-size: 0.95rem;">
-            Daftar profil tenaga pengajar dan staf kependidikan profesional {{ $profilSekolah->nama_sekolah ?? 'SMA NEGERI 24 BANDUNG' }}.
+            Daftar profil tenaga pengajar {{ $profilSekolah->nama_sekolah ?? 'SMA NEGERI 24 BANDUNG' }}.
         </p>
     </div>
 </div>
@@ -26,15 +26,6 @@
                         🎓 Guru & Pendidik
                         <span class="badge rounded-pill bg-light text-dark border ms-1 px-2 py-1" style="font-size: 0.75rem;">
                             {{ count($guru ?? []) }}
-                        </span>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link fw-semibold border-0 bg-transparent text-muted px-2 pb-3"
-                            id="tendik-tab" data-bs-toggle="tab" data-bs-target="#tendik-pane" type="button" role="tab">
-                        📘 Tenaga Kependidikan
-                        <span class="badge rounded-pill bg-warning-subtle text-warning-emphasis border border-warning ms-1 px-2 py-1" style="font-size: 0.75rem;">
-                            0
                         </span>
                     </button>
                 </li>

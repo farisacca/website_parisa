@@ -145,12 +145,12 @@ class EkstrakurikulerController extends Controller
         return redirect()
             ->route('admin.ekstrakurikuler.index')
             ->with('success', 'Data ekstrakurikuler berhasil dihapus.');
-    
+
     }
 
     public function publicEkstrakurikuler()
     {
         $ekstrakurikuler = Ekstrakurikuler::all();
-        return view('public.ekstrakurikuler', compact('ekstrakurikuler'));
+        return view('public.ekstrakurikuler.ekstrakurikuler', compact('ekstrakurikuler'));
     }
 }

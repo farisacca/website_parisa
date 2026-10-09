@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Prestasi;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Http\Request;
+use App\Models\ProfilSekolah;
 
 class PrestasiController extends Controller
 {
@@ -35,10 +36,10 @@ class PrestasiController extends Controller
         return view('admin.prestasi.form', compact('prestasi'));
     }
 
-    
+
     public function save(Request $request, $id = null)
     {
-        
+
         if ($id) {
             try {
                 $id = Crypt::decrypt($id);
@@ -135,6 +136,18 @@ class PrestasiController extends Controller
         return redirect()
             ->route('admin.prestasi.index')
             ->with('success', 'Data prestasi berhasil dihapus.');
-    
+
+    }
+
+    public function publicPrestasi()
+    {
+        $profilSekolah = ProfilSekolah::first();
+
+        // AMBIL DATA OBJEK (Jangan gunakan ::count())
+        $prestasi = class_exists(Prestasi::class)
+            ? Prestasi::latest()->paginate(12)
+            : collect();
+
+        return view('public.prestasi.prestasi', compact('profilSekolah', 'prestasi'));
     }
 }

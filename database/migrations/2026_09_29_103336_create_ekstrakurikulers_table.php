@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('ekstrakurikuler', function (Blueprint $table) {
             $table->id('id_eskul');
             $table->string('nama_eskul', 40);
+            $table->string('slug', 100)->unique();
             $table->foreignId('id_guru')->nullable()->constrained('guru','id_guru')->nullOnDelete();
             // $table->string('pembina', 40);
             $table->string('jadwal_latihan', 40);

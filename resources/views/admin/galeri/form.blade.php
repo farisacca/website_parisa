@@ -27,7 +27,7 @@
                         {{-- JUDUL --}}
                         <div class="form-group row align-items-center mb-3">
                             <label for="judul" class="col-md-3 col-form-label font-weight-semibold">
-                                Judul Kegiatan / Dokumentasi
+                                Judul Dokumentasi <span class="text-danger">*</span>
                             </label>
                             <div class="col-md-9">
                                 <input type="text"
@@ -39,32 +39,27 @@
                                     placeholder="Masukkan judul dokumentasi"
                                     required>
                                 @error('judul')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">Maksimal 50 karakter.</small>
                             </div>
                         </div>
 
                         {{-- KATEGORI --}}
                         <div class="form-group row align-items-center mb-3">
                             <label for="kategori" class="col-md-3 col-form-label font-weight-semibold">
-                                Kategori Media
+                                Kategori Media <span class="text-danger">*</span>
                             </label>
                             <div class="col-md-9">
                                 <select name="kategori"
                                     id="kategori"
                                     class="form-control custom-select @error('kategori') is-invalid @enderror"
+                                    onchange="toggleMediaInput()"
                                     required>
-                                    <option value="">-- Pilih Kategori --</option>
                                     <option value="Foto" {{ old('kategori', $galeri->kategori ?? '') == 'Foto' ? 'selected' : '' }}>Foto</option>
                                     <option value="Video" {{ old('kategori', $galeri->kategori ?? '') == 'Video' ? 'selected' : '' }}>Video</option>
                                 </select>
                                 @error('kategori')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -72,7 +67,7 @@
                         {{-- TANGGAL --}}
                         <div class="form-group row align-items-center mb-3">
                             <label for="tanggal" class="col-md-3 col-form-label font-weight-semibold">
-                                Tanggal Dokumentasi
+                                Tanggal Dokumentasi <span class="text-danger">*</span>
                             </label>
                             <div class="col-md-9">
                                 <input type="date"
@@ -82,47 +77,46 @@
                                     value="{{ old('tanggal', isset($galeri) ? $galeri->tanggal : date('Y-m-d')) }}"
                                     required>
                                 @error('tanggal')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
 
-                        {{-- FILE --}}
-                        <div class="form-group row mb-3">
-                            <label for="file" class="col-md-3 col-form-label font-weight-semibold">
-                                {{ isset($galeri) ? 'Ganti File Dokumentasi' : 'File Dokumentasi' }}
+                        {{-- INPUT FILE / LINK (SATU INPUT UNTUK DUA FUNGSI) --}}
+                        <div class="form-group row mb-3" id="group-file-foto">
+                            <label for="file_foto" class="col-md-3 col-form-label font-weight-semibold">
+                                Upload File Foto <span class="text-danger">*</span>
                             </label>
                             <div class="col-md-9">
-                                @if (isset($galeri) && $galeri->file && file_exists(public_path('storage/' . $galeri->file)))
+                                @if (isset($galeri) && $galeri->kategori == 'Foto' && $galeri->file)
                                     <div class="mb-2">
-                                        @if ($galeri->kategori == 'Video')
-                                            <video controls style="width: 250px; max-height: 150px;" class="rounded border">
-                                                <source src="{{ asset('storage/' . $galeri->file) }}" type="video/mp4">
-                                            </video>
-                                        @else
-                                            <img src="{{ asset('storage/' . $galeri->file) }}" alt="{{ $galeri->judul }}" class="rounded border" style="width: 250px; height: 150px; object-fit: cover;">
-                                        @endif
+                                        <img src="{{ asset('storage/' . $galeri->file) }}" alt="{{ $galeri->judul }}" class="rounded border" style="width: 200px; height: 120px; object-fit: cover;">
                                     </div>
                                 @endif
                                 <input type="file"
-                                    name="file"
-                                    id="file"
+                                    name="file_upload"
+                                    id="file_foto"
                                     class="form-control-file @error('file') is-invalid @enderror"
-                                    accept="image/jpeg,image/png,image/jpg,video/mp4"
-                                    {{ !isset($galeri) ? 'required' : '' }}>
-                                <small class="form-text text-muted">
-                                    Format: JPG, JPEG, PNG, MP4. Maksimal 10MB.
-                                    @if (isset($galeri))
-                                        Biarkan kosong jika file tidak ingin diganti.
-                                    @endif
-                                </small>
+                                    accept="image/*">
+                                <small class="form-text text-muted">Format: JPG, JPEG, PNG. Maksimal 2MB.</small>
                                 @error('file')
-                                    <div class="invalid-feedback d-block">
-                                        {{ $message }}
-                                    </div>
+                                    <div class="invalid-feedback d-block">{{ $message }}</div>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-3" id="group-link-video" style="display: none;">
+                            <label for="link_youtube" class="col-md-3 col-form-label font-weight-semibold">
+                                Link Video YouTube <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-9">
+                                <input type="url"
+                                    name="link_youtube"
+                                    id="link_youtube"
+                                    class="form-control @error('file') is-invalid @enderror"
+                                    placeholder="Masukkan link YouTube (Contoh: https://www.youtube.com/watch?v=xxxx)"
+                                    value="{{ old('link_youtube', (isset($galeri) && $galeri->kategori == 'Video') ? $galeri->file : '') }}">
+                                <small class="form-text text-muted">Salin dan tempel URL video YouTube di sini.</small>
                             </div>
                         </div>
 
@@ -134,9 +128,7 @@
                             <div class="col-md-9">
                                 <textarea name="keterangan" id="keterangan" rows="4" class="form-control @error('keterangan') is-invalid @enderror" placeholder="Masukkan keterangan dokumentasi">{{ old('keterangan', $galeri->keterangan ?? '') }}</textarea>
                                 @error('keterangan')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
+                                    <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
@@ -144,7 +136,7 @@
                     </div>
                 </div>
 
-                {{-- FOOTER / ACTIONS --}}
+                {{-- FOOTER --}}
                 <div class="card-footer bg-light text-right py-3">
                     <a href="{{ route('admin.galeri.index') }}" class="btn btn-secondary mr-2">
                         <i class="fa fa-arrow-left mr-1"></i> Kembali
@@ -159,4 +151,24 @@
         </div>
     </div>
 </div>
+
+<script>
+    function toggleMediaInput() {
+        const kategori = document.getElementById('kategori').value;
+        const groupFoto = document.getElementById('group-file-foto');
+        const groupVideo = document.getElementById('group-link-video');
+
+        if (kategori === 'Video') {
+            groupFoto.style.display = 'none';
+            groupVideo.style.display = 'flex';
+        } else {
+            groupFoto.style.display = 'flex';
+            groupVideo.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleMediaInput();
+    });
+</script>
 @endsection

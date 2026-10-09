@@ -58,13 +58,20 @@ class DashboardController extends Controller
         $totalGuru = class_exists(Guru::class) ? Guru::count() : 83;
         $totalPrestasi = class_exists(Prestasi::class) ? Prestasi::count() : 1;
 
+        $ekstrakurikuler = class_exists(Ekstrakurikuler::class) ? Ekstrakurikuler::take(6)->get() : collect();
+        $guru = class_exists(Guru::class) ? Guru::take(8)->get() : collect();
 
-        $ekstrakurikuler = Ekstrakurikuler::take(6)->get();
+        // FILTER BERITA HANYA YANG PUBLIS
+        $berita = class_exists(Berita::class)
+            ? Berita::whereIn('status', ['publis', 'publish', 'published'])
+                ->latest('tanggal')
+                ->take(3)
+                ->get()
+            : collect();
 
-        $guru = Guru::take(8)->get();
-
-        $berita = class_exists(Berita::class) ? Berita::latest()->take(3)->get() : collect();
         $galeri = class_exists(Galeri::class) ? Galeri::latest()->take(4)->get() : collect();
+        $prestasi = class_exists(Prestasi::class) ? Prestasi::latest()->take(4)->get() : collect();
+
         return view('public.index', compact(
             'profilSekolah',
             'totalSiswa',
@@ -73,7 +80,8 @@ class DashboardController extends Controller
             'ekstrakurikuler',
             'guru',
             'berita',
-            'galeri'
+            'galeri',
+            'prestasi'
         ));
     }
 

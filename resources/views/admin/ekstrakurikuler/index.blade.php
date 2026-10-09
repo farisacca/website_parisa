@@ -37,6 +37,7 @@
                                     <th class="text-center" style="width: 50px;">No</th>
                                     <th class="text-center" style="width: 80px;">Gambar</th>
                                     <th>Nama Ekstrakurikuler</th>
+                                    <th>Slug</th>
                                     <th>Pembina / Pelatih</th>
                                     <th class="text-center">Jadwal</th>
                                     <th class="text-center">Status</th>
@@ -55,14 +56,11 @@
                                     <td class="text-center">
                                         @if ($item->gambar && file_exists(public_path('storage/' . $item->gambar)))
                                             <img src="{{ asset('storage/' . $item->gambar) }}"
-                                                 alt="{{ $item->nama_eskul }}"
-                                                 class="rounded"
-                                                 width="65"
-                                                 height="45"
-                                                 style="object-fit: cover;">
+                                                alt="{{ $item->nama_eskul }}" class="rounded"
+                                                width="65" height="45" style="object-fit: cover;">
                                         @else
                                             <div class="bg-light rounded d-inline-flex align-items-center justify-content-center"
-                                                 style="width:65px; height:45px;">
+                                                style="width:65px; height:45px;">
                                                 <i class="fa fa-image text-muted"></i>
                                             </div>
                                         @endif
@@ -76,6 +74,8 @@
                                             {{ Str::limit(strip_tags($item->deskripsi), 50) }}
                                         </small>
                                     </td>
+
+                                    <td>{{ $item->slug}}</td>
 
                                     {{-- Pembina --}}
                                     <td>

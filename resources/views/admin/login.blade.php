@@ -24,43 +24,78 @@
     <![endif]-->
 
     <style>
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Background Asli Bawaan */
         .auth-wrapper {
             min-height: 100vh;
+            background: url('{{ asset('assets/images/big/auth-bg.jpg') }}') no-repeat center center;
             background-size: cover !important;
+            padding: 1.5rem;
         }
+
+        /* Card Utama Lengkung dan Pas */
         .auth-box {
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border-radius: 20px !important;
+            overflow: hidden !important; /* Kunci agar isi di dalam mengikuti lengkuran card */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            border: none;
+            max-width: 750px;
+            width: 100%;
         }
-        .brand-logo {
-            max-height: 85px;
-            width: auto;
-        }
-        .btn-custom-primary {
-            background-color: #003366;
-            border-color: #003366;
-            color: #ffffff;
-            padding: 10px 20px;
-            transition: all 0.3s ease;
-        }
-        .btn-custom-primary:hover {
-            background-color: #002244;
-            border-color: #002244;
-            color: #ffffff;
-        }
+
+        /* Container Foto Kiri */
         .side-banner-container {
-            background-color: #1a1a1a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
+            background-color: #ffffff;
             padding: 0;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
         }
+
         .side-banner-img {
             width: 100%;
             height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .brand-logo {
+            max-height: 75px;
+            width: auto;
             object-fit: contain;
+        }
+
+        /* Form Input Rapih */
+        .form-control {
+            border-radius: 10px;
+            padding: 0.65rem 0.9rem;
+            border: 1px solid #cbd5e1;
+            font-size: 0.9rem;
+        }
+
+        .form-control:focus {
+            border-color: #334155;
+            box-shadow: 0 0 0 0.2rem rgba(51, 65, 85, 0.15);
+        }
+
+        .btn-custom-primary {
+            background-color: #334155;
+            border-color: #334155;
+            color: #ffffff;
+            padding: 0.7rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-custom-primary:hover {
+            background-color: #1e293b;
+            border-color: #1e293b;
+            color: #ffffff;
         }
     </style>
 </head>
@@ -74,19 +109,19 @@
             </div>
         </div>
 
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative">
+            <div class="auth-box row bg-white m-3 g-0">
 
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center position-relative"
-            style="background: url('{{ asset('assets/images/big/auth-bg.jpg') }}') no-repeat center center;">
-            <div class="auth-box row col-lg-8 col-md-10 bg-white m-3">
-
-                <div class="col-lg-6 col-md-5 d-none d-md-block side-banner-container">
+                <!-- Sisi Kiri: Banner Gambar Pas dengan Card -->
+                <div class="col-md-6 d-none d-md-flex side-banner-container">
                     <img src="{{ asset('assets/images/big/bg-login.jpg') }}"
                         alt="SMA Negeri 24 Bandung"
                         class="side-banner-img">
                 </div>
 
-                <div class="col-lg-6 col-md-7 bg-white">
-                    <div class="p-4 p-md-5">
+                <!-- Sisi Kanan: Form Login -->
+                <div class="col-md-6 bg-white d-flex align-items-center">
+                    <div class="p-4 p-lg-5 w-100">
 
                         <div class="text-center mb-4">
                             @if(isset($profilSekolah) && $profilSekolah->logo)
@@ -95,12 +130,12 @@
                                 <img src="{{ asset('assets/images/big/icon.png') }}" alt="SMA Negeri 24 Bandung" class="brand-logo mb-2">
                             @endif
 
-                            <h3 class="text-dark mt-2 mb-1">SMA Negeri 24 Bandung</h3>
-                            <p class="text-dark small">Masuk Administrator & Operator</p>
+                            <h4 class="text-dark fw-bold mb-1">SMA Negeri 24 Bandung</h4>
+                            <p class="text-muted small mb-0">Masuk Administrator & Operator</p>
                         </div>
 
                         @if(session('success'))
-                            <div class="alert alert-success alert-dismissible fade show small" role="alert">
+                            <div class="alert alert-success alert-dismissible fade show small rounded-3" role="alert">
                                 {{ session('success') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -109,7 +144,7 @@
                         @endif
 
                         @if(session('error'))
-                            <div class="alert alert-danger alert-dismissible fade show small" role="alert">
+                            <div class="alert alert-danger alert-dismissible fade show small rounded-3" role="alert">
                                 {{ session('error') }}
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
@@ -117,12 +152,12 @@
                             </div>
                         @endif
 
-                        {{-- Form --}}
+                        {{-- Form Login --}}
                         <form class="mt-3" action="{{ route('proses.login') }}" method="POST">
                             @csrf
 
                             <div class="form-group mb-3">
-                                <label class="text-dark" for="email">Email</label>
+                                <label class="text-dark fw-semibold small" for="email">Email</label>
                                 <input class="form-control @error('email') is-invalid @enderror"
                                     id="email"
                                     type="email"
@@ -133,14 +168,14 @@
                                     autofocus>
 
                                 @error('email')
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback small">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
 
                             <div class="form-group mb-4">
-                                <label class="text-dark" for="password">Password</label>
+                                <label class="text-dark fw-semibold small" for="password">Password</label>
                                 <input class="form-control @error('password') is-invalid @enderror"
                                     id="password"
                                     type="password"
@@ -149,18 +184,18 @@
                                     required>
 
                                 @error('password')
-                                    <div class="invalid-feedback">
+                                    <div class="invalid-feedback small">
                                         {{ $message }}
                                     </div>
                                 @enderror
                             </div>
 
-                            <button type="submit" class="btn btn-block btn-custom-primary shadow-sm">
+                            <button type="submit" class="btn btn-block btn-custom-primary w-100 shadow-sm">
                                 Masuk
                             </button>
 
                             <div class="text-center mt-4">
-                                <a href="{{ route('public.index') }}" class="text-secondary small">
+                                <a href="{{ route('public.index') }}" class="text-secondary small text-decoration-none">
                                     &larr; Kembali ke Beranda Utama
                                 </a>
                             </div>
@@ -172,7 +207,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/libs/popper.js/dist/umd/popper.min.js') }}"></script>
