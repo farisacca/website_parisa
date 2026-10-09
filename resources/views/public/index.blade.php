@@ -28,37 +28,46 @@
         </section>
 
         <div class="container position-relative mb-5" style="margin-top: -50px; z-index: 10;">
-            <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background-color: #1a2332;">
-                <div class="card-body p-4">
-                    <div class="row text-center text-white g-3 align-items-center">
-                        <div class="col-6 col-md-3 border-end border-secondary border-opacity-25">
-                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
-                                {{ number_format($totalSiswa ?? 1364, 0, ',', '.') }}
-                            </h2>
-                            <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">PESERTA DIDIK</p>
-                        </div>
-                        <div class="col-6 col-md-3 border-end-md border-secondary border-opacity-25">
-                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
-                                {{ $totalGuru ?? 83 }}+
-                            </h2>
-                            <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">GURU & TENDIK</p>
-                        </div>
-                        <div class="col-6 col-md-3 border-end border-secondary border-opacity-25">
-                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
-                                {{ $profilSekolah->akreditasi ?? 'A (Unggul)' }}
-                            </h2>
-                            <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">AKREDITASI BAN-S/M</p>
-                        </div>
-                        <div class="col-6 col-md-3">
-                            <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
-                                {{ $totalPrestasi ?? 1 }}+
-                            </h2>
-                            <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">PRESTASI TERDAFTAR</p>
-                        </div>
-                    </div>
+    <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background-color: #1a2332;">
+        <div class="card-body p-4">
+            <div class="row text-center text-white g-3 align-items-center">
+                
+                <!-- Peserta Didik -->
+                <div class="col-6 col-md-3 border-end border-secondary border-opacity-25">
+                    <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
+                        {{ number_format($totalSiswa ?? 1364, 0, ',', '.') }}
+                    </h2>
+                    <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">PESERTA DIDIK</p>
                 </div>
+
+                <!-- Guru & Tendik -->
+                <div class="col-6 col-md-3 border-end-md border-secondary border-opacity-25">
+                    <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
+                        {{ $totalGuru ?? 83 }}
+                    </h2>
+                    <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">GURU & TENDIK</p>
+                </div>
+
+                <!-- Total Ekstrakurikuler (Ganti dari Akreditasi) -->
+                <div class="col-6 col-md-3 border-end border-secondary border-opacity-25">
+                    <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
+                        {{ $totalEskul ?? $totalEkstrakurikuler ?? \App\Models\Ekstrakurikuler::count() }}
+                    </h2>
+                    <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">EKSTRAKURIKULER</p>
+                </div>
+
+                <!-- Prestasi Terdaptar -->
+                <div class="col-6 col-md-3">
+                    <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
+                        {{ $totalPrestasi ?? 1 }}
+                    </h2>
+                    <p class="text-uppercase text-light opacity-75 small mb-0 fw-semibold" style="letter-spacing: 0.8px; font-size: 0.72rem;">PRESTASI TERDAFTAR</p>
+                </div>
+
             </div>
         </div>
+    </div>
+</div>
 
         <div class="text-center py-5">
             <span class="badge rounded-pill border border-primary-subtle text-primary bg-light px-3 py-2 fw-semibold text-uppercase mb-3" style="letter-spacing: 0.5px; font-size: 0.75rem;">
@@ -72,124 +81,190 @@
             </p>
         </div>
 
-        <section id="sambutan" class="py-4">
-            <div class="container">
-                <div class="card border-0 shadow-lg rounded-4 text-white p-4 p-md-5" style="background-color: #1e293b;">
-                    <div class="row align-items-center g-4">
-                        <div class="col-md-4 text-center">
-                            @if(isset($profilSekolah->foto_kepala_sekolah))
-                                <img src="{{ asset('storage/' . $profilSekolah->foto_kepala_sekolah) }}" alt="{{ $profilSekolah->nama_kepala_sekolah }}" class="img-fluid rounded-4 border border-2 border-warning shadow" style="max-height: 380px; width: 100%; object-fit: cover;">
-                            @else
-                                <img src="{{ asset('storage/profil/kepala_sekolah.jpg') }}" alt="Kepala Sekolah" class="img-fluid rounded-4 border border-2 border-warning shadow" style="max-height: 380px; width: 100%; object-fit: cover;" onerror="this.onerror=null; this.src='https://via.placeholder.com/300x380?text=Kepala+Sekolah';">
-                            @endif
+        <section id="sambutan" class="py-5 bg-white">
+    <div class="container">
+        <div class="row align-items-center g-5">
+            
+            <!-- Kolom Kiri: Foto Kepala Sekolah dengan Name Tag 2 Baris -->
+            <div class="col-lg-5 col-md-5">
+                <div class="position-relative mx-auto" style="max-width: 380px;">
+                    <!-- Foto Kepala Sekolah -->
+                    @if(isset($profilSekolah->foto_kepala_sekolah) && $profilSekolah->foto_kepala_sekolah)
+                        <img src="{{ asset('storage/' . $profilSekolah->foto_kepala_sekolah) }}" 
+                             alt="{{ $profilSekolah->nama_kepala_sekolah ?? 'Kepala Sekolah' }}" 
+                             class="img-fluid rounded-4 shadow w-100 object-fit-cover" 
+                             style="height: 400px;">
+                    @else
+                        <img src="{{ asset('storage/profil/kepala_sekolah.jpg') }}" 
+                             alt="Lia Aprilina, S.Pd, M.Pd" 
+                             class="img-fluid rounded-4 shadow w-100 object-fit-cover" 
+                             style="height: 400px;" 
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/380x400?text=Kepala+Sekolah';">
+                    @endif
+
+                    <!-- Badge Nama & Jabatan (2 Baris Rapi) -->
+                    <div class="position-absolute bottom-0 start-50 translate-middle-x w-90 mb-3 text-center">
+                        <div class="bg-primary text-white py-2 px-3 rounded-3 shadow" style="background-color: #0f172a !important;">
+                            <h6 class="fw-bold mb-0 text-white text-nowrap" style="font-size: 0.95rem;">
+                                {{ $profilSekolah->nama_kepala_sekolah ?? 'Lia Aprilina, S.Pd, M.Pd' }}
+                            </h6>
+                            <small class="text-warning fw-semibold text-nowrap d-block" style="font-size: 0.8rem;">
+                                Kepala {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+                            </small>
                         </div>
-                        <div class="col-md-8">
-                            <span class="text-warning fw-bold text-uppercase small" style="letter-spacing: 0.5px;">SAMBUTAN PIMPINAN</span>
-                            <h2 class="fw-bold text-white mb-1">{{ $profilSekolah->nama_kepala_sekolah ?? 'Lia Aprilina, S.Pd, M.Pd' }}</h2>
-                            <p class="text-white-50 mb-3">Kepala {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}</p>
-                            <div class="p-4 rounded-4 mb-4" style="background-color: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.15);">
-                                <p class="mb-0 text-light fst-italic lh-lg" style="font-size: 1rem;">
-                                    "{{ $profilSekolah->sambutan_kepala_sekolah ?? 'Pertama-tama, marilah kita panjatkan puji syukur ke hadirat Allah SWT, Tuhan Yang Maha Esa, karena atas rahmat dan karunia-Nya kita dapat berkumpul pada kesempatan yang baik ini...' }}"
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Teks Sambutan Ringkas -->
+            <div class="col-lg-7 col-md-7">
+                <!-- Tag Headline Kuning -->
+                <span class="badge bg-warning bg-opacity-25 text-warning-emphasis px-3 py-2 fw-bold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem; color: #b45309 !important; background-color: #fef3c7 !important;">
+                    SAMBUTAN PIMPINAN
+                </span>
+
+                <!-- Judul Utama -->
+                <h2 class="fw-bold text-dark mb-3" style="color: #0f172a !important; font-size: 2rem;">
+                    Sambutan Kepala Sekolah
+                </h2>
+
+                <!-- Teks Salam -->
+                <p class="fst-italic text-muted fw-semibold mb-3" style="font-size: 0.95rem;">
+                    "Assalamu'alaikum Warahmatullahi Wabarakatuh, Salam Sejahtera bagi Kita Semua."
+                </p>
+
+               
+                <p class="text-secondary mb-3" style="line-height: 1.8; font-size: 0.95rem;">
+                    Selamat datang di website resmi <strong>{{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}</strong>. Sebagai lembaga pendidikan menengah unggulan, kami berkomitmen mencetak lulusan yang tidak hanya unggul secara akademis, tetapi juga memiliki integritas moral serta karakter yang kuat.
+                </p>
+
+            
+                <p class="text-secondary mb-4" style="line-height: 1.8; font-size: 0.95rem;">
+                    Melalui kurikulum berbasis kompetensi yang diselaraskan dengan perkembangan zaman, didukung tenaga pendidik profesional dan sarana prasarana modern, kami optimis mampu membawa putra-putri Anda meraih cita-cita dan sukses di masa depan.
+                </p>
+
+                <!-- Tombol Action (Tanpa Motto) -->
+                <div>
+                    <a href="{{ route('public.profil') }}" class="btn btn-primary fw-bold px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2" style="background-color: #0f172a !important; border-color: #0f172a !important;">
+                        Profil Lengkap <span>&rarr;</span>
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Section Visi & Misi di Beranda (Judul Tengah + Teks Lebih Pas + Tombol Hitam Tengah) -->
+<section id="visi-misi" class="py-5 bg-white">
+    <div class="container">
+        
+        <!-- Header Section Visi & Misi (Rata Tengah & Lebih Besar) -->
+        <div class="text-center mb-4">
+            <span class="text-warning fw-bold text-uppercase small tracking-wider mb-2 d-block" style="letter-spacing: 1px; font-size: 0.8rem; color: #b45309 !important;">
+                PEDOMAN SEKOLAH
+            </span>
+            <h2 class="fw-bold text-dark mb-0" style="color: #0f172a !important; font-size: 2.25rem;">
+                Visi & Misi
+            </h2>
+        </div>
+
+        <!-- Teks Visi & Misi (Lebih Panjang & Pas) -->
+        <div class="row justify-content-center mb-4">
+            <div class="col-lg-10 text-center">
+                <p class="text-secondary lh-lg mb-0" style="font-size: 1rem; color: #475569;">
+                    {{ Str::limit(strip_tags($profilSekolah->visi_misi ?? 'VISI: Terwujudnya lulusan unggul, berkarakter yang dilandasi ketaatan beragama, berbudaya, berbasis lingkungan dan berperilaku hidup bersih, sehat, sehingga mampu hidup selaras dengan tuntutan era global. MISI: 1. Mengembangkan pembelajaran yang aktif, inovatif, dan berbasis teknologi. 2. Meningkatkan kompetensi akademik dan non-akademik peserta didik secara berkelanjutan.'), 450) }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Tombol Hitam 'Baca Selengkapnya' (Rata Tengah) -->
+        <div class="text-center">
+            <a href="{{ route('public.profil') }}" class="btn btn-dark fw-bold px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2" style="background-color: #0f172a !important; border-color: #0f172a !important; font-size: 0.95rem;">
+                Baca Selengkapnya <span>&rarr;</span>
+            </a>
+        </div>
+
+    </div>
+</section>
+
+       <!-- Section: Ekstrakurikuler (Ringkas untuk Beranda) -->
+<section id="ekstrakurikuler" class="py-5" style="background-color: #f8fafc;">
+    <div class="container">
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                    KEGIATAN SISWA
+                </span>
+                <h3 class="fw-bold text-dark mb-0" style="color: #0f172a !important;">
+                    Ekstrakurikuler {{ $profilSekolah->nama_sekolah ?? 'SMAN 24 Bandung' }}
+                </h3>
+            </div>
+            <a href="{{ route('public.ekstrakurikuler') }}" class="btn btn-outline-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3" style="border-color: #0f172a; color: #0f172a;">
+                Lihat Semua Eskul &rarr;
+            </a>
+        </div>
+
+        <!-- Cards Grid Eskul (Dibatasi Maksimal 3 dengan ->take(3)) -->
+        <div class="row g-4">
+            @forelse(collect($ekstrakurikuler)->take(3) as $eskul)
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden">
+                        <div>
+                            <!-- Foto Full Atas -->
+                            <div class="position-relative w-100 bg-light" style="height: 200px; overflow: hidden;">
+                                @if(isset($eskul->gambar) && $eskul->gambar)
+                                    <img src="{{ asset('storage/' . $eskul->gambar) }}"
+                                         class="w-100 h-100 object-fit-cover"
+                                         alt="{{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler }}">
+                                @elseif(isset($eskul->foto) && $eskul->foto)
+                                    <img src="{{ asset('storage/' . $eskul->foto) }}"
+                                         class="w-100 h-100 object-fit-cover"
+                                         alt="{{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler }}">
+                                @else
+                                    <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 text-muted fs-5 fw-bold text-center p-3">
+                                        {{ Str::limit($eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler ?? 'ESKUL', 20) }}
+                                    </div>
+                                @endif
+                            </div>
+
+                            <!-- Detail Content: Judul & Deskripsi Singkat Saja -->
+                            <div class="p-4 pb-2">
+                                <!-- Nama Eskul -->
+                                <h5 class="fw-bold text-dark mb-2" style="color: #0f172a; font-size: 1.15rem; line-height: 1.4;">
+                                    <a href="{{ route('public.ekstrakurikuler.show', $eskul->slug ?? $eskul->id) }}" class="text-decoration-none text-dark hover-primary">
+                                        {{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler ?? $eskul->nama }}
+                                    </a>
+                                </h5>
+
+                                <!-- Deskripsi Singkat -->
+                                <p class="text-muted small mb-0" style="line-height: 1.6; font-size: 0.85rem;">
+                                    {{ Str::limit(strip_tags($eskul->deskripsi ?? ''), 110) }}
                                 </p>
                             </div>
-                            <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
-                                <div class="d-flex align-items-center text-warning fw-bold">
-                                    {{ $profilSekolah->nama_sekolah ?? 'SMAN 24 Bandung' }}
-                                </div>
-                                <a href="{{ route('public.profil') }}" class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill d-inline-flex align-items-center justify-content-center shadow-sm">
-                                    Baca Selengkapnya <span class="ms-2">&rarr;</span>
+                        </div>
+
+                        <!-- Footer Card: Tombol Baca Selengkapnya Warna Hitam -->
+                        <div class="p-4 pt-0">
+                            <hr class="my-3" style="border-color: #f1f5f9; opacity: 1;">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{{ route('public.ekstrakurikuler.show', $eskul->slug ?? $eskul->id) }}" class="fw-bold text-dark text-decoration-none small d-inline-flex align-items-center gap-1" style="color: #0f172a !important;">
+                                    Baca Selengkapnya <span>&rarr;</span>
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </section>
-
-        <!-- Section: Ekstrakurikuler -->
-        <section id="ekstrakurikuler" class="py-5" style="background-color: #f8fafc;">
-            <div class="container">
-                <!-- Header Section -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                            KEGIATAN SISWA
-                        </span>
-                        <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
-                            Ekstrakurikuler {{ $profilSekolah->nama_sekolah ?? 'SMAN 24 Bandung' }}
-                        </h3>
-                    </div>
-                    <a href="{{ route('public.ekstrakurikuler')}}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
-                        Lihat Semua Eskul &rarr;
-                    </a>
+            @empty
+                <div class="col-12 text-center py-4 text-muted">
+                    <p class="mb-0">Belum ada data ekstrakurikuler.</p>
                 </div>
-
-                <!-- Cards Grid Eskul -->
-                <div class="row g-4">
-                    @forelse($ekstrakurikuler as $eskul)
-                        <div class="col-md-4">
-                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden">
-                                <div>
-                                    <!-- Foto Full Atas (Style Berita) -->
-                                    <div class="position-relative w-100 bg-light" style="height: 200px; overflow: hidden;">
-                                        @if($eskul->gambar)
-                                            <img src="{{ asset('storage/' . $eskul->gambar) }}"
-                                                class="w-100 h-100 object-fit-cover"
-                                                alt="{{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler }}">
-                                        @else
-                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 text-muted fs-5 fw-bold text-center p-3">
-                                                {{ Str::limit($eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler ?? 'ESKUL', 20) }}
-                                            </div>
-                                        @endif
-                                    </div>
-
-                                    <!-- Detail Content -->
-                                    <div class="p-4 pb-2">
-                                        <!-- Nama Eskul -->
-                                        <h5 class="fw-bold text-dark mb-2" style="color: #1e293b; font-size: 1.15rem; line-height: 1.4;">
-                                            {{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler ?? $eskul->nama }}
-                                        </h5>
-
-                                        <!-- Jadwal Latihan -->
-                                        @php
-                                            $jadwal = $eskul->jadwal_latihan ?? $eskul->jadwal;
-                                        @endphp
-                                        @if($jadwal)
-                                            <div class="d-flex align-items-center text-muted small mb-2" style="font-size: 0.85rem; font-weight: 500;">
-                                                <i class="far fa-clock me-2"></i>
-                                                <span>{{ $jadwal }}</span>
-                                            </div>
-                                        @endif
-
-                                        <!-- Deskripsi Singkat -->
-                                        <p class="text-muted small mb-0" style="line-height: 1.6; font-size: 0.85rem;">
-                                            {{ Str::limit(strip_tags($eskul->deskripsi ?? ''), 110) }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Footer Card (Garis Pemisah, Pembina & Status) -->
-                                <div class="p-4 pt-0">
-                                    <hr class="my-3" style="border-color: #f1f5f9; opacity: 1;">
-                                    <div class="d-flex justify-content-between align-items-center" style="font-size: 0.85rem;">
-                                        <div class="text-muted">
-                                            Pembina: <strong class="text-dark">{{ $eskul->guru->nama_guru ?? $eskul->pembina ?? '-' }}</strong>
-                                        </div>
-                                        <span class="badge bg-light text-secondary border px-2.5 py-1 rounded" style="font-size: 0.72rem; font-weight: 600;">
-                                            {{ $eskul->status ?? 'Aktif' }}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center py-4 text-muted">
-                            <p class="mb-0">Belum ada data ekstrakurikuler.</p>
-                        </div>
-                    @endforelse
-                </div>
-            </div>
-        </section>
+            @endforelse
+        </div>
+    </div>
+</section>
 
         <!-- Section: Berita Terbaru -->
         <section id="berita" class="py-5" style="background-color: #f8fafc;">

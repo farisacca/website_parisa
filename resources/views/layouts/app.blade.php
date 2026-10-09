@@ -82,13 +82,11 @@
                     <ul class="navbar-nav float-right">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('assets/images/users/profile-pic.jpg') }}" alt="user" class="rounded-circle" width="40">
+                                <img src="{{ asset('assets/images/users/user.png') }}" alt="user" class="rounded-circle" width="40">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span class="text-dark">{{ Auth::user()->name ?? 'Administrator' }}</span> <i data-feather="chevron-down" class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="{{ route('admin.dashboard')}}"><i data-feather="home" class="svg-icon mr-2 ml-1"></i> Dashboard</a>
                                 <a class="dropdown-item" href="{{ route('admin.profile')}}"><i data-feather="user" class="svg-icon mr-2 ml-1"></i> My Profile</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power" class="svg-icon mr-2 ml-1"></i> Logout</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings" class="svg-icon mr-2 ml-1"></i> Account Setting</a>
                             </div>
@@ -112,7 +110,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a href="{{ route('admin.profil-sekolah') }}"
+                            <a href="{{ route('admin.profil-sekolah.index') }}"
                                 class="sidebar-link {{ request()->routeIs('admin.profil-sekolah*') || request()->routeIs('admin.profil*') ? 'active' : '' }}">
                                 <i data-feather="briefcase" class="feather-icon"></i>
                                 <span class="hide-menu">Profil Sekolah</span>
@@ -183,7 +181,7 @@
                         @endif
 
                         <li class="sidebar-item">
-                            <a href="#" class="sidebar-link">
+                            <a href="{{ route('logout')}}" class="sidebar-link">
                                 <i data-feather="log-out" class="feather-icon"></i>
                                 <span class="hide-menu">Logout</span>
                             </a>

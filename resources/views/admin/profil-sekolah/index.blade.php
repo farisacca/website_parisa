@@ -3,280 +3,119 @@
 @section('title', 'Profil Sekolah')
 
 @section('content')
-
 <div class="container-fluid">
 
-    {{-- Alert sukses --}}
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
+    {{-- Tombol Edit Profil di Atas --}}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="text-dark font-weight-bold mb-0">Profil Sekolah</h3>
+            <p class="text-muted small mb-0">Informasi detail profil dan identitas SMA Negeri 24 Bandung</p>
         </div>
-    @endif
+        <a href="{{ route('admin.profil-sekolah.edit') }}" class="btn btn-primary px-4 shadow-sm">
+            <i class="fa fa-edit mr-2"></i> Edit Profil Sekolah
+        </a>
+    </div>
 
     <div class="row">
-
-        {{-- Identitas Sekolah --}}
-        <div class="col-lg-4">
-
-            <div class="card">
-
-                <div class="card-header bg-primary">
-                    <h4 class="card-title text-white mb-0">
-                        <i class="fa fa-info-circle mr-2"></i>
-                        Identitas Sekolah
-                    </h4>
+        
+        {{-- Card 1: Identitas Ringkas (Kiri) --}}
+        <div class="col-lg-5 mb-4">
+            <div class="card shadow-sm border-0 rounded-3 h-100">
+                <div class="card-header bg-primary text-white py-3">
+                    <h5 class="card-title text-white mb-0 font-weight-bold">
+                        <i class="fa fa-info-circle mr-2"></i> Identitas Sekolah
+                    </h5>
                 </div>
 
-                <div class="card-body text-center">
-
+                <div class="card-body text-center p-4">
                     {{-- Logo --}}
                     @if ($profilSekolah && $profilSekolah->logo)
                         <img src="{{ asset('storage/' . $profilSekolah->logo) }}"
-                             width="140"
-                             height="140"
-                             class="mb-3"
-                             style="object-fit: contain;">
+                             width="130" height="130" class="mb-3 img-fluid" style="object-fit: contain;">
                     @else
-                        <div class="bg-light p-5 mb-3">
-                            <i class="fa fa-university fa-4x text-primary"></i>
+                        <div class="bg-light p-4 rounded-circle mb-3 d-inline-block">
+                            <i class="fa fa-university fa-3x text-primary"></i>
                         </div>
                     @endif
 
-                    <h3 class="text-muted">
+                    <h4 class="font-weight-bold text-dark mb-1">
                         {{ $profilSekolah->nama_sekolah ?? '-' }}
-                    </h3>
-
-                    <p class="text-muted">
-                        <i class="fa fa-user mr-1"></i>
-                        {{ $profilSekolah->kepala_sekolah ?? '-' }}
+                    </h4>
+                    <p class="text-muted mb-3">
+                        <i class="fa fa-user mr-1 text-secondary"></i> {{ $profilSekolah->kepala_sekolah ?? '-' }}
                     </p>
 
-                    <hr>
+                    <hr class="my-3">
 
-                    <p class="text-muted text-left">
-                        <i class="fa fa-hashtag mr-2"></i>
-                        NPSN
-                        <strong class="float-right">
-                            {{ $profilSekolah->npsn ?? '-' }}
-                        </strong>
-                    </p>
+                    <div class="text-left">
+                        <p class="text-muted mb-2 d-flex justify-content-between align-items-center">
+                            <span><i class="fa fa-hashtag mr-2 text-primary"></i> NPSN</span>
+                            <strong class="text-dark">{{ $profilSekolah->npsn ?? '-' }}</strong>
+                        </p>
+                        <p class="text-muted mb-2 d-flex justify-content-between align-items-center">
+                            <span><i class="fa fa-calendar mr-2 text-primary"></i> Tahun Berdiri</span>
+                            <strong class="text-dark">{{ $profilSekolah->tahun_berdiri ?? '-' }}</strong>
+                        </p>
+                        <p class="text-muted mb-3 d-flex justify-content-between align-items-center">
+                            <span><i class="fa fa-phone mr-2 text-primary"></i> Kontak</span>
+                            <strong class="text-dark">{{ $profilSekolah->kontak ?? '-' }}</strong>
+                        </p>
 
-                    <p class="text-muted text-left">
-                        <i class="fa fa-calendar mr-2"></i>
-                        Tahun Berdiri
-                        <strong class="float-right">
-                            {{ $profilSekolah->tahun_berdiri ?? '-' }}
-                        </strong>
-                    </p>
+                        <hr class="my-3">
 
-                    <p class="text-muted text-left">
-                        <i class="fa fa-phone mr-2"></i>
-                        Kontak
-                        <strong class="float-right">
-                            {{ $profilSekolah->kontak ?? '-' }}
-                        </strong>
-                    </p>
-
-                    <hr>
-
-                    <p class="text-muted text-left mb-0">
-                        <i class="fa fa-map-marker mr-2"></i>
-                        {{ $profilSekolah->alamat ?? '-' }}
-                    </p>
-
+                        <p class="text-muted mb-0">
+                            <i class="fa fa-map-marker-alt mr-2 text-primary"></i> <strong>Alamat:</strong>
+                            <span class="d-block mt-1 text-dark">{{ $profilSekolah->alamat ?? '-' }}</span>
+                        </p>
+                    </div>
                 </div>
-
             </div>
-
         </div>
 
+        {{-- Sisi Kanan: Visi Misi & Deskripsi --}}
+        <div class="col-lg-7 mb-4">
+            
+            {{-- Card 2: Foto Gedung (Jika Ada) --}}
+            @if($profilSekolah && $profilSekolah->foto)
+            <div class="card shadow-sm border-0 rounded-3 mb-4 overflow-hidden">
+                <img src="{{ asset('storage/' . $profilSekolah->foto) }}" class="w-100 object-fit-cover" style="max-height: 220px;" alt="Gedung Sekolah">
+            </div>
+            @endif
 
-        {{-- Form Profil Sekolah --}}
-        <div class="col-lg-8">
-
-            <div class="card">
-
-                <div class="card-header bg-primary">
-                    <h4 class="card-title text-white mb-0">
-                        <i class="fa fa-edit mr-2"></i>
-                        Form Pengaturan Profil Sekolah
-                    </h4>
+            {{-- Card 3: Visi & Misi --}}
+            <div class="card shadow-sm border-0 rounded-3 mb-4">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="card-title text-dark mb-0 font-weight-bold">
+                        <i class="fa fa-bullseye mr-2 text-primary"></i> Visi & Misi Sekolah
+                    </h5>
                 </div>
-
-                <form action="{{ route('admin.profil-sekolah.save') }}"
-                      method="POST"
-                      enctype="multipart/form-data">
-
-                    @csrf
-
-                    <div class="card-body">
-
-                        {{-- Nama Sekolah --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                Nama Sekolah <span class="text-danger">*</span>
-                            </label>
-
-                            <div class="col-md-9">
-                                <input type="text"
-                                       name="nama_sekolah"
-                                       class="form-control"
-                                       value="{{ old('nama_sekolah', $profilSekolah->nama_sekolah ?? '') }}">
-                            </div>
+                <div class="card-body p-4">
+                    @if($profilSekolah && $profilSekolah->visi_misi)
+                        <div class="text-dark" style="white-space: pre-line; line-height: 1.7;">
+                            {!! e($profilSekolah->visi_misi) !!}
                         </div>
+                    @else
+                        <p class="text-muted italic mb-0">Belum ada data Visi & Misi.</p>
+                    @endif
+                </div>
+            </div>
 
-
-                        {{-- Kepala Sekolah --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                Kepala Sekolah <span class="text-danger">*</span>
-                            </label>
-
-                            <div class="col-md-9">
-                                <input type="text"
-                                       name="kepala_sekolah"
-                                       class="form-control"
-                                       value="{{ old('kepala_sekolah', $profilSekolah->kepala_sekolah ?? '') }}">
-                            </div>
-                        </div>
-
-
-                        {{-- NPSN --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                NPSN <span class="text-danger">*</span>
-                            </label>
-
-                            <div class="col-md-9">
-                                <input type="text"
-                                       name="npsn"
-                                       class="form-control"
-                                       value="{{ old('npsn', $profilSekolah->npsn ?? '') }}">
-                            </div>
-                        </div>
-
-
-                        {{-- Tahun Berdiri --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                Tahun Berdiri <span class="text-danger">*</span>
-                            </label>
-
-                            <div class="col-md-9">
-                                <input type="text"
-                                       name="tahun_berdiri"
-                                       class="form-control"
-                                       value="{{ old('tahun_berdiri', $profilSekolah->tahun_berdiri ?? '') }}">
-                            </div>
-                        </div>
-
-
-                        {{-- Kontak --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                No. Kontak / Telepon <span class="text-danger">*</span>
-                            </label>
-
-                            <div class="col-md-9">
-                                <input type="text"
-                                       name="kontak"
-                                       class="form-control"
-                                       value="{{ old('kontak', $profilSekolah->kontak ?? '') }}">
-                            </div>
-                        </div>
-
-
-                        {{-- Alamat --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                Alamat <span class="text-danger">*</span>
-                            </label>
-
-                            <div class="col-md-9">
-                                <textarea name="alamat"
-                                          class="form-control"
-                                          rows="3">{{ old('alamat', $profilSekolah->alamat ?? '') }}</textarea>
-                            </div>
-                        </div>
-
-
-                        {{-- Visi Misi --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                Visi & Misi <span class="text-danger">*</span>
-                            </label>
-
-                            <div class="col-md-9">
-                                <textarea name="visi_misi"
-                                          class="form-control"
-                                          rows="8">{{ old('visi_misi', $profilSekolah->visi_misi ?? '') }}</textarea>
-                            </div>
-                        </div>
-
-
-                        {{-- Deskripsi --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                Deskripsi
-                            </label>
-
-                            <div class="col-md-9">
-                                <textarea name="deskripsi"
-                                          class="form-control"
-                                          rows="4">{{ old('deskripsi', $profilSekolah->deskripsi ?? '') }}</textarea>
-                            </div>
-                        </div>
-
-
-                        {{-- Logo --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                Logo Sekolah
-                            </label>
-
-                            <div class="col-md-9">
-                                <input type="file"
-                                       name="logo"
-                                       class="form-control-file">
-
-                                <small class="text-muted">
-                                    JPG, JPEG, PNG. Maksimal 2 MB.
-                                </small>
-                            </div>
-                        </div>
-
-
-                        {{-- Foto Gedung --}}
-                        <div class="form-group row">
-                            <label class="col-md-3 col-form-label">
-                                Foto Gedung
-                            </label>
-
-                            <div class="col-md-9">
-                                <input type="file"
-                                       name="foto"
-                                       class="form-control-file">
-
-                                <small class="text-muted">
-                                    JPG, JPEG, PNG. Maksimal 2 MB.
-                                </small>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="card-footer text-right">
-
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fa fa-save mr-1"></i>
-                            Simpan Perubahan
-                        </button>
-
-                    </div>
-
-                </form>
-
+            {{-- Card 4: Deskripsi / Sejarah Singkat --}}
+            <div class="card shadow-sm border-0 rounded-3">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="card-title text-dark mb-0 font-weight-bold">
+                        <i class="fa fa-file-alt mr-2 text-primary"></i> Deskripsi Sekolah
+                    </h5>
+                </div>
+                <div class="card-body p-4">
+                    @if($profilSekolah && $profilSekolah->deskripsi)
+                        <p class="text-dark mb-0" style="white-space: pre-line; line-height: 1.7;">
+                            {{ $profilSekolah->deskripsi }}
+                        </p>
+                    @else
+                        <p class="text-muted italic mb-0">Belum ada deskripsi profil sekolah.</p>
+                    @endif
+                </div>
             </div>
 
         </div>
@@ -284,5 +123,4 @@
     </div>
 
 </div>
-
 @endsection

@@ -58,7 +58,7 @@ class DashboardController extends Controller
         $totalGuru = class_exists(Guru::class) ? Guru::count() : 83;
         $totalPrestasi = class_exists(Prestasi::class) ? Prestasi::count() : 1;
 
-        $ekstrakurikuler = class_exists(Ekstrakurikuler::class) ? Ekstrakurikuler::take(6)->get() : collect();
+        $ekstrakurikuler = Ekstrakurikuler::take(3)->get();
         $guru = class_exists(Guru::class) ? Guru::take(8)->get() : collect();
 
         // FILTER BERITA HANYA YANG PUBLIS

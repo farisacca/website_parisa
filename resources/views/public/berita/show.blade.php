@@ -15,7 +15,7 @@
     <div class="container py-3">
         <!-- Tanggal -->
         <div class="d-flex align-items-center gap-2 mb-2 text-warning fw-semibold small">
-            <span>📅 {{ $tanggal }}</span>
+            <span> {{ $tanggal }}</span>
         </div>
 
         <!-- Judul Berita -->

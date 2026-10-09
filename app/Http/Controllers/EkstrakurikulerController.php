@@ -7,6 +7,7 @@ use App\Models\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EkstrakurikulerController extends Controller
 {
@@ -15,7 +16,6 @@ class EkstrakurikulerController extends Controller
      */
     public function index()
     {
-        //
         $ekstrakurikuler = Ekstrakurikuler::with('guru')->latest()->get();
         return view('admin.ekstrakurikuler.index', compact('ekstrakurikuler'));
     }
@@ -77,6 +77,7 @@ class EkstrakurikulerController extends Controller
 
         // Masukkan data ke model
         $ekstrakurikuler->nama_eskul    = $request->nama_eskul;
+        $ekstrakurikuler->slug          = Str::slug($request->nama_eskul); // Otomatis generate slug
         $ekstrakurikuler->id_guru        = $request->id_guru;
         $ekstrakurikuler->jadwal_latihan = $request->jadwal_latihan;
         $ekstrakurikuler->deskripsi      = $request->deskripsi;
@@ -103,11 +104,10 @@ class EkstrakurikulerController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified resource for admin.
      */
     public function show($id)
     {
-        //
         try {
             $ekstrakurikuler = Ekstrakurikuler::with('guru')->findOrFail(Crypt::decrypt($id));
 
@@ -120,13 +120,11 @@ class EkstrakurikulerController extends Controller
         return view('admin.ekstrakurikuler.show', compact('ekstrakurikuler'));
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy($id)
     {
-        //
         try {
             $ekstrakurikuler = Ekstrakurikuler::findOrFail(Crypt::decrypt($id));
 
@@ -145,12 +143,26 @@ class EkstrakurikulerController extends Controller
         return redirect()
             ->route('admin.ekstrakurikuler.index')
             ->with('success', 'Data ekstrakurikuler berhasil dihapus.');
-
     }
 
+    /**
+     * Display listing of resource for public.
+     */
     public function publicEkstrakurikuler()
     {
         $ekstrakurikuler = Ekstrakurikuler::all();
         return view('public.ekstrakurikuler.ekstrakurikuler', compact('ekstrakurikuler'));
+    }
+
+    /**
+     * Display the specified resource by slug for public.
+     */
+    public function publicShow($slug)
+    {
+        // Cari data berdasarkan slug (atau id)
+    $eskul = Ekstrakurikuler::where('slug', $slug)->firstOrFail();
+
+    // Pastikan variabel 'eskul' dikirim ke view
+    return view('public.ekstrakurikuler.show', compact('eskul'));
     }
 }

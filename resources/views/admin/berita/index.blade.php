@@ -154,20 +154,19 @@
                                     <td class="text-center">
 
                                         <a href="{{ route('admin.berita.show', Crypt::encrypt($item->id_berita)) }}"
-                                            class="btn btn-info btn-sm"
-                                            title="Detail">
+                                            class="btn btn-info btn-sm mr-1"
+                                                title="Detail">
 
-                                            <i class="fa fa-eye"></i>
+                                                <i data-feather="eye" style="width:14px; height:14px;"></i>
+                                        </a>
 
                                         </a>
 
                                         <a href="{{ route('admin.berita.addEdit', Crypt::encrypt($item->id_berita)) }}"
-                                            class="btn btn-warning btn-sm"
+                                            class="btn btn-warning btn-sm text-white mr-1"
                                             title="Edit">
 
-                                            {{-- <i class="fa fa-pencil"></i> --}}
-                                            <span style="font-size: 12px; color: #fff;">✎</span>
-
+                                                 <i data-feather="edit" style="width:14px; height:14px;"></i>
                                         </a>
 
                                         <form action="{{ route('admin.berita.delete', Crypt::encrypt($item->id_berita)) }}"
@@ -178,13 +177,13 @@
                                             @csrf
                                             @method('DELETE')
 
-                                            <button type="submit"
-                                                class="btn btn-danger btn-sm"
-                                                title="Hapus">
+                                                <button type="submit"
+                                                    class="btn btn-danger btn-sm"
+                                                    title="Hapus">
 
-                                                <i class="fa fa-trash"></i>
+                                                    <i data-feather="trash-2" style="width:14px; height:14px;"></i>
 
-                                            </button>
+                                                </button>
 
                                         </form>
 

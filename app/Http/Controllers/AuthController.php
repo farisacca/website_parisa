@@ -44,6 +44,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('public.dashboard')->with('success', 'Anda telah berhasil keluar dari sistem.');
+        return redirect()->route('public.index')->with('success', 'Anda telah berhasil keluar dari sistem.');
     }
 }

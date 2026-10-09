@@ -236,14 +236,14 @@
                         </div>
 
                         <div class="mt-4">
-                            <a href="{{ route('admin.profil-sekolah') }}" class="btn btn-info btn-block">
+                            <a href="{{ route('admin.profil-sekolah.index') }}" class="btn btn-info btn-block">
                                 <i data-feather="edit" class="mr-1"></i> Kelola Profil Sekolah
                             </a>
                         </div>
                     @else
                         <div class="text-center mt-4 py-4">
                             <p class="text-muted">Data profil sekolah belum tersedia.</p>
-                            <a href="{{ route('admin.profil-sekolah') }}" class="btn btn-info">Kelola Profil Sekolah</a>
+                            <a href="{{ route('admin.profil-sekolah.index') }}" class="btn btn-info">Kelola Profil Sekolah</a>
                         </div>
                     @endif
                 </div>

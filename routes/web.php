@@ -20,9 +20,13 @@ Route::name('public.')->group(function () {
     Route::get('/berita', [BeritaController::class, 'publicBerita'])->name('berita');
     Route::get('/berita/{slug}', [BeritaController::class, 'publicShow'])->name('berita.show');
     Route::get('/ekstrakurikuler', [EkstrakurikulerController::class, 'publicEkstrakurikuler'])->name('ekstrakurikuler');
+    Route::get('/ekstrakurikuler/{slug}', [EkstrakurikulerController::class, 'publicShow'])->name('ekstrakurikuler.show');
     Route::get('/galeri', [GaleriController::class, 'publicGaleri'])->name('galeri');
     Route::get('/guru', [GuruController::class, 'publicGuru'])->name('guru');
     Route::get('/prestasi', [PrestasiController::class, 'publicPrestasi'])->name('prestasi');
+    Route::get('/kontak', function () {
+    return view('public.kontak');
+})->name('public.kontak');
 });
 
 // AUTENTIKASI (GUEST ONLY)
@@ -44,9 +48,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
     // 2. Profil Sekolah
-    Route::get('/profil-sekolah', [ProfilSekolahController::class, 'index'])->name('admin.profil-sekolah');
-    Route::get('/profil-sekolah/save', [ProfilSekolahController::class, 'save'])->name('admin.profil-sekolah.save');
-    Route::get('/profil', [ProfilSekolahController::class, 'index'])->name('admin.profil');
+    Route::get('admin/profil-sekolah', [ProfilSekolahController::class, 'index'])->name('admin.profil-sekolah.index');
+Route::get('admin/profil-sekolah/edit', [ProfilSekolahController::class, 'edit'])->name('admin.profil-sekolah.edit');
+Route::post('admin/profil-sekolah/save', [ProfilSekolahController::class, 'save'])->name('admin.profil-sekolah.save');
 
     // 3. Kelola Berita
     Route::prefix('berita')->group(function () {
@@ -64,6 +68,7 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::post('/save/{id?}', [EkstrakurikulerController::class, 'save'])->name('admin.ekstrakurikuler.save');
         Route::get('/show/{id}', [EkstrakurikulerController::class, 'show'])->name('admin.ekstrakurikuler.show');
         Route::delete('/{id}', [EkstrakurikulerController::class, 'destroy'])->name('admin.ekstrakurikuler.delete');
+
     });
 
     // 5. Kelola Galeri

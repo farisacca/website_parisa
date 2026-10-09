@@ -6,25 +6,23 @@ use App\Models\ProfilSekolah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-
 class ProfilSekolahController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Menampilkan halaman detail profil sekolah (Read-Only)
      */
     public function index()
     {
-        //
         $profilSekolah = ProfilSekolah::first();
 
-         if (!$profilSekolah) {
+        if (!$profilSekolah) {
             $profilSekolah = ProfilSekolah::create([
                 'nama_sekolah'   => 'Nama Sekolah',
                 'kepala_sekolah' => 'Kepala Sekolah',
                 'npsn'           => '12345678',
                 'alamat'         => 'Jl. Pendidikan No. 1',
                 'kontak'         => '08123456789',
-                'visi_misi'      => "Visi:\nMenjadi sekolah unggulan yang berkarakter dan berdaya saing global.\n\nMisi:\n1. Menyelenggarakan pendidikan berkualitas.\n2. Mengembangkan potensi siswa secara optimal.",
+                'visi_misi'      => "Visi:\nMenjadi sekolah unggulan yang berkarakter dan berdaya saing global.\n\nMisi:\nMenyelenggarakan pendidikan berkualitas.\n2. Mengembangkan potensi siswa secara optimal.",
                 'tahun_berdiri'  => date('Y'),
                 'deskripsi'      => 'Deskripsi singkat profil sekolah dan sambutan kepala sekolah.',
             ]);
@@ -33,6 +31,19 @@ class ProfilSekolahController extends Controller
         return view('admin.profil-sekolah.index', compact('profilSekolah'));
     }
 
+    /**
+     * Menampilkan halaman form edit profil sekolah
+     */
+    public function edit()
+    {
+        $profilSekolah = ProfilSekolah::first();
+
+        return view('admin.profil-sekolah.form', compact('profilSekolah'));
+    }
+
+    /**
+     * Memproses penyimpanan data profil sekolah
+     */
     public function save(Request $request)
     {
         // 1. Validasi input
@@ -100,13 +111,13 @@ class ProfilSekolahController extends Controller
         $profilSekolah->save();
 
         return redirect()
-            ->route('admin.profil-sekolah')
+            ->route('admin.profil-sekolah.index')
             ->with('success', 'Profil sekolah berhasil diperbarui.');
     }
 
     public function publicProfil()
     {
         $profilSekolah = ProfilSekolah::first();
-        return view('public.profil', compact('profilSekolah'));
+        return view('public..profil.profil', compact('profilSekolah'));
     }
 }
