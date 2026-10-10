@@ -1,71 +1,101 @@
 @extends('public.dashboard')
 
-@section('title', ($eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler ?? 'Detail') . ' - SMA Negeri 24 Bandung')
+@section('title', ($eskul->nama_eskul ?? 'Detail Ekstrakurikuler') . ' - SMA Negeri 24 Bandung')
 
 @section('content')
-<!-- Header Banner / Hero Section -->
+<!-- Header Banner -->
 <div class="py-5 text-white" style="background-color: #334155;">
     <div class="container py-3">
-        <h1 class="fw-bold mb-0" style="font-size: 2.2rem;">
-            {{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler ?? 'Detail Ekstrakurikuler' }}
+        <span class="badge rounded-pill bg-warning text-dark px-3 py-1.5 fw-semibold text-uppercase mb-2" style="font-size: 0.75rem;">
+            Detail Ekstrakurikuler
+        </span>
+        <h1 class="fw-bold mb-1" style="font-size: 2.2rem;">
+            {{ $eskul->nama_eskul }}
         </h1>
+        <p class="text-white-50 mb-0" style="font-size: 0.95rem;">
+            Kegiatan Ekstrakurikuler {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+        </p>
     </div>
 </div>
 
 <!-- Main Content Area -->
-<section class="py-5 bg-white">
-    <div class="container">
-        <div class="row g-5">
-            <!-- Content Kiri: Gambar & Deskripsi Lengkap -->
+<div class="py-5" style="background-color: #f8fafc;">
+    <div class="container py-2">
+        <div class="row justify-content-center">
             <div class="col-lg-8">
-                <!-- Gambar Utama -->
-                <div class="rounded-4 overflow-hidden mb-4 bg-light" style="max-height: 420px;">
-                    @if(isset($eskul->gambar) && $eskul->gambar)
-                        <img src="{{ asset('storage/' . $eskul->gambar) }}" class="w-100 h-100 object-fit-cover" alt="{{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler }}">
-                    @elseif(isset($eskul->foto) && $eskul->foto)
-                        <img src="{{ asset('storage/' . $eskul->foto) }}" class="w-100 h-100 object-fit-cover" alt="{{ $eskul->nama_eskul ?? $eskul->nama_ekstrakurikuler }}">
-                    @else
-                        <div class="p-5 text-center text-muted">Foto Ekstrakurikuler</div>
-                    @endif
-                </div>
 
-                <h3 class="fw-bold text-dark mb-3">Tentang Ekstrakurikuler</h3>
-                <div class="text-secondary" style="line-height: 1.8; font-size: 0.98rem; white-space: pre-line;">
-                    {!! e($eskul->deskripsi ?? 'Belum ada deskripsi lengkap mengenai ekstrakurikuler ini.') !!}
-                </div>
-            </div>
+                <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white">
+                    <div class="row g-0">
 
-            <!-- Sidebar Kanan: Metadata (Jam, Pembina, Status) -->
-            <div class="col-lg-4">
-                <div class="p-4 rounded-4 bg-light border">
-                    <h5 class="fw-bold text-dark mb-3">Informasi Kegiatan</h5>
-                    <hr class="my-3" style="border-color: #cbd5e1;">
+                        <!-- Kolom Gambar / Dokumentasi -->
+                        <div class="col-md-5 bg-secondary bg-opacity-10 d-flex align-items-center justify-content-center">
+                            @if(isset($eskul->gambar) && $eskul->gambar)
+                                <img src="{{ asset('storage/' . $eskul->gambar) }}"
+                                     class="w-100 h-100 object-fit-cover"
+                                     style="min-height: 320px; max-height: 400px;"
+                                     alt="{{ $eskul->nama_eskul }}">
+                            @else
+                                <div class="w-100 h-100 d-flex align-items-center justify-content-center bg-warning bg-opacity-10 text-warning display-1 py-5">
+                                    🎯
+                                </div>
+                            @endif
+                        </div>
 
-                    <ul class="list-unstyled mb-0" style="font-size: 0.92rem; line-height: 2;">
-                        <li class="mb-2">
-                            <span class="text-muted d-block small">🕒 Jadwal Latihan:</span>
-                            <strong class="text-dark">{{ $eskul->jadwal_latihan ?? $eskul->jadwal ?? 'Belum diatur' }}</strong>
-                        </li>
-                        <li class="mb-2">
-                            <span class="text-muted d-block small">👨‍🏫 Pembina / Penanggung Jawab:</span>
-                            <strong class="text-dark">{{ $eskul->guru->nama_guru ?? $eskul->pembina ?? '-' }}</strong>
-                        </li>
-                        <li class="mb-2">
-                            <span class="text-muted d-block small">📌 Status Kegiatan:</span>
-                            <span class="badge bg-success bg-opacity-10 text-success border border-success px-2.5 py-1 rounded">
-                                {{ $eskul->status ?? 'Aktif' }}
-                            </span>
-                        </li>
-                    </ul>
+                        <!-- Kolom Informasi Detail -->
+                        <div class="col-md-7 d-flex flex-column justify-content-between p-4 p-md-5">
+                            <div>
+                                <h3 class="fw-bold text-dark mb-3">
+                                    {{ $eskul->nama_eskul }}
+                                </h3>
 
-                    <div class="mt-4 pt-2">
-                        <a href="{{ route('public.ekstrakurikuler') }}" class="btn btn-outline-secondary w-100 rounded-pill btn-sm fw-semibold">
-                            &larr; Kembali ke Daftar Eskul
-                        </a>
+                                <!-- Guru Pembina -->
+                                @if(isset($eskul->guru))
+                                <div class="mb-3">
+                                    <span class="text-muted small d-block mb-1">Guru Pembina:</span>
+                                    <div class="d-inline-block rounded-pill border border-warning px-3 py-1.5"
+                                        style="background-color: #fffdf5; border-color: #fde047 !important;">
+                                        <span class="fw-semibold text-dark" style="color: #854d0e !important; font-size: 0.85rem;">
+                                            {{ $eskul->guru->nama_guru ?? $eskul->guru->nama }}
+                                        </span>
+                                    </div>
+                                </div>
+                                @endif
+
+                                <!-- Jadwal Latihan -->
+                                @if(isset($eskul->jadwal_latihan))
+                                <div class="mb-3">
+                                    <span class="text-muted small d-block mb-1">Jadwal Latihan:</span>
+                                    <span class="badge bg-secondary px-3 py-2 rounded-pill">
+                                        {{ $eskul->jadwal_latihan }}
+                                    </span>
+                                </div>
+                                @endif
+
+                                <!-- Deskripsi -->
+                                @if(isset($eskul->deskripsi))
+                                <div class="mb-3">
+                                    <span class="text-muted small d-block mb-1">Tentang Ekstrakurikuler:</span>
+                                    <p class="text-dark small" style="line-height: 1.6;">
+                                        {!! nl2br(e($eskul->deskripsi)) !!}
+                                    </p>
+                                </div>
+                                @endif
+                            </div>
+
+                            <!-- Tombol Kembali -->
+                            <div class="mt-4 pt-3 border-top">
+                                <a href="{{ route('public.ekstrakurikuler') }}" class="btn btn-outline-secondary btn-sm px-3 rounded-pill">
+                                    &larr; Kembali ke Daftar Ekstrakurikuler
+                                </a>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
-</section>
+</div>
 @endsection

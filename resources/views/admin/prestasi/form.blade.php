@@ -156,15 +156,15 @@
                             </div>
                         </div>
 
-                        {{-- GAMBAR --}}
+                        {{-- GAMBAR / FOTO (DITAMBAHKAN DI SINI) --}}
                         <div class="form-group row mb-3">
                             <label for="gambar" class="col-md-3 col-form-label font-weight-semibold">
-                                Gambar / Foto
+                                Gambar / Foto Prestasi
                             </label>
                             <div class="col-md-9">
                                 @if(!empty($prestasi->gambar))
                                     <div class="mb-2">
-                                        <img src="{{ asset('storage/' . $prestasi->gambar) }}" alt="{{ $prestasi->nama_prestasi }}" class="img-thumbnail" style="max-height: 150px;">
+                                        <img src="{{ asset('storage/' . $prestasi->gambar) }}" alt="{{ $prestasi->nama_prestasi ?? '' }}" class="img-thumbnail" style="max-height: 150px;">
                                     </div>
                                 @endif
                                 <input type="file"

@@ -8,7 +8,7 @@
     <div class="container py-3">
 
         <!-- Judul & Subjudul -->
-        <h1 class="fw-bold mb-2" style="font-size: 2.2rem;">Berita & Pengumuman Sekolah</h1>
+        <h1 class="fw-bold mb-2" style="font-size: 2.2rem;">Berita & Informasi Sekolah</h1>
         <p class="text-white-50 mb-0" style="max-width: 650px; font-size: 0.95rem;">
             Dapatkan berita terkini, artikel akademis, serta dokumentasi kegiatan resmi dari {{ $profilSekolah->nama_sekolah ?? 'SMA NEGERI 24 BANDUNG' }}.
         </p>

@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-lg-10 offset-lg-1 col-12">
         <div class="card shadow-sm border-0">
-            
+
             {{-- Header Card --}}
             <div class="card-header bg-info text-white d-flex justify-content-between align-items-center py-3">
                 <h5 class="card-title text-white mb-0 font-weight-bold">
@@ -17,12 +17,26 @@
             {{-- Isi Card --}}
             <div class="card-body p-4">
 
+                {{-- Gambar / Foto Dokumentasi (Ditambahkan di Sini) --}}
+                @if(!empty($prestasi->gambar))
+                    <div class="text-center mb-4">
+                        <div class="rounded overflow-hidden shadow-sm d-inline-block border bg-light p-1">
+                            <img src="{{ asset('storage/' . $prestasi->gambar) }}"
+                                 alt="{{ $prestasi->nama_prestasi }}"
+                                 class="img-fluid rounded"
+                                 style="max-height: 350px; width: 100%; object-fit: cover;">
+                        </div>
+                    </div>
+                @endif
+
                 {{-- Icon & Nama Prestasi --}}
                 <div class="text-center mb-4">
-                    <div class="d-inline-flex align-items-center justify-content-center bg-info text-white rounded-circle mb-3 shadow-sm"
-                         style="width: 80px; height: 80px;">
-                        <i class="fa fa-trophy fa-3x"></i>
-                    </div>
+                    @if(empty($prestasi->gambar))
+                        <div class="d-inline-flex align-items-center justify-content-center bg-info text-white rounded-circle mb-3 shadow-sm"
+                             style="width: 80px; height: 80px;">
+                            <i class="fa fa-trophy fa-3x"></i>
+                        </div>
+                    @endif
                     <h2 class="font-weight-bold text-dark mb-1">
                         {{ $prestasi->nama_prestasi }}
                     </h2>
@@ -98,7 +112,7 @@
                 </a>
 
                 <div>
-                    <a href="{{ route('admin.prestasi.addEdit', Crypt::encrypt($prestasi->id_prestasi)) }}" class="btn btn-warning">
+                    <a href="{{ route('admin.prestasi.addEdit', Crypt::encrypt($prestasi->id_prestasi)) }}" class="btn btn-warning text-white">
                         <i class="fa fa-pencil mr-1"></i> Edit Prestasi
                     </a>
                 </div>

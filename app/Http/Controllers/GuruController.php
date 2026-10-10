@@ -6,6 +6,7 @@ use App\Models\Guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ProfilSekolah;
 
 class GuruController extends Controller
 {
@@ -147,4 +148,19 @@ class GuruController extends Controller
         return view('public.guru.guru', compact('guru'));
     }
 
+    public function publicShow($id_guru)
+    {
+        try {
+            // Dekripsi ID yang dikirim dari URL
+            $decryptedId = Crypt::decrypt($id_guru);
+
+            $g = Guru::findOrFail($decryptedId);
+            $profilSekolah = ProfilSekolah::first();
+
+            return view('public.guru.show', compact('g', 'profilSekolah'));
+        } catch (\Exception $e) {
+            // Jika enkripsi tidak valid / gagal didekripsi, arahkan ke 404
+            abort(404);
+        }
+    }
 }

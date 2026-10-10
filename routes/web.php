@@ -13,7 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// LANDING PAGE PUBLIK
+// 1. ROUTE PUBLIK
 Route::name('public.')->group(function () {
     Route::get('/', [DashboardController::class, 'publicDashboard'])->name('index');
     Route::get('/profil', [ProfilSekolahController::class, 'publicProfil'])->name('profil');
@@ -23,10 +23,9 @@ Route::name('public.')->group(function () {
     Route::get('/ekstrakurikuler/{slug}', [EkstrakurikulerController::class, 'publicShow'])->name('ekstrakurikuler.show');
     Route::get('/galeri', [GaleriController::class, 'publicGaleri'])->name('galeri');
     Route::get('/guru', [GuruController::class, 'publicGuru'])->name('guru');
+    Route::get('/guru/{id_guru}', [GuruController::class, 'publicShow'])->name('guru.show');
     Route::get('/prestasi', [PrestasiController::class, 'publicPrestasi'])->name('prestasi');
-    Route::get('/kontak', function () {
-    return view('public.kontak');
-})->name('public.kontak');
+    Route::get('/prestasi/{id}', [PrestasiController::class, 'publicShow'])->name('prestasi.show');
 });
 
 // AUTENTIKASI (GUEST ONLY)
@@ -39,20 +38,18 @@ Route::middleware('guest')->group(function () {
 // LOGOUT
 Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
-// =========================================================================
-// ROUTE GROUP ADMIN (WAJIB LOGIN)
-// =========================================================================
+// 2. ROUTE ADMIN & OPERATOR
 Route::middleware('auth')->prefix('admin')->group(function () {
 
-    // 1. Dashboard
+    // Dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
-    // 2. Profil Sekolah
+    // Profil Sekolah
     Route::get('admin/profil-sekolah', [ProfilSekolahController::class, 'index'])->name('admin.profil-sekolah.index');
-Route::get('admin/profil-sekolah/edit', [ProfilSekolahController::class, 'edit'])->name('admin.profil-sekolah.edit');
-Route::post('admin/profil-sekolah/save', [ProfilSekolahController::class, 'save'])->name('admin.profil-sekolah.save');
+    Route::get('admin/profil-sekolah/edit', [ProfilSekolahController::class, 'edit'])->name('admin.profil-sekolah.edit');
+    Route::post('admin/profil-sekolah/save', [ProfilSekolahController::class, 'save'])->name('admin.profil-sekolah.save');
 
-    // 3. Kelola Berita
+    // Kelola Berita
     Route::prefix('berita')->group(function () {
         Route::get('/', [BeritaController::class, 'index'])->name('admin.berita.index');
         Route::get('/add-edit/{id?}', [BeritaController::class, 'addEdit'])->name('admin.berita.addEdit');
@@ -61,17 +58,16 @@ Route::post('admin/profil-sekolah/save', [ProfilSekolahController::class, 'save'
         Route::delete('/{id}', [BeritaController::class, 'destroy'])->name('admin.berita.delete');
     });
 
-    // 4. Kelola Ekstrakurikuler
+    // Kelola Ekstrakurikuler
     Route::prefix('ekstrakurikuler')->group(function () {
         Route::get('/', [EkstrakurikulerController::class, 'index'])->name('admin.ekstrakurikuler.index');
         Route::get('/add-edit/{id?}', [EkstrakurikulerController::class, 'addEdit'])->name('admin.ekstrakurikuler.addEdit');
         Route::post('/save/{id?}', [EkstrakurikulerController::class, 'save'])->name('admin.ekstrakurikuler.save');
         Route::get('/show/{id}', [EkstrakurikulerController::class, 'show'])->name('admin.ekstrakurikuler.show');
         Route::delete('/{id}', [EkstrakurikulerController::class, 'destroy'])->name('admin.ekstrakurikuler.delete');
-
     });
 
-    // 5. Kelola Galeri
+    // Kelola Galeri
     Route::prefix('galeri')->group(function () {
         Route::get('/', [GaleriController::class, 'index'])->name('admin.galeri.index');
         Route::get('/add-edit/{id?}', [GaleriController::class, 'addEdit'])->name('admin.galeri.addEdit');
@@ -80,7 +76,7 @@ Route::post('admin/profil-sekolah/save', [ProfilSekolahController::class, 'save'
         Route::delete('/{id}', [GaleriController::class, 'destroy'])->name('admin.galeri.delete');
     });
 
-    // 6. Kelola Prestasi
+    // Kelola Prestasi
     Route::prefix('prestasi')->group(function () {
         Route::get('/', [PrestasiController::class, 'index'])->name('admin.prestasi.index');
         Route::get('/add-edit/{id?}', [PrestasiController::class, 'addEdit'])->name('admin.prestasi.addEdit');
@@ -89,7 +85,7 @@ Route::post('admin/profil-sekolah/save', [ProfilSekolahController::class, 'save'
         Route::delete('/{id}', [PrestasiController::class, 'destroy'])->name('admin.prestasi.delete');
     });
 
-    // FITUR KHUSUS ROLE ADMIN
+    // 3. ROUTE KHUSUS ADMIN (Operator Tidak Bisa Akses / Ditolak 403)
     Route::middleware('role:admin')->group(function () {
 
         // Kelola Guru
@@ -110,6 +106,7 @@ Route::post('admin/profil-sekolah/save', [ProfilSekolahController::class, 'save'
             Route::delete('/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.delete');
         });
 
+        // Kelola User
         Route::prefix('user')->group(function () {
             Route::get('/', [UserController::class, 'index'])->name('admin.user.index');
             Route::get('/add-edit/{id?}', [UserController::class, 'addEdit'])->name('admin.user.addEdit');
@@ -118,7 +115,7 @@ Route::post('admin/profil-sekolah/save', [ProfilSekolahController::class, 'save'
             Route::delete('/{id}', [UserController::class, 'destroy'])->name('admin.user.delete');
         });
 
-        // Profile (Perbaikan: hapus 'admin/' berlebih)
+        // Profile Admin
         Route::get('/profile', [ProfileController::class, 'index'])->name('admin.profile');
         Route::put('/profile', [ProfileController::class, 'update'])->name('admin.profile.update');
         Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('admin.profile.password');

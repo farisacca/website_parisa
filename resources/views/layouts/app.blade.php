@@ -86,9 +86,9 @@
                                 <span class="ml-2 d-none d-lg-inline-block"><span>Hello,</span> <span class="text-dark">{{ Auth::user()->name ?? 'Administrator' }}</span> <i data-feather="chevron-down" class="svg-icon"></i></span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
-                                <a class="dropdown-item" href="{{ route('admin.profile')}}"><i data-feather="user" class="svg-icon mr-2 ml-1"></i> My Profile</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="settings" class="svg-icon mr-2 ml-1"></i> Account Setting</a>
+                                <a class="dropdown-item" href="{{ route('admin.profile') }}">
+                                    <i data-feather="user" class="svg-icon mr-2 ml-1"></i> My Profile
+                                </a>
                             </div>
                         </li>
                     </ul>
@@ -192,33 +192,28 @@
         </aside>
 
         <!-- Page wrapper -->
-         <div class="page-wrapper">
+        <div class="page-wrapper">
             <div class="container-fluid">
 
+                {{-- 1. Alert Sukses --}}
                 @if(session('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <div class="alert alert-success fade show" role="alert">
                         <i data-feather="check-circle" class="mr-2"></i>
                         {{ session('success') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                 @endif
 
                 {{-- 2. Alert Khusus ERROR --}}
                 @if(session('error'))
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div class="alert alert-danger fade show" role="alert">
                         <i data-feather="alert-circle" class="mr-2"></i>
                         {{ session('error') }}
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                 @endif
 
                 {{-- 3. Alert Validasi Form --}}
                 @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <div class="alert alert-danger fade show" role="alert">
                         <strong>
                             <i data-feather="alert-triangle" class="mr-2"></i>
                             Terdapat kesalahan pengisian data:
@@ -228,9 +223,6 @@
                                 <li>{{ $error }}</li>
                             @endforeach
                         </ul>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
                     </div>
                 @endif
 
@@ -244,6 +236,22 @@
             </footer>
         </div>
     </div>
+
+    <!-- Script Auto Hide Alert Setelah 3 Detik -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                let alertElement = document.querySelector('.alert');
+                if (alertElement) {
+                    // Gunakan Bootstrap fade/hide jika tersedia
+                    let bsAlert = new bootstrap.Alert(alertElement);
+                    bsAlert.close();
+                }
+            }, 3000); 
+        });
+    </script>
+</body>
+</html>
 
     <!-- JavaScript Base -->
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>

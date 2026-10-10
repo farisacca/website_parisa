@@ -31,7 +31,7 @@
     <div class="card border-0 shadow-lg rounded-4 overflow-hidden" style="background-color: #1a2332;">
         <div class="card-body p-4">
             <div class="row text-center text-white g-3 align-items-center">
-                
+
                 <!-- Peserta Didik -->
                 <div class="col-6 col-md-3 border-end border-secondary border-opacity-25">
                     <h2 class="fw-extrabold text-warning mb-1" style="font-weight: 800; font-size: 2rem;">
@@ -84,21 +84,21 @@
         <section id="sambutan" class="py-5 bg-white">
     <div class="container">
         <div class="row align-items-center g-5">
-            
+
             <!-- Kolom Kiri: Foto Kepala Sekolah dengan Name Tag 2 Baris -->
             <div class="col-lg-5 col-md-5">
                 <div class="position-relative mx-auto" style="max-width: 380px;">
                     <!-- Foto Kepala Sekolah -->
                     @if(isset($profilSekolah->foto_kepala_sekolah) && $profilSekolah->foto_kepala_sekolah)
-                        <img src="{{ asset('storage/' . $profilSekolah->foto_kepala_sekolah) }}" 
-                             alt="{{ $profilSekolah->nama_kepala_sekolah ?? 'Kepala Sekolah' }}" 
-                             class="img-fluid rounded-4 shadow w-100 object-fit-cover" 
+                        <img src="{{ asset('storage/' . $profilSekolah->foto_kepala_sekolah) }}"
+                             alt="{{ $profilSekolah->nama_kepala_sekolah ?? 'Kepala Sekolah' }}"
+                             class="img-fluid rounded-4 shadow w-100 object-fit-cover"
                              style="height: 400px;">
                     @else
-                        <img src="{{ asset('storage/profil/kepala_sekolah.jpg') }}" 
-                             alt="Lia Aprilina, S.Pd, M.Pd" 
-                             class="img-fluid rounded-4 shadow w-100 object-fit-cover" 
-                             style="height: 400px;" 
+                        <img src="{{ asset('storage/profil/kepala_sekolah.jpg') }}"
+                             alt="Lia Aprilina, S.Pd, M.Pd"
+                             class="img-fluid rounded-4 shadow w-100 object-fit-cover"
+                             style="height: 400px;"
                              onerror="this.onerror=null; this.src='https://via.placeholder.com/380x400?text=Kepala+Sekolah';">
                     @endif
 
@@ -133,12 +133,12 @@
                     "Assalamu'alaikum Warahmatullahi Wabarakatuh, Salam Sejahtera bagi Kita Semua."
                 </p>
 
-               
+
                 <p class="text-secondary mb-3" style="line-height: 1.8; font-size: 0.95rem;">
                     Selamat datang di website resmi <strong>{{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}</strong>. Sebagai lembaga pendidikan menengah unggulan, kami berkomitmen mencetak lulusan yang tidak hanya unggul secara akademis, tetapi juga memiliki integritas moral serta karakter yang kuat.
                 </p>
 
-            
+
                 <p class="text-secondary mb-4" style="line-height: 1.8; font-size: 0.95rem;">
                     Melalui kurikulum berbasis kompetensi yang diselaraskan dengan perkembangan zaman, didukung tenaga pendidik profesional dan sarana prasarana modern, kami optimis mampu membawa putra-putri Anda meraih cita-cita dan sukses di masa depan.
                 </p>
@@ -159,7 +159,7 @@
     <!-- Section Visi & Misi di Beranda (Judul Tengah + Teks Lebih Pas + Tombol Hitam Tengah) -->
 <section id="visi-misi" class="py-5 bg-white">
     <div class="container">
-        
+
         <!-- Header Section Visi & Misi (Rata Tengah & Lebih Besar) -->
         <div class="text-center mb-4">
             <span class="text-warning fw-bold text-uppercase small tracking-wider mb-2 d-block" style="letter-spacing: 1px; font-size: 0.8rem; color: #b45309 !important;">
@@ -247,13 +247,11 @@
                         </div>
 
                         <!-- Footer Card: Tombol Baca Selengkapnya Warna Hitam -->
-                        <div class="p-4 pt-0">
+                        <div class="p-4 pt-0 text-end">
                             <hr class="my-3" style="border-color: #f1f5f9; opacity: 1;">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <a href="{{ route('public.ekstrakurikuler.show', $eskul->slug ?? $eskul->id) }}" class="fw-bold text-dark text-decoration-none small d-inline-flex align-items-center gap-1" style="color: #0f172a !important;">
-                                    Baca Selengkapnya <span>&rarr;</span>
-                                </a>
-                            </div>
+                            <a href="{{ route('public.ekstrakurikuler.show', $eskul->slug ?? $eskul->id) }}" class="fw-bold text-dark text-decoration-none small d-inline-block" style="color: #0f172a !important;">
+                                Baca Selengkapnya &rarr;
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -360,14 +358,14 @@
                     </a>
                 </div>
 
-                <!-- Cards Grid Prestasi (1 Baris Isi 4 Card) -->
+                <!-- Cards Grid Prestasi (Dibatasi Hanya 3 Card) -->
                 <div class="row g-4">
-                    @forelse(collect($prestasi ?? [])->take(4) as $p)
+                    @forelse(collect($prestasi ?? [])->take(3) as $p)
                         @php
                             $imgFile = $p->foto ?? $p->gambar ?? $p->file ?? null;
                             $imgUrl = $imgFile ? asset('storage/' . $imgFile) : null;
                         @endphp
-                        <div class="col-12 col-sm-6 col-lg-3">
+                        <div class="col-12 col-sm-6 col-lg-4">
                             <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden">
                                 <div>
                                     <!-- Foto / Piala / Default Icon -->
@@ -382,7 +380,7 @@
                                             </div>
                                         @endif
 
-                                        <!-- Badge Kategori (AKADEMIK / NON-AKADEMIK) -->
+                                        <!-- Badge Kategori -->
                                         @if(isset($p->kategori))
                                             <span class="position-absolute top-0 start-0 m-3 badge rounded-pill text-white px-3 py-2 shadow-sm"
                                                 style="background-color: #1e293b; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px;">
@@ -392,31 +390,34 @@
                                     </div>
 
                                     <!-- Detail Content -->
-                                    <div class="p-3 text-center">
-                                        <!-- Nama Prestasi -->
+                                    <div class="p-4 pb-2 text-start">
                                         <h6 class="fw-bold text-dark mb-1 line-clamp-2" style="font-size: 0.95rem; line-height: 1.35; color: #1e293b;" title="{{ $p->nama_prestasi }}">
                                             {{ $p->nama_prestasi }}
                                         </h6>
-
-                                        <!-- Pemenang & Event -->
                                         <p class="text-muted small mb-1" style="font-size: 0.8rem; color: #64748b !important;">
-                                            👤 <strong>{{ $p->pemenang ?? '-' }}</strong>
+                                            <strong>{{ $p->pemenang ?? '-' }}</strong>
                                         </p>
                                         @if(isset($p->event))
                                             <p class="text-muted small mb-0" style="font-size: 0.73rem; color: #94a3b8 !important;">
-                                                📍 {{ $p->event }}
+                                                {{ $p->event }}
                                             </p>
                                         @endif
                                     </div>
                                 </div>
 
-                                <!-- Footer Pill Tingkat & Tahun -->
-                                <div class="px-3 pb-3 text-center mt-auto">
-                                    <div class="d-inline-block rounded-pill border border-warning px-3 py-1.5"
-                                        style="background-color: #fffdf5; border-color: #fde047 !important; max-width: 100%;">
+                                <!-- Footer Card: Tombol Baca Selengkapnya di Kanan -->
+                                <div class="p-4 pt-0">
+                                    <div class="d-inline-block rounded-pill border border-warning px-3 py-1 mb-3"
+                                        style="background-color: #fffdf5; border-color: #fde047 !important;">
                                         <span class="fw-semibold d-block text-wrap" style="color: #854d0e; font-size: 0.72rem;">
-                                            Tingkat {{ $p->tingkat ?? 'Sekolah' }} • {{ $p->tahun ?? '2026' }}
+                                            Tingkat {{ $p->tingkat ?? 'Sekolah' }} &bull; {{ $p->tahun ?? '2026' }}
                                         </span>
+                                    </div>
+                                    <div class="text-end">
+                                        <a href="{{ route('public.prestasi.show', $p->id_prestasi ?? $p->id) }}"
+                                        class="btn btn-link p-0 text-dark fw-bold text-decoration-none small">
+                                            Baca Selengkapnya &rarr;
+                                        </a>
                                     </div>
                                 </div>
 
@@ -431,32 +432,35 @@
             </div>
         </section>
 
-        <!-- Section: Direktori Guru -->
-        <section id="guru" class="py-5" style="background-color: #f8fafc;">
-            <div class="container">
-                <!-- Header Section -->
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <div>
-                        <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
-                            TENAGA PENDIDIK
-                        </span>
-                        <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
-                            Direktori Guru {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
-                        </h3>
-                    </div>
-                    <a href="{{ route('public.guru')}}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
-                        Lihat Semua Guru &rarr;
-                    </a>
-                </div>
 
-                <!-- Cards Grid Guru (1 Baris Isi 4 Card) -->
-                <div class="row g-4">
-                    @forelse($guru->take(4) as $g)
-                        <div class="col-12 col-sm-6 col-lg-3">
-                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden">
+    <!-- Section: Direktori Guru -->
+    <section id="guru" class="py-5" style="background-color: #f8fafc;">
+        <div class="container">
+            <!-- Header Section -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <span class="badge rounded-pill border border-warning text-warning bg-light px-3 py-2 fw-semibold text-uppercase mb-2" style="letter-spacing: 0.5px; font-size: 0.75rem;">
+                        TENAGA PENDIDIK
+                    </span>
+                    <h3 class="fw-bold text-dark mb-0" style="color: #1e293b;">
+                        Direktori Guru {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
+                    </h3>
+                </div>
+                <a href="{{ route('public.guru') }}" class="btn btn-outline-warning text-dark fw-semibold btn-sm px-3 py-2 rounded-pill d-inline-flex align-items-center gap-1 text-nowrap ms-3">
+                    Lihat Semua Guru &rarr;
+                </a>
+            </div>
+
+            <!-- Grid Cards -->
+            <div class="row g-4">
+                @forelse(collect($guru ?? []) as $g)
+                    <div class="col-12 col-sm-6 col-lg-3">
+                        {{-- Menggunakan $g->id_guru sesuai primary key tabelmu --}}
+                        <a href="{{ route('public.guru.show', $g->id_guru) }}" class="text-decoration-none h-100 d-block">
+                            <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden teacher-card transition-hover">
                                 <div>
                                     <!-- Foto Full di Atas -->
-                                    <div class="position-relative w-100 bg-danger" style="height: 240px; overflow: hidden;">
+                                    <div class="position-relative w-100 bg-secondary bg-opacity-10" style="height: 240px; overflow: hidden;">
                                         @if(isset($g->foto) && $g->foto)
                                             <img src="{{ asset('storage/' . $g->foto) }}"
                                                 class="w-100 h-100 object-fit-cover"
@@ -466,47 +470,46 @@
                                                 class="w-100 h-100 object-fit-cover"
                                                 alt="{{ $g->nama_guru ?? $g->nama }}">
                                         @else
-                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center text-white-50 fs-2 fw-bold">
+                                            <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted fs-2 fw-bold">
                                                 {{ Str::limit($g->nama_guru ?? $g->nama ?? 'GURU', 2, '') }}
                                             </div>
                                         @endif
                                     </div>
 
-                                    <!-- Detail Content (Nama & NIP) -->
+                                    <!-- Nama Guru -->
                                     <div class="p-3 text-center">
-                                        <!-- Nama Guru -->
                                         <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 0.92rem; line-height: 1.35; color: #1e293b;" title="{{ $g->nama_guru ?? $g->nama }}">
                                             {{ $g->nama_guru ?? $g->nama }}
                                         </h6>
-
-                                        <!-- NIP Guru (Kecil) -->
-                                        <p class="text-muted small mb-0" style="font-size: 0.7rem; color: #94a3b8 !important; letter-spacing: 0.3px;">
-                                            NIP: {{ $g->nip ?? '-' }}
-                                        </p>
                                     </div>
                                 </div>
 
-                                <!-- Rounded Pill Mapel (Lega, Tidak Dempet, & Menyesuaikan Panjang Teks) -->
+                                <!-- Mapel & Tombol Detail -->
                                 <div class="px-3 pb-3 text-center mt-auto">
-                                    <div class="d-inline-block rounded-pill border border-warning px-3 py-2"
+                                    <div class="d-inline-block rounded-pill border border-warning px-3 py-1.5 mb-2"
                                         style="background-color: #fffdf5; border-color: #fde047 !important; max-width: 100%;">
                                         <span class="fw-semibold d-block text-wrap"
                                             style="color: #854d0e; font-size: 0.73rem; line-height: 1.4;">
                                             {{ $g->mapel->nama_mapel ?? $g->nama_mapel ?? $g->mapel ?? 'Mata Pelajaran' }}
                                         </span>
                                     </div>
+
+                                    <div class="small fw-bold">
+                                        Lihat Detail &rarr;
+                                    </div>
                                 </div>
 
                             </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center py-4 text-muted">
-                            <p class="mb-0">Belum ada data guru.</p>
-                        </div>
-                    @endforelse
-                </div>
+                        </a>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-4 text-muted">
+                        <p class="mb-0">Belum ada data guru.</p>
+                    </div>
+                @endforelse
             </div>
-        </section>
+        </div>
+    </section>
 
         <!-- Section: Galeri Kegiatan -->
 <section id="galeri" class="py-5" style="background-color: #f8fafc;">

@@ -8,20 +8,19 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  Closure(Request): (Response)  $next
-     */
-    public function handle(Request $request, Closure $next, string $role): Response
+    public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        
         if (!auth()->check()) {
             return redirect()->route('login');
         }
 
-        if (strcasecmp(auth()->user()->role, $role) !== 0) {
-            // Jika role tidak sesuai, tolak akses dengan kode HTTP 403
+        $userRole = auth()->user()->role;
+
+        $isAllowed = collect($roles)->contains(function ($role) use ($userRole) {
+            return strcasecmp($userRole, $role) === 0;
+        });
+
+        if (!$isAllowed) {
             abort(403, 'Akses ditolak. Anda tidak memiliki izin untuk mengakses halaman ini.');
         }
 

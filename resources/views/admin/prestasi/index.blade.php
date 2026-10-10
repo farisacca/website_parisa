@@ -34,6 +34,10 @@
                                         No
                                     </th>
 
+                                    <th class="text-center">
+                                        Gambar
+                                    </th>
+
                                     <th>
                                         Nama Prestasi
                                     </th>
@@ -75,6 +79,15 @@
                                         {{ $loop->iteration }}
                                     </td>
 
+                                    {{-- Kolom Thumbnail Gambar --}}
+                                    <td class="text-center">
+                                        @if($item->gambar)
+                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_prestasi }}" class="img-thumbnail rounded" style="width: 50px; height: 50px; object-fit: cover;">
+                                        @else
+                                            <span class="badge badge-secondary" style="font-size: 10px;">Tidak ada</span>
+                                        @endif
+                                    </td>
+
                                     <td>
 
                                         <strong>
@@ -97,12 +110,10 @@
                                         {{ $item->pemenang }}
                                     </td>
 
-                    
                                     <td>
                                         {{ $item->event }}
                                     </td>
 
-                            
                                     <td class="text-center">
 
                                         <span class="badge badge-info">
@@ -178,7 +189,7 @@
 
                                 <tr>
 
-                                    <td colspan="8" class="text-center">
+                                    <td colspan="9" class="text-center">
 
                                         Belum ada data prestasi.
 

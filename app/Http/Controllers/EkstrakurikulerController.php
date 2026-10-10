@@ -159,10 +159,10 @@ class EkstrakurikulerController extends Controller
      */
     public function publicShow($slug)
     {
-        // Cari data berdasarkan slug (atau id)
-    $eskul = Ekstrakurikuler::where('slug', $slug)->firstOrFail();
+        // Cari data berdasarkan slug, pastikan relasi guru ikut dimuat
+        $eskul = Ekstrakurikuler::with('guru')->where('slug', $slug)->firstOrFail();
 
-    // Pastikan variabel 'eskul' dikirim ke view
-    return view('public.ekstrakurikuler.show', compact('eskul'));
+        // Kirim variabel 'eskul' ke view
+        return view('public.ekstrakurikuler.show', compact('eskul'));
     }
 }

@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('prestasi', function (Blueprint $table) {
             $table->id('id_prestasi');
             $table->string('nama_prestasi');
+            $table->string('gambar')->nullable();
             $table->string('pemenang');
             $table->string('event');
             $table->enum('tingkat', [
