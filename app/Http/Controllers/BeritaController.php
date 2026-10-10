@@ -14,17 +14,28 @@ use Illuminate\Support\Str;
 class BeritaController extends Controller
 {
     /**
-     * Tampilan daftar berita di Admin
+     * Tampilan daftar berita
      */
     public function index()
     {
-        $berita = Berita::with('user')->latest('tanggal')->get();
+        $user = Auth::user();
+        $userId = $user->id_user ?? $user->id;
+
+        // Admin melihat semua berita, Operator hanya melihat berita miliknya sendiri
+        if ($user->role === 'admin') {
+            $berita = Berita::with('user')->latest('tanggal')->get();
+        } else {
+            $berita = Berita::with('user')
+                ->where('id_user', $userId)
+                ->latest('tanggal')
+                ->get();
+        }
 
         return view('admin.berita.index', compact('berita'));
     }
 
     /**
-     * Form Tambah / Edit Berita Admin
+     * Form Tambah / Edit Berita
      */
     public function addEdit($id = null)
     {
@@ -32,6 +43,16 @@ class BeritaController extends Controller
             $berita = $id
                 ? Berita::findOrFail(Crypt::decrypt($id))
                 : null;
+
+            $user = Auth::user();
+            $userId = $user->id_user ?? $user->id;
+
+            // Keamanan tambahan: Tolak operator jika mencoba mengedit berita orang lain via URL
+            if ($berita && $user->role !== 'admin' && $berita->id_user !== $userId) {
+                return redirect()
+                    ->route('admin.berita.index')
+                    ->with('error', 'Anda tidak memiliki hak akses untuk mengedit berita ini.');
+            }
 
         } catch (\Exception $e) {
             return redirect()
@@ -43,14 +64,24 @@ class BeritaController extends Controller
     }
 
     /**
-     * Process Simpan & Update Data Berita Admin
+     * Process Simpan & Update Data Berita
      */
     public function save(Request $request, $id = null)
     {
+        $user = Auth::user();
+        $userId = $user->id_user ?? $user->id;
+
         if ($id) {
             try {
                 $id = Crypt::decrypt($id);
                 $berita = Berita::findOrFail($id);
+
+                // Keamanan tambahan: Tolak operator jika mengubah berita milik orang lain
+                if ($user->role !== 'admin' && $berita->id_user !== $userId) {
+                    return redirect()
+                        ->route('admin.berita.index')
+                        ->with('error', 'Anda tidak memiliki hak akses untuk mengubah berita ini.');
+                }
             } catch (\Exception $e) {
                 return redirect()
                     ->route('admin.berita.index')
@@ -58,7 +89,7 @@ class BeritaController extends Controller
             }
         } else {
             $berita = new Berita();
-            $berita->id_user = Auth::id() ?? User::value('id');
+            $berita->id_user = $userId; 
         }
 
         // Generate Slug
@@ -111,12 +142,20 @@ class BeritaController extends Controller
     }
 
     /**
-     * Detail Berita Admin (Menggunakan ID Terenkripsi)
+     * Detail Berita
      */
     public function show($id)
     {
         try {
             $berita = Berita::with('user')->findOrFail(Crypt::decrypt($id));
+            $user = Auth::user();
+            $userId = $user->id_user ?? $user->id;
+
+            if ($user->role !== 'admin' && $berita->id_user !== $userId) {
+                return redirect()
+                    ->route('admin.berita.index')
+                    ->with('error', 'Anda tidak memiliki hak akses.');
+            }
         } catch (\Exception $e) {
             return redirect()
                 ->route('admin.berita.index')
@@ -127,12 +166,20 @@ class BeritaController extends Controller
     }
 
     /**
-     * Hapus Berita Admin
+     * Hapus Berita
      */
     public function destroy($id)
     {
         try {
             $berita = Berita::findOrFail(Crypt::decrypt($id));
+            $user = Auth::user();
+            $userId = $user->id_user ?? $user->id;
+
+            if ($user->role !== 'admin' && $berita->id_user !== $userId) {
+                return redirect()
+                    ->route('admin.berita.index')
+                    ->with('error', 'Anda tidak memiliki hak akses untuk menghapus berita ini.');
+            }
         } catch (\Exception $e) {
             return redirect()
                 ->route('admin.berita.index')
@@ -157,7 +204,6 @@ class BeritaController extends Controller
     {
         $profilSekolah = ProfilSekolah::first();
 
-        // MENAMPILKAN HANYA YANG BERSTATUS PUBLIS / PUBLISH
         $berita = class_exists(Berita::class)
             ? Berita::whereIn('status', ['publis', 'publish', 'published'])
                 ->latest('tanggal')
@@ -168,13 +214,12 @@ class BeritaController extends Controller
     }
 
     /**
-     * Tampilan Halaman Detail Berita Publik (Menggunakan Slug di URL)
+     * Tampilan Halaman Detail Berita Publik
      */
     public function publicShow($slug)
     {
         $profilSekolah = ProfilSekolah::first();
 
-        // Cari berita berdasarkan slug yang hanya berstatus publis
         $berita = Berita::with('user')
             ->whereIn('status', ['publis', 'publish', 'published'])
             ->where('slug', $slug)
