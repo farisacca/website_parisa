@@ -18,6 +18,7 @@ class ProfilSekolah extends Model
         'kepala_sekolah',
         'foto',
         'logo',
+        'foto_kepala_sekolah',
         'npsn',
         'alamat',
         'kontak',

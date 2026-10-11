@@ -5,14 +5,10 @@
 @section('content')
 
 <div class="container-fluid">
-
     <div class="row">
         <div class="col-12">
-
             <div class="card">
-
                 <div class="card-body">
-
                     <div class="d-flex justify-content-between align-items-center mb-3">
 
                         <h4 class="card-title mb-0">
@@ -42,7 +38,6 @@
                             <tbody>
 
                                 @foreach ($guru as $item)
-
                                 <tr>
 
                                     <td class="text-center">
@@ -56,8 +51,7 @@
                                             <img src="{{ asset('storage/' . $item->foto) }}"
                                                 alt="{{ $item->nama_guru }}"
                                                 class="rounded-circle"
-                                                width="45"
-                                                height="45"
+                                                width="45" height="45"
                                                 style="object-fit: cover;">
 
                                         @else
@@ -113,15 +107,10 @@
                                                     <i data-feather="trash-2" style="width:14px; height:14px;"></i>
 
                                                 </button>
-
                                         </form>
-
                                     </td>
-
                                 </tr>
-
                                 @endforeach
-
                             </tbody>
 
                         </table>

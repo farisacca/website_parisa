@@ -48,31 +48,33 @@ class ProfilSekolahController extends Controller
     {
         // 1. Validasi input
         $request->validate([
-            'nama_sekolah'   => 'required|max:40',
-            'kepala_sekolah' => 'required|max:40',
-            'npsn'           => 'required|max:10',
-            'alamat'         => 'required',
-            'kontak'         => 'required|max:15',
-            'visi_misi'      => 'required',
-            'tahun_berdiri'  => 'required|digits:4|integer',
-            'deskripsi'      => 'nullable',
-            'logo'           => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'foto'           => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'nama_sekolah'        => 'required|max:40',
+            'kepala_sekolah'      => 'required|max:40',
+            'npsn'                => 'required|max:10',
+            'alamat'              => 'required',
+            'kontak'              => 'required|max:15',
+            'visi_misi'           => 'required',
+            'tahun_berdiri'       => 'required|digits:4|integer',
+            'deskripsi'           => 'nullable',
+            'logo'                => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto'                => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'foto_kepala_sekolah' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi foto kepala sekolah
         ], [
-            'nama_sekolah.required'   => 'Nama sekolah wajib diisi.',
-            'nama_sekolah.max'        => 'Nama sekolah maksimal 40 karakter.',
-            'kepala_sekolah.required' => 'Nama kepala sekolah wajib diisi.',
-            'kepala_sekolah.max'      => 'Nama kepala sekolah maksimal 40 karakter.',
-            'npsn.required'           => 'NPSN wajib diisi.',
-            'npsn.max'                => 'NPSN maksimal 10 karakter.',
-            'alamat.required'         => 'Alamat sekolah wajib diisi.',
-            'kontak.required'         => 'Nomor kontak telepon wajib diisi.',
-            'kontak.max'              => 'Kontak maksimal 15 karakter.',
-            'visi_misi.required'      => 'Visi dan misi wajib diisi.',
-            'tahun_berdiri.required'  => 'Tahun berdiri wajib diisi.',
-            'tahun_berdiri.digits'    => 'Tahun berdiri harus 4 digit angka.',
-            'logo.image'              => 'Logo harus berupa file gambar (JPG, PNG).',
-            'foto.image'              => 'Foto gedung harus berupa file gambar (JPG, PNG).',
+            'nama_sekolah.required'        => 'Nama sekolah wajib diisi.',
+            'nama_sekolah.max'             => 'Nama sekolah maksimal 40 karakter.',
+            'kepala_sekolah.required'      => 'Nama kepala sekolah wajib diisi.',
+            'kepala_sekolah.max'           => 'Nama kepala sekolah maksimal 40 karakter.',
+            'npsn.required'                => 'NPSN wajib diisi.',
+            'npsn.max'                     => 'NPSN maksimal 10 karakter.',
+            'alamat.required'              => 'Alamat sekolah wajib diisi.',
+            'kontak.required'              => 'Nomor kontak telepon wajib diisi.',
+            'kontak.max'                   => 'Kontak maksimal 15 karakter.',
+            'visi_misi.required'           => 'Visi dan misi wajib diisi.',
+            'tahun_berdiri.required'       => 'Tahun berdiri wajib diisi.',
+            'tahun_berdiri.digits'         => 'Tahun berdiri harus 4 digit angka.',
+            'logo.image'                   => 'Logo harus berupa file gambar (JPG, PNG).',
+            'foto.image'                   => 'Foto gedung harus berupa file gambar (JPG, PNG).',
+            'foto_kepala_sekolah.image'    => 'Foto kepala sekolah harus berupa file gambar (JPG, PNG).',
         ]);
 
         // 2. Ambil data atau buat instance baru
@@ -81,7 +83,7 @@ class ProfilSekolahController extends Controller
             $profilSekolah = new ProfilSekolah();
         }
 
-        // 3. Masukkan data
+        // 3. Masukkan data teks
         $profilSekolah->nama_sekolah   = $request->nama_sekolah;
         $profilSekolah->kepala_sekolah = $request->kepala_sekolah;
         $profilSekolah->npsn           = $request->npsn;
@@ -99,7 +101,15 @@ class ProfilSekolahController extends Controller
             $profilSekolah->logo = $request->file('logo')->store('profil', 'public');
         }
 
-        // 5. Upload foto gedung jika disertakan
+        // 5. Upload foto kepala sekolah jika disertakan (Baru)
+        if ($request->hasFile('foto_kepala_sekolah')) {
+            if ($profilSekolah->foto_kepala_sekolah && Storage::disk('public')->exists($profilSekolah->foto_kepala_sekolah)) {
+                Storage::disk('public')->delete($profilSekolah->foto_kepala_sekolah);
+            }
+            $profilSekolah->foto_kepala_sekolah = $request->file('foto_kepala_sekolah')->store('profil', 'public');
+        }
+
+        // 6. Upload foto gedung utama jika disertakan
         if ($request->hasFile('foto')) {
             if ($profilSekolah->foto && Storage::disk('public')->exists($profilSekolah->foto)) {
                 Storage::disk('public')->delete($profilSekolah->foto);
@@ -107,7 +117,7 @@ class ProfilSekolahController extends Controller
             $profilSekolah->foto = $request->file('foto')->store('profil', 'public');
         }
 
-        // 6. Simpan ke database
+        // 7. Simpan ke database
         $profilSekolah->save();
 
         return redirect()
@@ -118,6 +128,6 @@ class ProfilSekolahController extends Controller
     public function publicProfil()
     {
         $profilSekolah = ProfilSekolah::first();
-        return view('public..profil.profil', compact('profilSekolah'));
+        return view('public.profil.profil', compact('profilSekolah'));
     }
 }

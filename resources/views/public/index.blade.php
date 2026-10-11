@@ -143,7 +143,6 @@
                     Melalui kurikulum berbasis kompetensi yang diselaraskan dengan perkembangan zaman, didukung tenaga pendidik profesional dan sarana prasarana modern, kami optimis mampu membawa putra-putri Anda meraih cita-cita dan sukses di masa depan.
                 </p>
 
-                <!-- Tombol Action (Tanpa Motto) -->
                 <div>
                     <a href="{{ route('public.profil') }}" class="btn btn-primary fw-bold px-4 py-2 rounded-3 shadow-sm d-inline-flex align-items-center gap-2" style="background-color: #0f172a !important; border-color: #0f172a !important;">
                         Profil Lengkap <span>&rarr;</span>
