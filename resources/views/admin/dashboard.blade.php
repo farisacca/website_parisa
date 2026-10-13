@@ -22,9 +22,7 @@
         </div>
     </div>
 
-    {{-- ============================================================= --}}
-    {{-- START KARTU STATISTIK (RESPONSIF - GRID STATISTIK) --}}
-    {{-- ============================================================= --}}
+    {{-- KARTU STATISTIK --}}
     <div class="row">
         {{-- TOTAL GURU --}}
         <div class="col-xl-2 col-lg-4 col-md-6 col-sm-12 mb-4">
@@ -171,33 +169,36 @@
         </div>
     </div>
 
-    {{-- ============================================================= --}}
-    {{-- PROFIL SEKOLAH + BERITA TERBARU + PRESTASI TERBARU --}}
-    {{-- ============================================================= --}}
+    {{-- KONTEN UTAMA (KIRI: PROFIL SEKOLAH, KANAN: BERITA & PRESTASI) --}}
     <div class="row">
-        {{-- PROFIL SEKOLAH --}}
+        {{-- PROFIL SEKOLAH (SISI KIRI) --}}
         <div class="col-lg-4 col-md-12 mb-4">
-            <div class="card h-100">
+            <div class="card border-0 shadow-sm">
                 <div class="card-body">
-                    <h4 class="card-title text-info">
+                    <h4 class="card-title text-info mb-3 font-weight-bold">
                         <i data-feather="home" class="mr-1"></i> Profil Sekolah
                     </h4>
 
                     @if ($profilSekolah)
-                        <div class="text-center mt-4">
+                        {{-- Logo & Nama Sekolah --}}
+                        <div class="text-center mb-4">
                             @if ($profilSekolah->logo && file_exists(public_path('storage/' . $profilSekolah->logo)))
-                                <img src="{{ asset('storage/' . $profilSekolah->logo) }}" alt="Logo Sekolah" width="90" height="90" class="rounded-circle" style="object-fit: cover;">
+                                <img src="{{ asset('storage/' . $profilSekolah->logo) }}" alt="Logo Sekolah" width="80" height="80" class="rounded-circle shadow-sm border mb-2" style="object-fit: contain;">
                             @else
-                                <img src="{{ asset('assets/images/logo-icon.png') }}" alt="Logo Sekolah" width="90" height="90" class="rounded-circle">
+                                <div class="bg-light p-3 rounded-circle mb-2 d-inline-block shadow-sm">
+                                    <i data-feather="award" class="text-info" style="width: 32px; height: 32px;"></i>
+                                </div>
                             @endif
 
-                            <h4 class="mt-3 mb-1 font-weight-medium">
+                            <h5 class="mt-2 mb-1 font-weight-bold text-dark">
                                 {{ $profilSekolah->nama_sekolah }}
-                            </h4>
-                            <p class="text-info mb-4">
+                            </h5>
+                            <span class="badge badge-info px-3 py-1">
                                 NPSN: {{ $profilSekolah->npsn }}
-                            </p>
+                            </span>
                         </div>
+
+                        <hr class="my-3">
 
                         {{-- KEPALA SEKOLAH --}}
                         <div class="d-flex align-items-start mb-3">
@@ -213,7 +214,7 @@
                             <span class="mr-3 text-info"><i data-feather="map-pin"></i></span>
                             <div>
                                 <h6 class="mb-0 font-weight-medium">Alamat</h6>
-                                <span class="text-muted font-14">{{ $profilSekolah->alamat }}</span>
+                                <span class="text-muted font-14" style="line-height: 1.4;">{{ $profilSekolah->alamat }}</span>
                             </div>
                         </div>
 
@@ -236,8 +237,8 @@
                         </div>
 
                         <div class="mt-4">
-                            <a href="{{ route('admin.profil-sekolah.index') }}" class="btn btn-info btn-block">
-                                <i data-feather="edit" class="mr-1"></i> Kelola Profil Sekolah
+                            <a href="{{ route('admin.profil-sekolah.index') }}" class="btn btn-info btn-block shadow-sm">
+                                <i data-feather="edit" class="mr-1" style="width: 16px; height: 16px;"></i> Kelola Profil Sekolah
                             </a>
                         </div>
                     @else
@@ -255,13 +256,13 @@
             <div class="row">
                 {{-- BERITA TERBARU --}}
                 <div class="col-12 mb-4">
-                    <div class="card">
+                    <div class="card shadow-sm border-0">
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h4 class="card-title text-info mb-0">
+                                <h4 class="card-title text-info mb-0 font-weight-bold">
                                     <i data-feather="file-text" class="mr-1"></i> Berita Terbaru
                                 </h4>
-                                <a href="{{ route('admin.berita.index') }}" class="btn btn-link text-info p-0">
+                                <a href="{{ route('admin.berita.index') }}" class="btn btn-link text-info p-0 font-weight-semibold">
                                     Lihat Semua
                                 </a>
                             </div>
@@ -305,13 +306,13 @@
 
                 {{-- PRESTASI TERBARU --}}
                 <div class="col-12 mb-4">
-                    <div class="card">
+                    <div class="card shadow-sm border-0">
                         <div class="card-body">
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <h4 class="card-title text-danger mb-0">
+                                <h4 class="card-title text-danger mb-0 font-weight-bold">
                                     <i data-feather="award" class="mr-1"></i> Prestasi Terbaru
                                 </h4>
-                                <a href="{{ route('admin.prestasi.index') }}" class="btn btn-link text-danger p-0">
+                                <a href="{{ route('admin.prestasi.index') }}" class="btn btn-link text-danger p-0 font-weight-semibold">
                                     Lihat Semua
                                 </a>
                             </div>

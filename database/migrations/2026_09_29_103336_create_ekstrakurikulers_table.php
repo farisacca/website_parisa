@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('nama_eskul', 40);
             $table->string('slug', 100)->unique();
             $table->foreignId('id_guru')->nullable()->constrained('guru','id_guru')->nullOnDelete();
-            // $table->string('pembina', 40);
             $table->string('jadwal_latihan', 40);
             $table->text('deskripsi');
             $table->string('gambar', 100)->nullable();
@@ -32,3 +31,4 @@ return new class extends Migration
         Schema::dropIfExists('ekstrakurikuler');
     }
 };
+

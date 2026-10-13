@@ -3,10 +3,9 @@
 @section('title', 'Direktori Guru - SMA Negeri 24 Bandung')
 
 @section('content')
-<!-- Header Banner / Hero Section -->
+
 <div class="py-5 text-white" style="background-color: #334155;">
     <div class="container py-3">
-        <!-- Judul & Subjudul -->
         <h1 class="fw-bold mb-2" style="font-size: 2.2rem;">Direktori Guru</h1>
         <p class="text-white-50 mb-0" style="max-width: 650px; font-size: 0.95rem;">
             Daftar profil tenaga pengajar {{ $profilSekolah->nama_sekolah ?? 'SMA NEGERI 24 BANDUNG' }}.
@@ -17,21 +16,16 @@
 <!-- Main Content Area -->
 <div class="py-5" style="background-color: #f8fafc;">
     <div class="container">
-        
 
-        <!-- Tab Content -->
         <div class="tab-content" id="guruTabContent">
 
-            <!-- Tab Pane: Guru & Pendidik -->
             <div class="tab-pane fade show active" id="guru-pane" role="tabpanel">
                 <div class="row g-4">
                     @forelse(collect($guru ?? []) as $g)
                         <div class="col-12 col-sm-6 col-lg-3">
-                            <!-- Bungkus card dengan tag <a> menuju halaman detail (show) -->
                             <a href="{{ route('public.guru.show', Crypt::encrypt($g->id_guru)) }}" class="text-decoration-none h-100 d-block">
                                 <div class="card border-0 shadow-sm rounded-4 bg-white h-100 d-flex flex-column justify-content-between overflow-hidden teacher-card transition-hover">
                                     <div>
-                                        <!-- Foto Full di Atas -->
                                         <div class="position-relative w-100 bg-secondary bg-opacity-10" style="height: 240px; overflow: hidden;">
                                             @if(isset($g->foto) && $g->foto)
                                                 <img src="{{ asset('storage/' . $g->foto) }}"
@@ -48,7 +42,7 @@
                                             @endif
                                         </div>
 
-                                        <!-- Detail Content (Nama Saja, NIP Dihapus) -->
+                                       
                                         <div class="p-3 text-center">
                                             <h6 class="fw-bold text-dark mb-1 text-truncate" style="font-size: 0.92rem; line-height: 1.35; color: #1e293b;" title="{{ $g->nama_guru ?? $g->nama }}">
                                                 {{ $g->nama_guru ?? $g->nama }}
@@ -56,7 +50,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Rounded Pill Mapel & Tombol Detail -->
                                     <div class="px-3 pb-3 text-center mt-auto">
                                         <div class="d-inline-block rounded-pill border border-warning px-3 py-1.5 mb-2"
                                             style="background-color: #fffdf5; border-color: #fde047 !important; max-width: 100%;">

@@ -15,12 +15,14 @@
                             Daftar Siswa
                         </h4>
 
-                        <a href="{{ route('admin.siswa.addEdit') }}"
-                            class="btn btn-primary">
-
-                            <i data-feather="plus" class="mr-1"></i>
-                            Tambah Siswa
-                        </a>
+                        {{-- Tombol Tambah Siswa HANYA MUNCUL untuk Admin --}}
+                        @if(Auth::user()->role === 'admin')
+                            <a href="{{ route('admin.siswa.addEdit') }}"
+                                class="btn btn-primary">
+                                <i data-feather="plus" class="mr-1"></i>
+                                Tambah Siswa
+                            </a>
+                        @endif
 
                     </div>
 
@@ -31,37 +33,30 @@
                                     <th class="text-center" style="width: 50px;">
                                         No
                                     </th>
-
                                     <th>
                                         NISN
                                     </th>
-
                                     <th>
                                         Nama Siswa
                                     </th>
-
+                                    <th>
+                                        Kelas
+                                    </th>
                                     <th class="text-center">
                                         Jenis Kelamin
                                     </th>
-
                                     <th class="text-center">
                                         Tahun Masuk
                                     </th>
-
                                     <th class="text-center" style="width: 160px;">
                                         Aksi
                                     </th>
-
                                 </tr>
-
                             </thead>
 
                             <tbody>
-
                                 @forelse ($siswa as $item)
-
                                 <tr>
-
                                     {{-- No --}}
                                     <td class="text-center">
                                         {{ $loop->iteration }}
@@ -72,36 +67,34 @@
                                         {{ $item->nisn }}
                                     </td>
 
-                                    {{-- Nama --}}
+                                    {{-- Nama (Menyesuaikan dengan nama kolom di database, biasanya nama / nama_siswa) --}}
                                     <td>
                                         <strong class="text-dark">
-                                            {{ $item->nama_siswa }}
+                                            {{ $item->nama ?? $item->nama_siswa ?? '-' }}
                                         </strong>
+                                    </td>
+
+                                    <td class="text-center">
+                                        
+                                            {{ optional($item->kelas)->nama_kelas ?? '-' }}
+                                        
                                     </td>
 
                                     {{-- Jenis Kelamin --}}
                                     <td class="text-center">
-
                                         @if ($item->jenis_kelamin == 'Laki-laki')
-
                                             <span class="badge badge-pill badge-info px-3 py-2">
                                                 Laki-laki
                                             </span>
-
                                         @elseif ($item->jenis_kelamin == 'Perempuan')
-
                                             <span class="badge badge-pill badge-success px-3 py-2">
                                                 Perempuan
                                             </span>
-
                                         @else
-
                                             <span class="badge badge-pill badge-secondary px-3 py-2">
                                                 -
                                             </span>
-
                                         @endif
-
                                     </td>
 
                                     {{-- Tahun Masuk --}}
@@ -112,75 +105,52 @@
                                     {{-- Aksi --}}
                                     <td class="text-center">
                                         <div class="btn-group" role="group">
-                                            <a href="{{ route('admin.siswa.show', Crypt::encrypt($item->id_siswa)) }}"
+                                            {{-- Tombol Detail / Show SELALU MUNCUL untuk Admin & Operator --}}
+                                            <a href="{{ route('admin.siswa.show', Crypt::encrypt($item->id_siswa ?? $item->id)) }}"
                                                 class="btn btn-info btn-sm mr-1"
                                                 title="Detail">
-
                                                 <i data-feather="eye" style="width:14px; height:14px;"></i>
-
                                             </a>
 
-                                            {{-- Edit --}}
-                                            <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa)) }}"
-                                                class="btn btn-warning btn-sm text-white mr-1"
-                                                title="Edit">
+                                            {{-- Tombol Edit & Hapus HANYA MUNCUL untuk Admin --}}
+                                            @if(Auth::user()->role === 'admin')
+                                                <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($item->id_siswa ?? $item->id)) }}"
+                                                    class="btn btn-warning btn-sm text-white mr-1"
+                                                    title="Edit">
+                                                    <i data-feather="edit" style="width:14px; height:14px;"></i>
+                                                </a>
 
-                                                <i data-feather="edit" style="width:14px; height:14px;"></i>
-
-                                            </a>
-
-                                            {{-- Delete --}}
-                                            <form action="{{ route('admin.siswa.delete', Crypt::encrypt($item->id_siswa)) }}"
-                                                method="POST"
-                                                class="d-inline"
-                                                onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
-
-                                                @csrf
-                                                @method('DELETE')
-
-                                                <button type="submit"
-                                                    class="btn btn-danger btn-sm"
-                                                    title="Hapus">
-
-                                                    <i data-feather="trash-2" style="width:14px; height:14px;"></i>
-
-                                                </button>
-
-                                            </form>
-
+                                                <form action="{{ route('admin.siswa.delete', Crypt::encrypt($item->id_siswa ?? $item->id)) }}"
+                                                    method="POST"
+                                                    class="d-inline"
+                                                    onsubmit="return confirm('Yakin ingin menghapus data siswa ini?')">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit"
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Hapus">
+                                                        <i data-feather="trash-2" style="width:14px; height:14px;"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
                                         </div>
-
                                     </td>
-
                                 </tr>
-
                                 @empty
-
                                 <tr>
-
-                                    <td colspan="6" class="text-center">
-
+                                    {{-- Colspan diubah menjadi 7 karena total kolom tabel ada 7 --}}
+                                    <td colspan="7" class="text-center">
                                         Belum ada data siswa.
-
                                     </td>
-
                                 </tr>
-
                                 @endforelse
-
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </div>
-
 </div>
 
 @endsection

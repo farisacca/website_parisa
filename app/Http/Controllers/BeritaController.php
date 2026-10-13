@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\ProfilSekolah;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
@@ -19,17 +18,7 @@ class BeritaController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $userId = $user->id_user ?? $user->id;
-
-        // Admin melihat semua berita, Operator hanya melihat berita miliknya sendiri
-        if ($user->role === 'admin') {
-            $berita = Berita::with('user')->latest('tanggal')->get();
-        } else {
-            $berita = Berita::with('user')
-                ->where('id_user', $userId)
-                ->latest('tanggal')
-                ->get();
-        }
+        $berita = Berita::with('user')->latest('tanggal')->get();
 
         return view('admin.berita.index', compact('berita'));
     }
@@ -47,7 +36,7 @@ class BeritaController extends Controller
             $user = Auth::user();
             $userId = $user->id_user ?? $user->id;
 
-            // Keamanan tambahan: Tolak operator jika mencoba mengedit berita orang lain via URL
+            // Keamanan: Tolak operator jika mencoba mengedit berita orang lain via URL
             if ($berita && $user->role !== 'admin' && $berita->id_user !== $userId) {
                 return redirect()
                     ->route('admin.berita.index')
@@ -76,7 +65,7 @@ class BeritaController extends Controller
                 $id = Crypt::decrypt($id);
                 $berita = Berita::findOrFail($id);
 
-                // Keamanan tambahan: Tolak operator jika mengubah berita milik orang lain
+                // Keamanan: Tolak operator jika mengubah berita milik orang lain
                 if ($user->role !== 'admin' && $berita->id_user !== $userId) {
                     return redirect()
                         ->route('admin.berita.index')
@@ -142,20 +131,12 @@ class BeritaController extends Controller
     }
 
     /**
-     * Detail Berita
+     * Detail Berita (Bebas diakses oleh Admin maupun Operator untuk semua berita)
      */
     public function show($id)
     {
         try {
             $berita = Berita::with('user')->findOrFail(Crypt::decrypt($id));
-            $user = Auth::user();
-            $userId = $user->id_user ?? $user->id;
-
-            if ($user->role !== 'admin' && $berita->id_user !== $userId) {
-                return redirect()
-                    ->route('admin.berita.index')
-                    ->with('error', 'Anda tidak memiliki hak akses.');
-            }
         } catch (\Exception $e) {
             return redirect()
                 ->route('admin.berita.index')
@@ -175,6 +156,7 @@ class BeritaController extends Controller
             $user = Auth::user();
             $userId = $user->id_user ?? $user->id;
 
+            // Keamanan: Operator tidak boleh menghapus berita milik orang lain
             if ($user->role !== 'admin' && $berita->id_user !== $userId) {
                 return redirect()
                     ->route('admin.berita.index')
@@ -184,7 +166,7 @@ class BeritaController extends Controller
             return redirect()
                 ->route('admin.berita.index')
                 ->with('error', 'Data berita tidak ditemukan.');
-        }
+            }
 
         if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
             Storage::disk('public')->delete($berita->gambar);

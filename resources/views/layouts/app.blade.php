@@ -117,23 +117,22 @@
                             </a>
                         </li>
 
-                        @if(Auth::check() && strcasecmp(Auth::user()->role, 'admin') === 0)
-                            <li class="sidebar-item">
-                                <a href="{{ route('admin.guru.index') }}"
-                                    class="sidebar-link {{ request()->routeIs('admin.guru.*') ? 'active' : '' }}">
-                                    <i data-feather="users" class="feather-icon"></i>
-                                    <span class="hide-menu">Kelola Guru</span>
-                                </a>
-                            </li>
+                        {{-- Menu Kelola Guru & Siswa (Bisa dilihat semua user, tapi tombol aksi dikontrol di index) --}}
+                        <li class="sidebar-item">
+                            <a href="{{ route('admin.guru.index') }}"
+                                class="sidebar-link {{ request()->routeIs('admin.guru.*') ? 'active' : '' }}">
+                                <i data-feather="users" class="feather-icon"></i>
+                                <span class="hide-menu">Kelola Guru</span>
+                            </a>
+                        </li>
 
-                            <li class="sidebar-item">
-                                <a href="{{ route('admin.siswa.index') }}"
-                                    class="sidebar-link {{ request()->routeIs('admin.siswa.*') ? 'active' : '' }}">
-                                    <i data-feather="user" class="feather-icon"></i>
-                                    <span class="hide-menu">Kelola Siswa</span>
-                                </a>
-                            </li>
-                        @endif
+                        <li class="sidebar-item">
+                            <a href="{{ route('admin.siswa.index') }}"
+                                class="sidebar-link {{ request()->routeIs('admin.siswa.*') ? 'active' : '' }}">
+                                <i data-feather="user" class="feather-icon"></i>
+                                <span class="hide-menu">Kelola Siswa</span>
+                            </a>
+                        </li>
 
                         <li class="sidebar-item">
                             <a href="{{ route('admin.berita.index') }}"
@@ -171,17 +170,14 @@
                             <li class="sidebar-item">
                                 <a href="{{ route('admin.user.index') }}"
                                     class="sidebar-link {{ request()->routeIs('admin.user.*') ? 'active' : '' }}">
-                                    <i data-feather="user-check"
-                                        class="feather-icon"></i>
-                                    <span class="hide-menu">
-                                        Kelola User
-                                    </span>
+                                    <i data-feather="user-check" class="feather-icon"></i>
+                                    <span class="hide-menu">Kelola User</span>
                                 </a>
                             </li>
                         @endif
 
                         <li class="sidebar-item">
-                            <a href="{{ route('logout')}}" class="sidebar-link">
+                            <a href="{{ route('logout') }}" class="sidebar-link">
                                 <i data-feather="log-out" class="feather-icon"></i>
                                 <span class="hide-menu">Logout</span>
                             </a>
@@ -229,29 +225,12 @@
                 @yield('content')
             </div>
 
-    <!-- Footer -->
-    <footer class="footer text-center text-muted">
-        Copyright &copy; {{ date('Y') }}
-                {{ $profilSekolah->nama_sekolah ?? 'Website Sekolah' }} - Media Pembelajaran Siswa SMK
+            <!-- Footer -->
+            <footer class="footer text-center text-muted">
+                Copyright &copy; {{ date('Y') }} {{ $profilSekolah->nama_sekolah ?? 'Website Sekolah' }}. All rights reserved.
             </footer>
         </div>
     </div>
-
-    <!-- Script Auto Hide Alert Setelah 3 Detik -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            setTimeout(function () {
-                let alertElement = document.querySelector('.alert');
-                if (alertElement) {
-                    // Gunakan Bootstrap fade/hide jika tersedia
-                    let bsAlert = new bootstrap.Alert(alertElement);
-                    bsAlert.close();
-                }
-            }, 3000); 
-        });
-    </script>
-</body>
-</html>
 
     <!-- JavaScript Base -->
     <script src="{{ asset('assets/libs/jquery/dist/jquery.min.js') }}"></script>
@@ -268,6 +247,7 @@
     <script src="{{ asset('dist/js/pages/datatable/datatable-basic.init.js') }}"></script>
 
     @stack('scripts')
+    
     <!-- Dashboard & Chart Scripts -->
     <script src="{{ asset('assets/extra-libs/c3/d3.min.js') }}"></script>
     <script src="{{ asset('assets/extra-libs/c3/c3.min.js') }}"></script>
@@ -276,6 +256,18 @@
     <script src="{{ asset('assets/extra-libs/jvector/jquery-jvectormap-2.0.2.min.js') }}"></script>
     <script src="{{ asset('assets/extra-libs/jvector/jquery-jvectormap-world-mill-en.js') }}"></script>
     <script src="{{ asset('dist/js/pages/dashboards/dashboard1.min.js') }}"></script>
-</body>
 
+    <!-- Script Auto Hide Alert Setelah 3 Detik -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            setTimeout(function () {
+                let alertElement = document.querySelector('.alert');
+                if (alertElement) {
+                    let bsAlert = new bootstrap.Alert(alertElement);
+                    bsAlert.close();
+                }
+            }, 3000); 
+        });
+    </script>
+</body>
 </html>

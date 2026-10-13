@@ -15,10 +15,13 @@
                             Daftar Guru
                         </h4>
 
-                        <a href="{{ route('admin.guru.addEdit') }}" class="btn btn-info">
-                            <i class="fa fa-plus"></i>
-                            Tambah Guru
-                        </a>
+                        {{-- Tombol Tambah Guru HANYA MUNCUL untuk Admin --}}
+                        @if(Auth::user()->role === 'admin')
+                            <a href="{{ route('admin.guru.addEdit') }}" class="btn btn-info">
+                                <i class="fa fa-plus"></i>
+                                Tambah Guru
+                            </a>
+                        @endif
 
                     </div>
 
@@ -36,33 +39,25 @@
                             </thead>
 
                             <tbody>
-
                                 @foreach ($guru as $item)
                                 <tr>
-
                                     <td class="text-center">
                                         {{ $loop->iteration }}
                                     </td>
 
                                     <td class="text-center">
-
                                         @if ($item->foto && file_exists(public_path('storage/' . $item->foto)))
-
                                             <img src="{{ asset('storage/' . $item->foto) }}"
                                                 alt="{{ $item->nama_guru }}"
                                                 class="rounded-circle"
                                                 width="45" height="45"
                                                 style="object-fit: cover;">
-
                                         @else
-
                                             <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
                                                 style="width:45px; height:45px;">
                                                 <i class="fa fa-user text-muted"></i>
                                             </div>
-
                                         @endif
-
                                     </td>
 
                                     <td>
@@ -78,52 +73,44 @@
                                     </td>
 
                                     <td class="text-center">
+                                        {{-- Tombol Detail / Show SELALU MUNCUL untuk Admin maupun Operator --}}
                                         <a href="{{ route('admin.guru.show', Crypt::encrypt($item->id_guru)) }}"
                                             class="btn btn-info btn-sm mr-1"
-                                                title="Detail">
-
-                                                <i data-feather="eye" style="width:14px; height:14px;"></i>
+                                            title="Detail">
+                                            <i data-feather="eye" style="width:14px; height:14px;"></i>
                                         </a>
 
-                                        <a href="{{ route('admin.guru.addEdit', Crypt::encrypt($item->id_guru)) }}"
-                                            class="btn btn-warning btn-sm text-white mr-1"
+                                        {{-- Tombol Edit & Hapus HANYA MUNCUL jika yang login adalah Admin --}}
+                                        @if(Auth::user()->role === 'admin')
+                                            <a href="{{ route('admin.guru.addEdit', Crypt::encrypt($item->id_guru)) }}"
+                                                class="btn btn-warning btn-sm text-white mr-1"
                                                 title="Edit">
-
                                                 <i data-feather="edit" style="width:14px; height:14px;"></i>
-                                        </a>
+                                            </a>
 
-                                        <form action="{{ route('admin.guru.delete', Crypt::encrypt($item->id_guru)) }}"
-                                            method="POST"
-                                            class="d-inline"
-                                            onsubmit="return confirm('Yakin ingin menghapus data guru ini?')">
-
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button type="submit"
-                                                    class="btn btn-danger btn-sm"
-                                                    title="Hapus">
-
+                                            <form action="{{ route('admin.guru.delete', Crypt::encrypt($item->id_guru)) }}"
+                                                method="POST"
+                                                class="d-inline"
+                                                onsubmit="return confirm('Yakin ingin menghapus data guru ini?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Hapus">
                                                     <i data-feather="trash-2" style="width:14px; height:14px;"></i>
-
                                                 </button>
-                                        </form>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
-
                         </table>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
     </div>
-
 </div>
 
 @endsection

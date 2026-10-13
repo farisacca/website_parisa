@@ -3,7 +3,7 @@
 @section('title', 'Profil Sekolah - SMA Negeri 24 Bandung')
 
 @section('content')
-<!-- Header Banner / Hero Section -->
+
 <div class="py-5 text-white" style="background-color: #334155;">
     <div class="container py-2">
         <h1 class="fw-bold mb-1" style="font-size: 2.25rem;">
@@ -19,112 +19,86 @@
 <section id="profil-sekolah" class="py-5 bg-white">
     <div class="container">
 
-        <!-- Bagian Atas: Foto di Kiri, Badge Pil + Nama Kepala Sekolah di Kanan -->
-        <div class="row align-items-start g-4 mb-4">
+        
+        <div class="text-center mb-5">
+                <span class="badge rounded-pill bg-warning bg-opacity-25 text-warning-emphasis px-3 py-2 fw-bold text-uppercase mb-2" style="letter-spacing: 0.8px; font-size: 0.85rem; color: #b45309 !important; background-color: #fef3c7 !important;">
+                    SAMBUTAN PIMPINAN
+                </span>
+            <h2 class="fw-bold text-dark" style="color: #0f172a !important; font-size: 2rem;">
+                Sambutan Kepala Sekolah
+            </h2>
+            <div style="width: 60px; height: 3px; background-color: #f59e0b; margin: 8px auto 0;"></div>
+        </div>
 
-            <!-- Kolom Kiri: Foto Kepala Sekolah Bersih (Tanpa Badge/Overlay) -->
-            <div class="col-lg-4 col-md-5">
-                <div class="position-relative mx-auto sticky-top" style="max-width: 340px; top: 20px;">
+        <div class="row g-4 mb-5 align-items-center">
+
+            <div class="col-lg-5 col-md-5">
+                <div class="position-relative mx-auto">
                     @if(isset($profilSekolah->foto_kepala_sekolah) && $profilSekolah->foto_kepala_sekolah)
                         <img src="{{ asset('storage/' . $profilSekolah->foto_kepala_sekolah) }}"
                              alt="{{ $profilSekolah->nama_kepala_sekolah ?? 'Kepala Sekolah' }}"
                              class="img-fluid rounded-4 shadow-sm w-100 object-fit-cover"
-                             style="height: 400px;">
+                             style="height: 520px;">
                     @else
                         <img src="{{ asset('storage/profil/kepala_sekolah.jpg') }}"
                              alt="{{ $profilSekolah->nama_kepala_sekolah ?? 'Lia Aprilina, S.Pd, M.Pd' }}"
                              class="img-fluid rounded-4 shadow-sm w-100 object-fit-cover"
-                             style="height: 400px;"
-                             onerror="this.onerror=null; this.src='https://via.placeholder.com/340x400?text=Kepala+Sekolah';">
+                             style="height: 520px;"
+                             onerror="this.onerror=null; this.src='https://via.placeholder.com/380x520?text=Kepala+Sekolah';">
                     @endif
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Badge Pil Kuning & Nama Kepala Sekolah (Ukuran Besar) -->
-            <div class="col-lg-8 col-md-7 pt-2">
-                <!-- Badge Rounded Pil Kuning -->
-                <span class="badge rounded-pill bg-warning bg-opacity-25 text-warning-emphasis px-3 py-2 fw-bold text-uppercase mb-3" style="letter-spacing: 0.8px; font-size: 0.85rem; color: #b45309 !important; background-color: #fef3c7 !important;">
-                    SAMBUTAN PIMPINAN
-                </span>
-
-                <!-- Nama Kepala Sekolah dari Database (Ukuran Gede) -->
-                <h1 class="fw-bold text-dark mb-2" style="color: #0f172a !important; font-size: 2.2rem;">
+            <div class="col-lg-7 col-md-7">
+                
+              
+                <h2 class="fw-bold text-dark mb-1" style="color: #0f172a !important; font-size: 2rem;">
                     {{ $profilSekolah->nama_kepala_sekolah ?? 'Lia Aprilina, S.Pd, M.Pd' }}
-                </h1>
+                </h2>
 
-                <!-- Jabatan & Instansi -->
-                <p class="text-secondary fw-semibold fs-5 mb-0">
+               
+                <p class="text-secondary fw-semibold fs-6 mb-3">
                     Kepala {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
                 </p>
-            </div>
-        </div>
 
-        <!-- Bagian Bawah: Salam Pembuka & Teks Sambutan Full Lebar -->
-        <div class="row mb-5">
-            <div class="col-12">
-                <div class="text-secondary lh-lg" style="font-size: 1rem; text-align: justify;">
+              
+                <div class="text-secondary lh-relaxed" style="font-size: 0.98rem; text-align: justify;">
 
-                    <!-- Salam Pembuka -->
-                    <p class="fst-italic text-dark fw-bold mb-4 mt-4" style="font-size: 1.15rem; color: #0f172a !important;">
+                    <p class="fst-italic text-dark fw-bold mb-3" style="color: #0f172a !important; font-size: 1.05rem;">
                         "Assalamu'alaikum Warahmatullahi Wabarakatuh, Salam Sejahtera bagi Kita Semua."
                     </p>
 
-                    <p class="mb-4">
-                        Pertama-tama, marilah kita panjatkan puji syukur ke hadirat Allah SWT, Tuhan Yang Maha Esa, karena atas rahmat dan karunia-Nya kita dapat berkumpul pada kesempatan yang baik ini. Saya merasa sangat bahagia dan terhormat untuk menyampaikan sambutan ini di hadapan Anda semua sebagai kepala sekolah.
+                    <p class="mb-3">
+                        Puji dan syukur marilah kita panjatkan ke hadirat Allah SWT, Tuhan Yang Maha Esa. Merupakan suatu kehormatan bagi saya untuk menyambut seluruh peserta didik, orang tua, serta masyarakat di website resmi {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}.
                     </p>
 
-                    <h4 class="fw-bold text-dark mt-4 mb-2" style="color: #0f172a !important; font-size: 1.25rem;">
-                        Sekolah sebagai Tempat Pembentukan Karakter dan Potensi Diri
-                    </h4>
-                    <p class="mb-4">
-                        Sekolah adalah tempat di mana kita bersama-sama membangun masa depan yang lebih baik. Di sekolah, anak-anak kita tidak hanya belajar berbagai ilmu pengetahuan, tetapi juga dibimbing untuk membentuk karakter yang kuat, menjunjung tinggi etika, moral, dan nilai-nilai kebangsaan. Sebagai institusi pendidikan, sekolah ini berkomitmen untuk mendidik siswa-siswi menjadi individu yang cerdas, berakhlak mulia, serta memiliki kepedulian sosial yang tinggi.
+                    <p class="mb-3">
+                        Sekolah kami berkomitmen penuh untuk tidak hanya mencetak generasi yang unggul secara akademis, tetapi juga membina karakter, moral, serta potensi kepemimpinan peserta didik yang berlandaskan nilai-nilai Pancasila.
                     </p>
 
-                    <h4 class="fw-bold text-dark mt-4 mb-2" style="color: #0f172a !important; font-size: 1.25rem;">
-                        Kurikulum yang Holistik dan Seimbang
-                    </h4>
                     <p class="mb-4">
-                        Kami menyadari bahwa pendidikan tidak hanya sebatas pencapaian akademis. Oleh karena itu, di sekolah ini kami mengembangkan kurikulum yang tidak hanya fokus pada kecerdasan intelektual, tetapi juga memperhatikan perkembangan karakter, keterampilan sosial, serta kemampuan berpikir kritis dan kreatif. Melalui program Projek Penguatan Profil Pelajar Pancasila (P5), kami berupaya membentuk siswa-siswi yang tidak hanya berprestasi secara akademis, tetapi juga memiliki jiwa gotong royong, toleransi, dan semangat nasionalisme.
+                        Melalui kolaborasi antarguru, orang tua, dan seluruh warga sekolah, kami terus berupaya menyediakan lingkungan pembelajaran yang inovatif, kondusif, dan inspiratif demi mewujudkan masa depan peserta didik yang cemerlang.
                     </p>
 
-                    <h4 class="fw-bold text-dark mt-4 mb-2" style="color: #0f172a !important; font-size: 1.25rem;">
-                        Fasilitas dan Lingkungan Pembelajaran yang Kondusif
-                    </h4>
-                    <p class="mb-4">
-                        Sekolah ini juga dilengkapi dengan berbagai fasilitas yang mendukung proses pembelajaran, baik secara akademis maupun non-akademis. Kami terus berusaha untuk menyediakan lingkungan yang nyaman, aman, dan inspiratif bagi seluruh siswa untuk mengembangkan potensi mereka. Fasilitas olahraga, laboratorium, perpustakaan, serta ruang kreatif tersedia untuk mendorong siswa mengeksplorasi bakat dan minat mereka.
-                    </p>
-
-                    <h4 class="fw-bold text-dark mt-4 mb-2" style="color: #0f172a !important; font-size: 1.25rem;">
-                        Kolaborasi antara Sekolah dan Orang Tua
-                    </h4>
-                    <p class="mb-4">
-                        Kami juga sangat percaya bahwa pendidikan terbaik dapat dicapai melalui kerja sama yang baik antara sekolah dan orang tua. Orang tua memiliki peran yang sangat penting dalam mendukung perkembangan anak-anak di luar sekolah. Oleh karena itu, kami mengundang para orang tua untuk terus berpartisipasi aktif dalam berbagai kegiatan sekolah serta selalu memberikan dukungan kepada anak-anak kita dalam perjalanan pendidikannya.
-                    </p>
-
-                    <h4 class="fw-bold text-dark mt-4 mb-2" style="color: #0f172a !important; font-size: 1.25rem;">
-                        Harapan untuk Masa Depan
-                    </h4>
-                    <p class="mb-4">
-                        Siswa-siswi Peserta didik {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }} yang saya banggakan, kalian adalah generasi penerus bangsa. Kalian adalah harapan kami untuk masa depan yang lebih baik. Saya berharap kalian semua memanfaatkan kesempatan untuk menggapai masa depan yang lebih baik dengan sebaik-baiknya. Belajarlah dengan sungguh-sungguh, hargailah waktu, dan manfaatkan fasilitas yang ada di sekolah ini untuk mengembangkan potensi diri kalian. Jadilah individu yang berkarakter, berprestasi, dan selalu bersemangat dalam mencapai cita-cita.
-                    </p>
-
-                    <div class="mt-4 pt-3 border-top border-light-subtle">
-                        <p class="mb-1 fw-semibold">Salam sejahtera bagi kita semua,</p>
+                  
+                    <div class="pt-3 border-top border-light-subtle">
                         <p class="fw-bold text-dark mb-0" style="color: #0f172a !important;">
                             Kepala {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
                         </p>
-                        <p class="fw-bold text-primary mb-0" style="color: #0f172a !important; font-size: 1.1rem;">
+                        <p class="fw-bold text-primary mb-0" !important; font-size: 1.1rem;">
                             {{ $profilSekolah->nama_kepala_sekolah ?? 'Lia Aprilina, S.Pd, M.Pd' }}
                         </p>
                         <small class="text-muted">NIP: {{ $profilSekolah->nip_kepala_sekolah ?? '196904071995122001' }}</small>
                     </div>
+
                 </div>
             </div>
+
         </div>
 
         <hr class="my-5" style="border-color: #e2e8f0; opacity: 1;">
 
-        <!-- Visi & Misi Sekolah -->
+      
         <div class="row mb-5">
             <div class="col-12">
                 <span class="badge rounded-pill bg-warning bg-opacity-25 text-warning-emphasis px-3 py-2 fw-bold text-uppercase mb-2" style="letter-spacing: 0.8px; font-size: 0.85rem; color: #b45309 !important; background-color: #fef3c7 !important;">
@@ -139,7 +113,7 @@
             </div>
         </div>
 
-        <!-- Informasi Singkat Sekolah dari Database (Hanya Tahun Berdiri & NPSN) -->
+      
         <div class="row">
             <div class="col-12">
                 <span class="badge rounded-pill bg-warning bg-opacity-25 text-warning-emphasis px-3 py-2 fw-bold text-uppercase mb-2" style="letter-spacing: 0.8px; font-size: 0.85rem; color: #b45309 !important; background-color: #fef3c7 !important;">
@@ -149,7 +123,7 @@
                     Sekilas Tentang {{ $profilSekolah->nama_sekolah ?? 'SMA Negeri 24 Bandung' }}
                 </h3>
 
-                <!-- Grid Kartu Info Ringkas (Hanya 2 Kolom) -->
+                
                 <div class="row g-3 mb-4">
                     <div class="col-md-6 col-sm-6">
                         <div class="p-3 bg-light rounded-3 border text-center">
@@ -165,7 +139,7 @@
                     </div>
                 </div>
 
-                <!-- Deskripsi & Alamat Sekolah -->
+               
                 <div class="p-4 rounded-4 text-secondary" style="background-color: #f8fafc; border: 1px solid #e2e8f0; font-size: 1rem; line-height: 1.8;">
                     @if(isset($profilSekolah->deskripsi) && $profilSekolah->deskripsi)
                         <p class="mb-3">{{ $profilSekolah->deskripsi }}</p>

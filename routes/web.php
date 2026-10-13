@@ -26,6 +26,9 @@ Route::name('public.')->group(function () {
     Route::get('/guru/{id_guru}', [GuruController::class, 'publicShow'])->name('guru.show');
     Route::get('/prestasi', [PrestasiController::class, 'publicPrestasi'])->name('prestasi');
     Route::get('/prestasi/{id}', [PrestasiController::class, 'publicShow'])->name('prestasi.show');
+    Route::get('/siswa', [SiswaController::class, 'publicSiswa'])->name('siswa');
+    Route::view('/my-profil', 'public.myprofil')->name('public.myprofil');
+    
 });
 
 // AUTENTIKASI (GUEST ONLY)
@@ -35,7 +38,7 @@ Route::middleware('guest')->group(function () {
     Route::post('/login-proses', [AuthController::class, 'processLogin'])->name('proses.login');
 });
 
-// LOGOUT
+// LOGOUT MTD
 Route::match(['get', 'post'], '/logout', [AuthController::class, 'logout'])->name('logout');
 
 // 2. ROUTE ADMIN & OPERATOR
@@ -85,26 +88,34 @@ Route::middleware('auth')->prefix('admin')->group(function () {
         Route::delete('/{id}', [PrestasiController::class, 'destroy'])->name('admin.prestasi.delete');
     });
 
-    // 3. ROUTE KHUSUS ADMIN (Operator Tidak Bisa Akses / Ditolak 403)
-    Route::middleware('role:admin')->group(function () {
+    // === GURU (READ-ONLY UNTUK OPERATOR, FULL CRUD UNTUK ADMIN) ===
+    Route::prefix('guru')->group(function () {
+        Route::get('/', [GuruController::class, 'index'])->name('admin.guru.index');
+        Route::get('/show/{id}', [GuruController::class, 'show'])->name('admin.guru.show');
 
-        // Kelola Guru
-        Route::prefix('guru')->group(function () {
-            Route::get('/', [GuruController::class, 'index'])->name('admin.guru.index');
+        // Aksi Khusus Admin
+        Route::middleware('role:admin')->group(function () {
             Route::get('/add-edit/{id?}', [GuruController::class, 'addEdit'])->name('admin.guru.addEdit');
             Route::post('/save/{id?}', [GuruController::class, 'save'])->name('admin.guru.save');
-            Route::get('/show/{id}', [GuruController::class, 'show'])->name('admin.guru.show');
             Route::delete('/{id}', [GuruController::class, 'destroy'])->name('admin.guru.delete');
         });
+    });
 
-        // Kelola Siswa
-        Route::prefix('siswa')->group(function () {
-            Route::get('/', [SiswaController::class, 'index'])->name('admin.siswa.index');
+    // === SISWA (READ-ONLY UNTUK OPERATOR, FULL CRUD UNTUK ADMIN) ===
+    Route::prefix('siswa')->group(function () {
+        Route::get('/', [SiswaController::class, 'index'])->name('admin.siswa.index');
+        Route::get('/show/{id}', [SiswaController::class, 'show'])->name('admin.siswa.show');
+
+        // Aksi Khusus Admin
+        Route::middleware('role:admin')->group(function () {
             Route::get('/add-edit/{id?}', [SiswaController::class, 'addEdit'])->name('admin.siswa.addEdit');
             Route::post('/save/{id?}', [SiswaController::class, 'save'])->name('admin.siswa.save');
-            Route::get('/show/{id}', [SiswaController::class, 'show'])->name('admin.siswa.show');
             Route::delete('/{id}', [SiswaController::class, 'destroy'])->name('admin.siswa.delete');
         });
+    });
+
+    // 3. ROUTE KHUSUS ADMIN 
+    Route::middleware('role:admin')->group(function () {
 
         // Kelola User
         Route::prefix('user')->group(function () {

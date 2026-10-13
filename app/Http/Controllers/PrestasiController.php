@@ -166,11 +166,10 @@ class PrestasiController extends Controller
      */
     public function publicShow($id)
     {
-        profilSekolah:
         $profilSekolah = ProfilSekolah::first();
 
         try {
-            $prestasi = Prestasi::findOrFail($id);
+            $prestasi = Prestasi::findOrFail(Crypt::decrypt($id));
         } catch (\Exception $e) {
             return redirect()
                 ->route('public.prestasi')

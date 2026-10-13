@@ -94,15 +94,15 @@
                                     {{-- Aksi --}}
                                     <td class="text-center">
                                         <a href="{{ route('admin.ekstrakurikuler.show', Crypt::encrypt($item->id_eskul)) }}"
-                                           class="btn btn-info btn-sm"
-                                           title="Detail">
-                                            <i class="fa fa-eye"></i>
+                                           class="btn btn-info btn-sm mr-1"
+                                            title="Detail">
+                                            <i data-feather="eye" style="width:14px; height:14px;"></i>
                                         </a>
 
                                         <a href="{{ route('admin.ekstrakurikuler.addEdit', Crypt::encrypt($item->id_eskul)) }}"
-                                           class="btn btn-warning btn-sm"
-                                           title="Edit">
-                                            <span style="font-size: 12px; color: #fff;">✎</span>
+                                           class="btn btn-warning btn-sm text-white mr-1"
+                                                title="Edit">
+                                                <i data-feather="edit" style="width:14px; height:14px;"></i>
                                         </a>
 
                                         <form action="{{ route('admin.ekstrakurikuler.delete', Crypt::encrypt($item->id_eskul)) }}"
@@ -112,9 +112,9 @@
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
-                                                    class="btn btn-danger btn-sm"
-                                                    title="Hapus">
-                                                <i class="fa fa-trash"></i>
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Hapus">
+                                                    <i data-feather="trash-2" style="width:14px; height:14px;"></i>
                                             </button>
                                         </form>
                                     </td>

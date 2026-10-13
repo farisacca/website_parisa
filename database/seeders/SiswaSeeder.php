@@ -2,30 +2,28 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Siswa;
+use App\Models\Kelas;
 
 class SiswaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
-         Siswa::create([
-            'nisn' => '123456787',
-            'nama_siswa' => 'Parisa nur esa',
-            'jenis_kelamin' => 'Perempuan',
-            'tahun_masuk' => 2024,
-        ]);
+        $kelas = Kelas::first();
+
+        if (!$kelas) {
+            $kelas = Kelas::create(['nama_kelas' => 'X IPA 1']);
+        }
 
         Siswa::create([
-            'nisn' => '87654321',
-            'nama_siswa' => 'Agni Anisa',
+            'nisn' => '1234567890',
+            'nama' => 'Parisa Nur Esa',
+            'id_kelas' => $kelas->id_kelas,
             'jenis_kelamin' => 'Perempuan',
-            'tahun_masuk' => 2024,
+            'tahun_masuk' => '2024',
+            'alamat' => 'Tasikmalaya',
+            'mapel' => 'IPA'
         ]);
     }
 }

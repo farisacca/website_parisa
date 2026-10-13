@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             GaleriSeeder::class,
             ProfilSekolahSeeder::class,
             PrestasiSeeder::class,
+            KelasSeeder::class,
         ]);
     }
 }

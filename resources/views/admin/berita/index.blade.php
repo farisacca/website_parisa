@@ -20,7 +20,7 @@
                         </a>
                     </div>
 
-                   <div class="table-responsive">
+                    <div class="table-responsive">
                         <table id="zero_config" class="table table-striped table-bordered no-wrap align-middle" style="width:100%">
                             <thead class="bg-primary text-white">
                                 <tr>
@@ -80,6 +80,7 @@
                                         {{ $item->user->name ?? 'Admin' }}
                                     </td>
                                     <td class="text-center">
+                                        {{-- Tombol Detail / Show Selalu Muncul --}}
                                         <a href="{{ route('admin.berita.show', Crypt::encrypt($item->id_berita)) }}"
                                             class="btn btn-info btn-sm mr-1"
                                             title="Detail">
@@ -90,7 +91,7 @@
                                             $currentUserId = Auth::user()->id_user ?? Auth::id();
                                         @endphp
 
-                                        {{-- Tombol Edit & Hapus muncul untuk Admin atau Pemilik berita bersangkutan --}}
+                                        {{-- Tombol Edit & Hapus HANYA muncul untuk Admin atau Pemilik Asli Berita --}}
                                         @if (Auth::user()->role === 'admin' || $item->id_user === $currentUserId)
                                             <a href="{{ route('admin.berita.addEdit', Crypt::encrypt($item->id_berita)) }}"
                                                 class="btn btn-warning btn-sm text-white mr-1"

@@ -44,7 +44,18 @@
                                     Nama Siswa
                                 </th>
                                 <td>
-                                    {{ $siswa->nama_siswa ?? '-' }}
+                                    {{ $siswa->nama ?? $siswa->nama_siswa ?? '-' }}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th>
+                                    Kelas
+                                </th>
+                                <td>
+                               
+                                        {{ optional($siswa->kelas)->nama_kelas ?? '-' }}
+                                   
                                 </td>
                             </tr>
 
@@ -54,19 +65,17 @@
                                 </th>
                                 <td>
                                     @if ($siswa->jenis_kelamin == 'Laki-laki')
-
-                                        <span class="badge badge-info">
+                                        <span class="badge badge-pill badge-info px-3 py-2">
                                             Laki-laki
                                         </span>
-
                                     @elseif ($siswa->jenis_kelamin == 'Perempuan')
-
-                                        <span class="badge badge-danger">
+                                        <span class="badge badge-pill badge-success px-3 py-2">
                                             Perempuan
                                         </span>
-
                                     @else
-                                        -
+                                        <span class="badge badge-pill badge-secondary px-3 py-2">
+                                            -
+                                        </span>
                                     @endif
                                 </td>
                             </tr>
@@ -111,13 +120,15 @@
 
                     </a>
 
-                    <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($siswa->id_siswa)) }}"
-                        class="btn btn-warning">
+                    @if(Auth::user()->role === 'admin')
+                        <a href="{{ route('admin.siswa.addEdit', Crypt::encrypt($siswa->id)) }}"
+                            class="btn btn-warning text-white">
 
-                        <i class="fa fa-pencil"></i>
-                        Edit Data Siswa
+                            <i class="fa fa-pencil"></i>
+                            Edit Data Siswa
 
-                    </a>
+                        </a>
+                    @endif
 
                 </div>
 

@@ -5,14 +5,10 @@
 @section('content')
 
 <div class="container-fluid">
-
     <div class="row">
         <div class="col-12">
-
             <div class="card">
-
                 <div class="card-body">
-
                     {{-- Header --}}
                     <div class="d-flex justify-content-between align-items-center mb-3">
 
@@ -161,19 +157,17 @@
 
                                         {{-- Detail --}}
                                         <a href="{{ route('admin.galeri.show', Crypt::encrypt($item->id_galeri)) }}"
-                                            class="btn btn-info btn-sm"
+                                            class="btn btn-info btn-sm mr-1"
                                             title="Detail">
-
-                                            <i class="fa fa-eye"></i>
+                                            <i data-feather="eye" style="width:14px; height:14px;"></i>
 
                                         </a>
 
                                         {{-- Edit --}}
                                         <a href="{{ route('admin.galeri.addEdit', Crypt::encrypt($item->id_galeri)) }}"
-                                            class="btn btn-warning btn-sm"
-                                            title="Edit">
-                                            {{-- <i class="fa fa-pencil"></i> --}}
-                                            <span style="font-size: 12px; color: #fff;">✎</span>
+                                           class="btn btn-warning btn-sm text-white mr-1"
+                                                title="Edit">
+                                                <i data-feather="edit" style="width:14px; height:14px;"></i>
 
                                         </a>
 
@@ -187,11 +181,9 @@
                                             @method('DELETE')
 
                                             <button type="submit"
-                                                class="btn btn-danger btn-sm"
-                                                title="Hapus">
-
-                                                <i class="fa fa-trash"></i>
-
+                                                        class="btn btn-danger btn-sm"
+                                                        title="Hapus">
+                                                    <i data-feather="trash-2" style="width:14px; height:14px;"></i>
                                             </button>
 
                                         </form>

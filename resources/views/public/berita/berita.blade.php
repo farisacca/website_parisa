@@ -3,11 +3,9 @@
 @section('title', 'Berita & Pengumuman - SMA Negeri 24 Bandung')
 
 @section('content')
-<!-- Header Banner / Hero Section -->
+
 <div class="py-5 text-white" style="background-color: #334155;">
     <div class="container py-3">
-
-        <!-- Judul & Subjudul -->
         <h1 class="fw-bold mb-2" style="font-size: 2.2rem;">Berita & Informasi Sekolah</h1>
         <p class="text-white-50 mb-0" style="max-width: 650px; font-size: 0.95rem;">
             Dapatkan berita terkini, artikel akademis, serta dokumentasi kegiatan resmi dari {{ $profilSekolah->nama_sekolah ?? 'SMA NEGERI 24 BANDUNG' }}.
@@ -19,7 +17,6 @@
 <section id="berita-list" class="py-5" style="background-color: #f8fafc;">
     <div class="container">
 
-        <!-- Grid Cards Berita -->
         <div class="row g-4">
             @forelse($berita as $item)
                 @php
@@ -30,7 +27,7 @@
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card border-0 shadow-sm rounded-4 bg-white h-100 overflow-hidden d-flex flex-column justify-content-between">
                         <div>
-                            <!-- Sampul Gambar Berita (Bisa Diklik Langsung ke Halaman Detail) -->
+                          
                             <a href="{{ route('public.berita.show', $item->slug) }}">
                                 <div class="position-relative w-100 bg-light" style="height: 200px; overflow: hidden;">
                                     <img src="{{ $imgUrl }}" class="w-100 h-100 object-fit-cover" alt="{{ $item->judul }}">
@@ -46,7 +43,6 @@
                                     <small class="text-muted" style="font-size: 0.78rem;">📅 {{ $tanggal }}</small>
                                 </div>
 
-                                <!-- Judul (Link ke Halaman Detail) -->
                                 <h5 class="fw-bold text-dark mb-2 line-clamp-2" style="font-size: 1.05rem; line-height: 1.4;">
                                     <a href="{{ route('public.berita.show', $item->slug) }}" class="text-dark text-decoration-none">
                                         {{ $item->judul }}

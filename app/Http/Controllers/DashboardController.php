@@ -45,23 +45,18 @@ class DashboardController extends Controller
 
     public function publicDashboard()
     {
-        // $profilSekolah = ProfilSekolah::first();
-
-        // return view('public.index', [
-        //     'title'         => 'Beranda Website Sekolah',
-        //     'profilSekolah' => $profilSekolah,
-        // ]);
-
         $profilSekolah = ProfilSekolah::first();
+
 
         $totalSiswa = class_exists(Siswa::class) ? Siswa::count() : 1364;
         $totalGuru = class_exists(Guru::class) ? Guru::count() : 83;
         $totalPrestasi = class_exists(Prestasi::class) ? Prestasi::count() : 1;
 
         $ekstrakurikuler = Ekstrakurikuler::take(3)->get();
-        $guru = class_exists(Guru::class) ? Guru::take(8)->get() : collect();
+        $guru = class_exists(Guru::class) ? Guru::take(4)->get() : collect();
+        $siswa = Siswa::all();
 
-        // FILTER BERITA HANYA YANG PUBLIS
+        // FILTER HALAMAN
         $berita = class_exists(Berita::class)
             ? Berita::whereIn('status', ['publis', 'publish', 'published'])
                 ->latest('tanggal')
@@ -81,8 +76,10 @@ class DashboardController extends Controller
             'guru',
             'berita',
             'galeri',
+            'siswa',
             'prestasi'
         ));
     }
 
 }
+ 

@@ -16,7 +16,7 @@
             </div>
 
             {{-- FORM --}}
-            <form action="{{ route('admin.siswa.save', isset($siswa) ? Crypt::encrypt($siswa->id_siswa) : null) }}"
+            <form action="{{ route('admin.siswa.save', isset($siswa) ? Crypt::encrypt($siswa->id) : null) }}"
                 method="POST">
                 @csrf
 
@@ -51,13 +51,39 @@
                             </label>
                             <div class="col-md-9">
                                 <input type="text"
-                                    class="form-control @error('nama_siswa') is-invalid @enderror"
+                                    class="form-control @error('nama') is-invalid @enderror"
                                     id="nama_siswa"
-                                    name="nama_siswa"
-                                    value="{{ old('nama_siswa', $siswa->nama_siswa ?? '') }}"
+                                    name="nama"
+                                    value="{{ old('nama', $siswa->nama ?? '') }}"
                                     placeholder="Masukkan nama lengkap siswa"
                                     required>
-                                @error('nama_siswa')
+                                @error('nama')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        {{-- KELAS --}}
+                        <div class="form-group row align-items-center mb-3">
+                            <label for="id_kelas" class="col-md-3 col-form-label font-weight-semibold">
+                                Kelas <span class="text-danger">*</span>
+                            </label>
+                            <div class="col-md-9">
+                                <select name="id_kelas"
+                                    id="id_kelas"
+                                    class="form-control custom-select @error('id_kelas') is-invalid @enderror"
+                                    required>
+                                    <option value="">-- Pilih Kelas --</option>
+                                    @foreach($kelas as $k)
+                                        <option value="{{ $k->id_kelas }}"
+                                            {{ old('id_kelas', $siswa->id_kelas ?? '') == $k->id_kelas ? 'selected' : '' }}>
+                                            {{ $k->nama_kelas }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                                @error('id_kelas')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>

@@ -57,9 +57,7 @@
                                     name="nip"
                                     value="{{ old('nip', $guru->nip ?? '') }}"
                                     placeholder="Masukkan NIP">
-                                <small class="form-text text-muted">
-                                    Boleh dikosongkan jika guru tidak memiliki NIP.
-                                </small>
+                                
                                 @error('nip')
                                     <div class="invalid-feedback">
                                         {{ $message }}
